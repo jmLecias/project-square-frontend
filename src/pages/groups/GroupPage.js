@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import MainContainer from '../../components/containers/MainContainer';
 import ContentContainer from '../../components/containers/ContentContainer';
 import NotFoundPage from '../NotFoundPage';
+import GroupHeaderLoading from '../../components/headers/GroupHeaderLoading';
 import GroupPageLoading from './GroupPageLoading';
 import MainBreadcrumbs from '../../components/tabs/MainBreadcrumbs';
 
@@ -91,7 +92,11 @@ const GroupPage = ({ content }) => {
 
             <MainContainer>
                 {!group && !notFound && (
-                    <GroupPageLoading />
+                    <ContentContainer
+                        header={ <GroupHeaderLoading />}
+                    >
+                        <GroupPageLoading />
+                    </ContentContainer>
                 )}
                 {!group && notFound && (
                     <NotFoundPage content={"noGroup"} />

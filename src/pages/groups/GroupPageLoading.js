@@ -22,9 +22,6 @@ const GroupPageLoading = () => {
         <div
             className={`group-locations-container fade-in`}
         >
-            <div className='group-locations-header-area animate-wave'>
-                <GroupHeaderLoading />
-            </div>
             <div className='group-analytics-area animate-wave'>
                 <SectionHeaderLoading />
                 <div className='group-grid-display'>

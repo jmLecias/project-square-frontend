@@ -99,7 +99,7 @@ body {
 }
 
 .item-placeholder {
-    width: var(--grid-item-width);
+    width: 100%;
     background-color: var(--placeholder-color);
     border-radius: 10px;
     overflow: hidden;

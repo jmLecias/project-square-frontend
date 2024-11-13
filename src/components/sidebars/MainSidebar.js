@@ -30,7 +30,8 @@ const MainSidebar = () => {
     } = useSidebar();
 
     useEffect(() => {
-        handleClick(location.pathname.slice(1));
+        const page = String(location.pathname).split("/")[1];
+        handleClick(page);
     }, []);
 
     const SquareLogo = () => {
