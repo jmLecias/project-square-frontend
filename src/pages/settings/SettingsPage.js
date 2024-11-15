@@ -7,13 +7,14 @@ import SectionHeader from '../../components/headers/SectionHeader';
 import { MdEdit } from "react-icons/md";
 
 import { useNavigate } from 'react-router-dom';
-
 import { useIdentity } from '../../hooks/useIdentity';
+import { useAuth } from '../../hooks/useAuth';
 
 const SettingsPage = () => {
     const navigate = useNavigate();
 
-    const { IDENTITY_PAGES } = useIdentity();
+    const { IDENTITY_PAGES, identity } = useIdentity();
+    const { user } = useAuth();
 
     return (
         <MainContainer>
@@ -24,11 +25,11 @@ const SettingsPage = () => {
                     />
                     <div className='d-flex mb-3'>
                         <div className='user-default-profile-div'>
-                            <img src='/images/user_default.jpg' alt='User image' className='fade-in'/>
+                            <img src='/images/user_default.jpg' alt='User image' className='fade-in' />
                         </div>
                         <div className='ms-4'>
-                            <div className='fs-4' style={{ fontWeight: '600' }}>John Mark T. Lecias</div>
-                            <div className='fs-6 mb-3' style={{ fontWeight: '400' }}>jmlecias18@gmail.com</div>
+                            <div className='fs-4' style={{ fontWeight: '600' }}>{(identity)? identity.fullname : ''}</div>
+                            <div className='fs-6 mb-3' style={{ fontWeight: '400' }}>{user.email}</div>
 
                             <button
                                 className='main-button'

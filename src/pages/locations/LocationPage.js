@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 import MainContainer from '../../components/containers/MainContainer';
 import MainBreadcrumbs from '../../components/tabs/MainBreadcrumbs';
@@ -7,7 +7,6 @@ import ContentContainer from '../../components/containers/ContentContainer';
 import WebcamFeed from '../../components/feeds/WebcamFeed';
 import RtspFeed from '../../components/feeds/RtspFeed';
 
-import AttendanceList from '../../components/lists/AttendanceList';
 import FeedsActionBar from '../../components/bars/FeedsActionBar';
 import CameraItem from '../../components/items/CameraItem';
 import LocationDetectionList from './LocatonDetectionList';

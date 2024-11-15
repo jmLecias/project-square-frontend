@@ -9,8 +9,8 @@ const LandingPage = () => {
         return (
             <div className='logo-div'>
                 <img
-                    src={"/images/resight2.png"}
-                    alt={`resight logo`}
+                    src={"/official-square2.png"}
+                    alt={`official square logo`}
                 />
             </div>
         )

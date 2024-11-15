@@ -1,47 +1,53 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef } from "react";
 
-const RtspFeed = ({className }) => {
+const RTSPStream = ({ streamUrl }) => {
+    const videoRef = useRef(null);
 
-    const [rtspLoading, setRtspLoading] = useState(true);
+    useEffect(() => {
+        const ws = new WebSocket(`ws://localhost:300/api/stream?url=${streamUrl}`);
+        const video = videoRef.current;
+        const mediaSource = new MediaSource();
+        let sourceBuffer;
 
-    // const rtspurl = "rtsp://CAPSTONE:@CAPSTONE1@192.168.254.106:554/live/ch00_0"; // Appartment Network
-    // const rtspurl = "rtsp://CAPSTONE:@CAPSTONE1@192.168.254.104:554/live/ch00_0"; // Home Network
+        // When the MediaSource is ready, create the source buffer for video
+        mediaSource.addEventListener("sourceopen", () => {
+            sourceBuffer = mediaSource.addSourceBuffer('video/mp4; codecs="avc1.42E01E"');
+        });
 
-    // useEffect(() => {
-    //     setRtspLoading(true);
-    //     const getWsUrl = async () => await startRTSPFeed();
+        // Set the MediaSource URL as the video source
+        video.src = URL.createObjectURL(mediaSource);
 
-    //     getWsUrl().then((wsUrl) => {
-    //         console.log(wsUrl);
-    //         let canvas = document.getElementById("stream-canvas");
-    //         const player = new JSMpeg.Player(String(wsUrl), {
-    //             canvas: canvas,
-    //             preserveDrawingBuffer: true,
-    //             onVideoDecode: () => setRtspLoading(false),
-    //             audio: false, // Disable audio
-    //         });
-    //     });
+        ws.onopen = () => {
+            console.log("WebSocket connection established.");
+        };
 
-    //     return () => {
-    //         stopRTSPFeed();
-    //         setRtspLoading(true);
-    //     }
-    // }, []);
+        ws.onmessage = (event) => {
+            // Make sure we only append data if the sourceBuffer is available
+            if (sourceBuffer && !sourceBuffer.updating) {
+                sourceBuffer.appendBuffer(event.data);
+            }
+        };
 
-    // const startRTSPFeed = async () => {
-    //     const res = await axios.get(`http://${serverIp}:3002/stream/?rtsp=${streamUrl}`);
-    //     return res.data.url;
-    // };
+        ws.onerror = (error) => {
+            console.error("WebSocket error:", error);
+        };
 
-    // const stopRTSPFeed = async () => {
-    //     return await axios.get(`http://${serverIp}:3002/stop`);
-    // };
+        ws.onclose = () => {
+            console.log("WebSocket connection closed.");
+        };
 
-    return (
-        <div className={`video-feed ${className}`}>
-            <canvas id="stream-canvas" style={{ backgroundColor: 'black' }}></canvas>
-        </div>
-    )
-}
+        return () => {
+            // Clean up WebSocket and MediaSource when the component unmounts
+            if (ws) {
+                ws.close();
+            }
+            if (mediaSource) {
+                mediaSource.endOfStream();
+            }
+        };
+    }, [streamUrl]);
 
-export default RtspFeed;
+    return <video ref={videoRef} controls autoPlay />;
+};
+
+export default RTSPStream;

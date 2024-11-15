@@ -104,11 +104,11 @@ const AuthPage = ({ type }) => {
                     <div className='logo-container mt-3'>
                         <div className='logo-div'>
                             <img
-                                src={"/images/resight2.png"}
-                                alt={`resight logo`}
+                                src={"/official-square2.png"}
+                                alt={`official square logo`}
                             />
                         </div>
-                        <span className='logo-text' style={{ color: 'var(--primary-color)' }}>SQUARE</span>
+                        <span className='logo-text ms-2' style={{ color: 'var(--background-light)' }}>SQUARE</span>
                     </div>
 
                     <div className='d-flex flex-column align-items-center w-100'>

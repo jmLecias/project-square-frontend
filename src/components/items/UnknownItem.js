@@ -16,7 +16,7 @@ const UnknownItem = ({ detected, datetime }) => {
                         alt={`input image`}
                     /> 
                 </div>
-                <FaArrowRight className='ms-2 me-2' size={24} />
+                <FaArrowRight size={24} />
                 <div
                     className='square-item-cover my-auto'
                     style={{ width: '60px', borderRadius: '5px' }}

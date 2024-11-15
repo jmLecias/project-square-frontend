@@ -38,7 +38,7 @@ const MainSidebar = () => {
         return (
             <div className='logo-div'>
                 <img
-                    src={"/images/resight2.png"}
+                    src={"/official-square2.png"}
                     alt={`resight logo`}
                 />
             </div>

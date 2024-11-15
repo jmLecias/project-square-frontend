@@ -43,13 +43,33 @@ function WebRtcFeed() {
 
     const initializePeerConnection = () => {
         pc.current = new RTCPeerConnection({
-            iceServers: [{ urls: "stun:stun.l.google.com:19302" }] // STUN server
+            iceServers: [
+                { 
+                    urls: "stun:stun.l.google.com:19302" 
+                },
+                // {
+                //     urls: "relay1.expressturn.com:3478",  // TURN server URL
+                //     username: "efCUNKFDLU0J2ZJIGA",           // TURN server username (if any)
+                //     credential: "gL4nHvOiGy3YdwP8"  
+                // }
+            ] // STUN server
         });
 
         // Log ICE connection state changes
         pc.current.oniceconnectionstatechange = () => {
             console.log("ICE Connection State:", pc.current.iceConnectionState);
         };
+
+        navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+            .then((stream) => {
+                // Add video and audio tracks to the peer connection
+                stream.getTracks().forEach(track => {
+                    pc.current.addTrack(track, stream);
+                });
+
+                // Now, create an offer, which will include the media sections
+                return pc.current.createOffer();
+            })
 
         // Step 4: Send ICE candidates to the server
         pc.current.onicecandidate = (event) => {
@@ -71,6 +91,7 @@ function WebRtcFeed() {
     // Step 5: Create SDP offer when initiating connection
     const createOffer = async () => {
         const offer = await pc.current.createOffer();
+        console.log(offer);
         await pc.current.setLocalDescription(offer);
         ws.current.send(JSON.stringify(offer));
     };

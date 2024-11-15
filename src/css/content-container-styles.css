@@ -4,7 +4,7 @@
     /* overflow-y: auto; */
     width: 100%;
     height: 100%;
-    max-width: 1600px;
+    max-width: var(--max-width);
     padding-right: 2rem;
     padding-left: calc(2rem - 10px);
     display: grid;

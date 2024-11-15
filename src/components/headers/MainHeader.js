@@ -53,7 +53,7 @@ const MainHeader = ({ text }) => {
                     {!isNarrow && (
                         <div className='me-3'>
                             <div className='fs-6'>
-                                {(identity) ? identity.fullname : ""}
+                                {(identity)? identity.fullname : ''}
                             </div>
                             <div className='small'>
                                 {user.email}
