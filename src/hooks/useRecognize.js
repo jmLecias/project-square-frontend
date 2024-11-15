@@ -232,7 +232,6 @@ export const RecognizeProvider = ({ children }) => {
     const value = useMemo(
         () => ({
             updateScanState,
-            detectFaces,
             recognizeFaces,
             handleToast,
             isScanning,
@@ -241,7 +240,6 @@ export const RecognizeProvider = ({ children }) => {
             detections,
             verifiedFaces,
             SCAN_STATUS,
-            checkDetectResults,
             checkRecognizeResults,
             getImageUrl,
             handleScan,
