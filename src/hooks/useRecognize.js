@@ -95,7 +95,7 @@ export const RecognizeProvider = ({ children }) => {
     //     return imageBlob;
     // };
 
-    const handleScan = async () => {
+    const handleScan = async (locationId, groupId) => {
         const newDate = new Date();
 
         try {
@@ -106,7 +106,7 @@ export const RecognizeProvider = ({ children }) => {
             // const { recognizeTaskId, date } = await recognizeFaces(detectedFaces, newDate);
             // await checkRecognizeResults(recognizeTaskId, date);
 
-            const recognizeTaskId = await recognizeFaces(deviceImageBlob, newDate);
+            const recognizeTaskId = await recognizeFaces(deviceImageBlob, newDate, locationId, groupId);
             await checkRecognizeResults(recognizeTaskId);
 
         } catch (error) {
@@ -119,7 +119,7 @@ export const RecognizeProvider = ({ children }) => {
         }
     };
 
-    const recognizeFaces = async (deviceImgBlob, datetime) => {
+    const recognizeFaces = async (deviceImgBlob, datetime, locationId, groupId) => {
         updateScanState({
             isScanning: true,
             status: SCAN_STATUS.DETECTING,
@@ -129,7 +129,9 @@ export const RecognizeProvider = ({ children }) => {
 
         const captureData = new FormData();
         captureData.append('capturedFrames', deviceImgBlob, toFilename(datetime) + "_dvcam.png");
-        captureData.append('datetime', datetime);
+        captureData.append('datetime', datetime.toISOString());
+        captureData.append('location_id', locationId);
+        captureData.append('group_id', groupId);
 
         const response = await square_api.post('/face/recognize-faces', captureData, {
             headers: { 'Content-Type': 'multipart/form-data' },

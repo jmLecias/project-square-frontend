@@ -1,5 +1,5 @@
 import React from 'react';
-import { faceApiBaseUrl } from '../../api/square_api';
+import { squareApiBaseUrl } from '../../api/square_api';
 
 import { FaArrowRight } from "react-icons/fa";
 
@@ -12,7 +12,7 @@ const UnknownItem = ({ detected, datetime }) => {
                     style={{ width: '60px', borderRadius: '5px' }}
                 >
                     <img
-                        src={faceApiBaseUrl + "/face/detected-face/" + detected  }
+                        src={squareApiBaseUrl + "/face/detected-face/" + detected  }
                         alt={`input image`}
                     /> 
                 </div>

@@ -1,4 +1,5 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
+import { squareApiBaseUrl } from '../../api/square_api';
 
 import MainContainer from '../../components/containers/MainContainer';
 import MainBreadcrumbs from '../../components/tabs/MainBreadcrumbs';
@@ -31,8 +32,8 @@ const LocationPage = () => {
     const { id } = useParams();
     let isFetching = false;
 
-    // const [group, setGroup] = useState(null);
-    // const [location, setLocation] = useState(null);
+    const [group, setGroup] = useState(null);
+    const [location, setLocation] = useState(null);
     // const [cameras, setCameras] = useState(CAMERAS);
 
     const { setBreadcrumbs, clearBreadcrumbs } = useBreadcrumbs();
@@ -60,8 +61,8 @@ const LocationPage = () => {
             isFetching = true;
 
             getLocationCameras(id).then((res) => {
-                // setGroup(res.group);
-                // setLocation(res.location);
+                setGroup(res.group);
+                setLocation(res.location);
                 // setCameras(res.cameras);
                 handleBreadcrumbs(res.group, res.location);
                 isFetching = false;
@@ -72,8 +73,8 @@ const LocationPage = () => {
         }
 
         return () => {
-            // setGroup(null);
-            // setLocation(null);
+            setGroup(null);
+            setLocation(null);
             // setCameras([]);
         };
     }, [id, reload]);
@@ -99,6 +100,26 @@ const LocationPage = () => {
             return () => observer.disconnect();
         }
     }, []);
+
+    useEffect(() => {
+        if (location) {
+            const eventSource = new EventSource(squareApiBaseUrl + '/face/location-detections/' + location.id);
+
+            eventSource.onmessage = (event) => {
+                const data = JSON.parse(event.data);
+                console.log(data);
+            };
+
+            eventSource.onerror = () => {
+                console.error("SSE Connection failed");
+                eventSource.close();
+            };
+
+            return () => {
+                eventSource.close()
+            }
+        }
+    }, [location]);
 
     const handleBreadcrumbs = (group, location) => {
         clearBreadcrumbs();
@@ -142,7 +163,7 @@ const LocationPage = () => {
             >
                 <div className='location-container'>
                     <div className='location-live-area custom-scrollbar-hidden' >
-                        <div className={`feeds-grid ${GRIDS[grid].name}`} style={{marginBottom: '1rem'}}>
+                        <div className={`feeds-grid ${GRIDS[grid].name}`} style={{ marginBottom: '1rem' }}>
                             <WebcamFeed
                                 videoRef={videoRef}
                                 onDetectChange={(detected) => handleDetectChange(detected)}
@@ -150,7 +171,7 @@ const LocationPage = () => {
                             {/* <RtspFeed/> */}
                             {renderEmptySlots()}
                         </div>
-                        <FeedsActionBar />
+                        <FeedsActionBar location={location} group={group} />
                     </div>
 
                     <div className='location-cameras-area'>

@@ -6,7 +6,7 @@ import { FaRegCirclePause } from "react-icons/fa6";
 import { useFeeds } from '../../hooks/useFeeds';
 import { useRecognize } from '../../hooks/useRecognize';
 
-const FeedsActionBar = () => {
+const FeedsActionBar = ({location, group}) => {
     const {
         grid,
         GRIDS,
@@ -29,7 +29,7 @@ const FeedsActionBar = () => {
             <div
                 className='action-icons'
                 title='Detect'
-                onClick={() => {handleScan()}}
+                onClick={() => {handleScan(location.id, group.id)}}
             >
                 <TbCaptureFilled size={ICON_SIZE + 2} />
             </div>

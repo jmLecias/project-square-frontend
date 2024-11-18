@@ -7,88 +7,89 @@ const WebcamFeed = ({ videoRef }) => {
     useEffect(() => {
         let intervalId;
 
-        const script = document.createElement('script');
-        script.src = '/face-api.min.js';
-        script.async = true;
+        // const script = document.createElement('script');
+        // script.src = '/face-api.min.js';
+        // script.async = true;
 
-        script.onload = async () => {
-            console.log('face-api.js loaded');
+        // script.onload = async () => {
+        //     console.log('face-api.js loaded');
 
-            const resizeCanvas = () => {
-                if (videoRef.current && canvasRef.current) {
-                    canvasRef.current.width = videoRef.current.videoWidth;
-                    canvasRef.current.height = videoRef.current.videoHeight;
-                    console.log(`Canvas size: ${canvasRef.current.width}x${canvasRef.current.height}`);
-                }
-            };
+        //     const resizeCanvas = () => {
+        //         if (videoRef.current && canvasRef.current) {
+        //             canvasRef.current.width = videoRef.current.videoWidth;
+        //             canvasRef.current.height = videoRef.current.videoHeight;
+        //             console.log(`Canvas size: ${canvasRef.current.width}x${canvasRef.current.height}`);
+        //         }
+        //     };
 
-            const startVideoStream = async () => {
-                try {
-                    const stream = await navigator.mediaDevices.getUserMedia({
-                        video: { facingMode: "user" },
-                        audio: false
-                    });
-                    videoRef.current.srcObject = stream
+        //     // Run the face detection logic
+        //     const runDetection = async () => {
+        //         const videoFeedEl = videoRef.current;
+        //         console.log("Video element: " + videoFeedEl);
 
-                    videoRef.current.onloadedmetadata = () => {
-                        resizeCanvas();
-                        // runDetection(); // TEst
-                    };
-                    console.log("Video stream: " + stream);
-                } catch (error) {
-                    console.error("Error accessing media devices:", error);
-                }
-            };
+        //         // Set up canvas size and position
+        //         const canvas = canvasRef.current;
+        //         canvas.style.left = `${videoFeedEl.offsetLeft}px`;
+        //         canvas.style.top = `${videoFeedEl.offsetTop}px`;
+        //         canvas.width = videoFeedEl.width;
+        //         canvas.height = videoFeedEl.height;
 
-            // Run the face detection logic
-            const runDetection = async () => {
-                const videoFeedEl = videoRef.current;
-                console.log("Video element: " + videoFeedEl);
+        //         console.log("Starting detection...")
+        //         // Start face detection loop
+        //         intervalId = setInterval(async () => {
+        //             if (videoFeedEl) {
+        //                 console.log("Detecting...")
+        //                 // Detect faces in the video feed
+        //                 let detections = await faceapi.detectAllFaces(videoFeedEl)
 
-                // Set up canvas size and position
-                const canvas = canvasRef.current;
-                canvas.style.left = `${videoFeedEl.offsetLeft}px`;
-                canvas.style.top = `${videoFeedEl.offsetTop}px`;
-                canvas.width = videoFeedEl.width;
-                canvas.height = videoFeedEl.height;
+        //                 const ctx = canvas.getContext('2d');
+        //                 ctx.clearRect(0, 0, canvas.width, canvas.height);
+        //                 ctx.strokeStyle = 'blue';
+        //                 ctx.lineWidth = 2;
 
-                console.log("Starting detection...")
-                // Start face detection loop
-                intervalId = setInterval(async () => {
-                    if (videoFeedEl) {
-                        console.log("Detecting...")
-                        // Detect faces in the video feed
-                        let detections = await faceapi.detectAllFaces(videoFeedEl)
+        //                 // Resize the detected faces to match the video feed
+        //                 detections = faceapi.resizeResults(detections, {
+        //                     width: 640,
+        //                     height: 480,
+        //                 });
 
-                        const ctx = canvas.getContext('2d');
-                        ctx.clearRect(0, 0, canvas.width, canvas.height);
-                        ctx.strokeStyle = 'blue';
-                        ctx.lineWidth = 2;
-
-                        // Resize the detected faces to match the video feed
-                        detections = faceapi.resizeResults(detections, {
-                            width: 640,
-                            height: 480,
-                        });
-
-                        detections.forEach(detection => {
-                            const { x, y, width, height } = detection.box;
-                            ctx.strokeRect(x, y, width, height);  // Draw only the bounding box without confidence
-                        });
-                    }
-                }, 1000); // Repeat detection every 200ms
-            };
+        //                 detections.forEach(detection => {
+        //                     const { x, y, width, height } = detection.box;
+        //                     ctx.strokeRect(x, y, width, height);  // Draw only the bounding box without confidence
+        //                 });
+        //             }
+        //         }, 1000); // Repeat detection every 200ms
+        //     };
 
 
-            // await faceapi.nets.ssdMobilenetv1.loadFromUri('/models');
-            await startVideoStream();  // Wait for stream to start
+        //     // await faceapi.nets.ssdMobilenetv1.loadFromUri('/models');
+        // };
+
+        // script.onerror = (error) => {
+        //     console.error('Failed to load face-api.js:', error);
+        // };
+
+        // document.body.appendChild(script);
+
+        const startVideoStream = async () => {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({
+                    video: { facingMode: "user" },
+                    audio: false
+                });
+                videoRef.current.srcObject = stream
+
+                videoRef.current.onloadedmetadata = () => {
+                    // resizeCanvas();
+                    // runDetection(); // TEst
+                };
+                console.log("Video stream: " + stream);
+            } catch (error) {
+                console.error("Error accessing media devices:", error);
+            }
         };
 
-        script.onerror = (error) => {
-            console.error('Failed to load face-api.js:', error);
-        };
-
-        document.body.appendChild(script);
+        startVideoStream();  // Wait for stream to start
 
         return () => {
             clearInterval(intervalId);
@@ -96,7 +97,7 @@ const WebcamFeed = ({ videoRef }) => {
                 const tracks = videoRef.current.srcObject.getTracks();
                 tracks.forEach(track => track.stop());
             }
-            document.body.removeChild(script);
+            // document.body.removeChild(script);
         };
     }, [videoRef]);
 
