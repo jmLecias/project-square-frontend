@@ -1,11 +1,14 @@
 import axios from 'axios';
 
-let serverIp = ''; //IP OF ELASTIC EC2
-serverIp = '13.250.104.246'; // EC2 temp
+// let serverIp = ''; //IP OF ELASTIC EC2
+// serverIp = '13.250.104.246'; // EC2 temp
+// serverIp = '52.76.227.210'; // EC2 Elastic
 // serverIp = '192.168.254.102';
 // serverIp = '192.168.1.6';
 // serverIp = '192.168.137.224';
-const flaskURL = `http://${((serverIp !== '') ? serverIp : 'localhost')}:5000`;
+// const flaskURL = `http://${((serverIp !== '') ? serverIp : 'localhost')}`;
+
+const flaskURL = `https://api.official-square.site`;
 const squareApiBaseUrl = flaskURL;
 
 const square_api = axios.create({
