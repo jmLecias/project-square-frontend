@@ -72,39 +72,34 @@ export const RecognizeProvider = ({ children }) => {
     // };
 
 
-    const captureDeviceFrame = async () => {
-        const video = videoRef.current;
-        const canvas = document.getElementById("device-canvas");
-        canvas.width = video.videoWidth;
-        canvas.height = video.videoHeight;
-        canvas.getContext('2d').drawImage(video, 0, 0);
-
-        return new Promise((resolve) => {
-            requestAnimationFrame(() => {
-                canvas.toBlob(resolve, 'image/jpeg');
-            });
-        });
-    };
-
     // const captureDeviceFrame = async () => {
-    //     const imageSrc = videoRef.current.getScreenshot();
-    //     const base64String = imageSrc.split(",")[1];
+    //     const video = videoRef.current;
+    //     const canvas = document.getElementById("device-canvas");
+    //     canvas.width = video.videoWidth;
+    //     canvas.height = video.videoHeight;
+    //     canvas.getContext('2d').drawImage(video, 0, 0);
 
-    //     const imageBlob = await base64ToBlob(base64String);
-
-    //     return imageBlob;
+    //     return new Promise((resolve) => {
+    //         requestAnimationFrame(() => {
+    //             canvas.toBlob(resolve, 'image/jpeg');
+    //         });
+    //     });
     // };
+
+    const captureDeviceFrame = async () => {
+        const imageSrc = videoRef.current.getScreenshot();
+        const base64String = imageSrc.split(",")[1];
+
+        const imageBlob = await base64ToBlob(base64String);
+
+        return imageBlob;
+    };
 
     const handleScan = async (locationId, groupId) => {
         const newDate = new Date();
 
         try {
             const deviceImageBlob = await captureDeviceFrame();
-
-            // const detectTaskId = await detectFaces(deviceImageBlob, newDate);
-            // const detectedFaces = await checkDetectResults(detectTaskId);
-            // const { recognizeTaskId, date } = await recognizeFaces(detectedFaces, newDate);
-            // await checkRecognizeResults(recognizeTaskId, date);
 
             const recognizeTaskId = await recognizeFaces(deviceImageBlob, newDate, locationId, groupId);
             await checkRecognizeResults(recognizeTaskId);
