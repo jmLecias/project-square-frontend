@@ -1,11 +1,26 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Placeholder from 'react-bootstrap/Placeholder';
 import { squareApiBaseUrl } from '../../api/square_api';
 
 import { FaArrowRight } from "react-icons/fa";
 
-const RecognizingLoadingItem = ({ detected }) => {
-    return (
+import DetectingLoadingItem from './DetectingLoadingItem';
+
+import { useRecognize } from '../../hooks/useRecognize';
+
+const RecognizingLoadingItem = ({ id }) => {
+    const { getDetection, isScanningOff } = useRecognize();
+
+    const [detection, setDetection] = useState(null);
+
+    useEffect(() => {
+        getDetection(id).then((res) => {
+            setDetection(res);
+            isScanningOff(); // Turn off isScanning
+        });
+    }, [id]);
+
+    return detection && (
         <div className='loading-recognition-item animate-wave mb-2'>
             <div className='d-flex align-items-center' style={{ width: 'fit-content' }}>
                 <div
@@ -13,7 +28,7 @@ const RecognizingLoadingItem = ({ detected }) => {
                     style={{ width: '60px', borderRadius: '5px' }}
                 >
                     <img
-                        src={squareApiBaseUrl + "/face/detected-face/" + detected}
+                        src={squareApiBaseUrl + "/face/detected-face/" + encodeURIComponent(detection.detected_path)}
                         alt={`input image`}
                     />
                 </div>

@@ -1,10 +1,23 @@
-import React from 'react';
+import React , {useState, useEffect} from 'react';
 import { squareApiBaseUrl } from '../../api/square_api';
 
 import { FaArrowRight } from "react-icons/fa";
 
-const UnknownItem = ({ detected, datetime }) => {
-    return (
+import { useRecognize } from '../../hooks/useRecognize';
+
+const UnknownItem = ({id }) => {
+    const {getDetection, isScanningOff} = useRecognize();
+
+    const [detection, setDetection] = useState(null);
+
+    useEffect(() => {
+        getDetection(id).then((res) => {
+            setDetection(res);
+            isScanningOff(); // Turn off isScanning
+        });
+    }, [id]);
+
+    return detection && (
         <div className='queue-item box-shadow mb-2 fade-in'>
             <div className='d-flex align-items-center'>
                 <div
@@ -12,7 +25,7 @@ const UnknownItem = ({ detected, datetime }) => {
                     style={{ width: '60px', borderRadius: '5px' }}
                 >
                     <img
-                        src={squareApiBaseUrl + "/face/detected-face/" + detected  }
+                        src={squareApiBaseUrl + "/face/detected-face/" + encodeURIComponent(detection.detected_path)}
                         alt={`input image`}
                     /> 
                 </div>
@@ -33,7 +46,7 @@ const UnknownItem = ({ detected, datetime }) => {
                 >Unknown Face</span>
                 <span
                     className='small opacity-75 text-truncate'
-                >{datetime}</span>
+                >{detection.datetime}</span>
             </div>
         </div>
     )

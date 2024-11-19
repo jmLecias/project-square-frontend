@@ -29,7 +29,9 @@ const FeedsActionBar = ({location, group}) => {
             <div
                 className='action-icons'
                 title='Detect'
-                onClick={() => {handleScan(location.id, group.id)}}
+                onClick={() => {
+                    handleScan(location.id, group.id);
+                }}
             >
                 <TbCaptureFilled size={ICON_SIZE + 2} />
             </div>

@@ -36,10 +36,11 @@ const LocationPage = () => {
     const [group, setGroup] = useState(null);
     const [location, setLocation] = useState(null);
     // const [cameras, setCameras] = useState(CAMERAS);
+    const [detections, setDetections] = useState([]);
 
     const { setBreadcrumbs, clearBreadcrumbs } = useBreadcrumbs();
     const {
-        isScanning,
+        // isScanning,
         // handleScan,
         handleToast,
         videoRef
@@ -66,6 +67,7 @@ const LocationPage = () => {
                 setGroup(res.group);
                 setLocation(res.location);
                 // setCameras(res.cameras);
+                setDetections(res.detections);
                 handleBreadcrumbs(res.group, res.location);
                 isFetching = false;
             }).catch((e) => {
@@ -78,9 +80,51 @@ const LocationPage = () => {
             setGroup(null);
             setLocation(null);
             // setCameras([]);
+            setDetections([]);
         };
     }, [id, reload]);
 
+    useEffect(() => {
+        console.log(detections);
+    }, [detections]);
+
+    useEffect(() => {
+        if (location) {
+            const eventSource = new EventSource(squareApiBaseUrl + '/face/events');
+
+            eventSource.onmessage = (event) => {
+                const data = JSON.parse(event.data);
+
+                // Check if the detection is for the current location
+                const isRelevantLocation = data.location_id === location.id.toString();
+                if (!isRelevantLocation) return;
+
+                setDetections((prevDetections) => {
+                    const detectionId = parseInt(data.id); // Ensure ID is a number
+                    const detectionExists = prevDetections.some((d) => d.id === detectionId);
+
+                    if (detectionExists) {
+                        // Update the existing detection with new data
+                        return prevDetections.map((d) =>
+                            d.id === detectionId ? { ...d, ...data } : d
+                        );
+                    }
+
+                    // Add the new detection
+                    return [...prevDetections, { ...data, id: detectionId }];
+                });
+            };
+
+            eventSource.onerror = () => {
+                console.error("SSE Connection failed");
+                eventSource.close();
+            };
+
+            return () => {
+                eventSource.close()
+            };
+        }
+    }, [location]);
 
     useEffect(() => {
         let observer = null;
@@ -104,27 +148,7 @@ const LocationPage = () => {
             observer.observe(feedsGrid);
         }
 
-        // const socket = io('https://api.official-square.site', {
-        //     path: '/socket.io/',
-        //     transports: ['websockets', 'polling'],
-        // });
-
-        // socket.on('connect', () => {
-        //     console.log('Connected to Websocket Server');
-        // });
-
-        // socket.on('detections_update', (update) => {
-        //     console.log("Detection: ", update);
-        //     handleToast(`Detection: ${update}`, 'info');
-        // });
-
-        // socket.on('disconnect', () => {
-        //     console.log('Disconnected from WebSocket Server');
-        // });
-
         return () => {
-            // socket.disconnect(); // Clean up on component unmount
-            // console.log('Socket disconnected');
             if (observer) {
                 observer.disconnect();
             }
@@ -141,17 +165,16 @@ const LocationPage = () => {
     };
 
 
-    const handleDetectChange = (detected) => {
-        // Only starts scan when detections changes and greater than 0
-        // Only starts when a previous scan ends
-        // To prevent loop call to BACKEND
-        if (
-            detected > 0 &&
-            !isScanning
-        ) {
-            // handleScan(); // Start detection and recognition
-        }
-    };
+    // const handleDetectChange = (detected) => {
+    //     // Only starts scan when detections changes and greater than 0
+    //     // Only starts when a previous scan ends
+    //     // To prevent loop call to BACKEND
+    //     if (
+    //         detected > 0 && !isScanning
+    //     ) {
+    //         // handleScan(); // Start detection and recognition
+    //     }
+    // };
 
     const renderCameras = () => {
         return (
@@ -191,7 +214,7 @@ const LocationPage = () => {
                     </div>
 
                     <div className='location-list-area custom-scrollbar-hidden'>
-                        <LocationDetectionList />
+                        <LocationDetectionList detections={detections} />
                     </div>
                 </div>
 

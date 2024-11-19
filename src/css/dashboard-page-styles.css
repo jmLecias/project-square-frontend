@@ -59,7 +59,6 @@
             "topleft"
             "bottomleft"
             "bottomright";
-        gap: 1rem;
     }
 
     .dashboard-content-bottomright-area {

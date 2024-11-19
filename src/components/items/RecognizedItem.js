@@ -3,25 +3,33 @@ import { squareApiBaseUrl } from '../../api/square_api';
 
 import { FaArrowRight } from "react-icons/fa";
 
-import { useIdentity } from '../../hooks/useIdentity';
+import DetectingLoadingItem from './DetectingLoadingItem';
 
-const RecognizedItem = ({ unique_key, detected, datetime }) => {
+import { useIdentity } from '../../hooks/useIdentity';
+import { useRecognize } from '../../hooks/useRecognize';
+
+const RecognizedItem = ({ id }) => {
     const { getIdentityImage } = useIdentity();
+    const { getDetection, isScanningOff} = useRecognize();
 
     const [img, setImg] = useState(null);
-    const [name, setName] = useState(null);
+    const [detection, setDetection] = useState(null);
 
     useEffect(() => {
-        getIdentityImage(unique_key).then((identity) => {
-            setImg(identity.url);
-            setName(identity.name); 
+        getDetection(id).then((res) => {
+            setDetection(res);
+
+            getIdentityImage(res.identity).then((identity) => {
+                setImg(identity.url);
+            });
+
+            isScanningOff(); // Turn off isScanning
         });
-    }, []);
-    const id_split = unique_key.split("/");
-    const identity = id_split[id_split.length - 1];
+    }, [id]);
 
 
-    return (
+
+    return detection && (
         <div className='queue-item box-shadow mb-2 fade-in'>
             <div className='d-flex align-items-center' style={{ width: 'fit-content' }}>
                 <div
@@ -29,7 +37,7 @@ const RecognizedItem = ({ unique_key, detected, datetime }) => {
                     style={{ width: '60px', borderRadius: '5px' }}
                 >
                     <img
-                        src={squareApiBaseUrl + "/face/detected-face/" + detected}
+                        src={squareApiBaseUrl + "/face/detected-face/" + encodeURIComponent(detection.detected_path)}
                         alt={`input image`}
                     />
                 </div>
@@ -48,14 +56,14 @@ const RecognizedItem = ({ unique_key, detected, datetime }) => {
 
                 <span
                     className='item-name fw-bold text-truncate'
-                    style={{fontSize: '1.1  rem'}}
-                    title={name}
-                    >{name}</span>
+                    style={{ fontSize: '1.1  rem' }}
+                    title={detection.detected_name}
+                >{detection.detected_name}</span>
 
                 <span
                     className='item-date opacity-75 text-truncate'
-                    style={{fontSize: '12px'}}
-                >{datetime}</span>
+                    style={{ fontSize: '12px' }}
+                >{detection.datetime}</span>
             </div>
         </div>
     )

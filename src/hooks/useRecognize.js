@@ -27,13 +27,10 @@ export const RecognizeProvider = ({ children }) => {
 
     const [scanState, setScanState] = useState({
         isScanning: false,
-        status: null,
-        detections: null,
-        datetime: null,
         verifiedFaces: [],
     });
 
-    const { isScanning, status, detections, datetime, verifiedFaces } = scanState;
+    const { isScanning, verifiedFaces } = scanState;
 
     const updateScanState = (newState) => {
         setScanState(prevState => ({ ...prevState, ...newState }));
@@ -101,25 +98,17 @@ export const RecognizeProvider = ({ children }) => {
         try {
             const deviceImageBlob = await captureDeviceFrame();
 
-            const recognizeTaskId = await recognizeFaces(deviceImageBlob, newDate, locationId, groupId);
-            await checkRecognizeResults(recognizeTaskId);
+            await recognizeFaces(deviceImageBlob, newDate, locationId, groupId);
+            // await checkRecognizeResults(recognizeTaskId);
 
         } catch (error) {
             handleToast(error.message, 'error');
-        } finally {
-            updateScanState({
-                isScanning: false,
-                status: null,
-            }); // Users can now logout
         }
     };
 
     const recognizeFaces = async (deviceImgBlob, datetime, locationId, groupId) => {
         updateScanState({
-            isScanning: true,
-            status: SCAN_STATUS.DETECTING,
-            detections: null,
-            datetime: null,
+            isScanning: true
         });
 
         const captureData = new FormData();
@@ -136,94 +125,17 @@ export const RecognizeProvider = ({ children }) => {
         return jobId;
     };
 
-    const checkRecognizeResults = async (recognizeTaskId, timeout = 5000) => {
-        if (!recognizeTaskId) return;
-        const endTime = Date.now() + timeout;
-
-        while (Date.now() < endTime) {
-            try {
-                const response = await square_api.post(`/face/task-result/${recognizeTaskId}`);
-
-                if (response.data.state === "SUCCESS") {
-                    const recognizeResults = response.data.result;
-
-                    updateScanState({
-                        verifiedFaces: [...verifiedFaces, ...recognizeResults],
-                    });
-
-                    break;
-                }
-                if (response.data.state === "FAILURE") {
-                    throw new Error("Recognition task failed...");
-                }
-            } catch (error) {
-                console.error(`Error checking recognize status ${recognizeTaskId}:`, error);
-                break;
-            }
-            await new Promise(resolve => setTimeout(resolve, TIMEOUT));
+    const getDetection = async (detectionId) => {
+        try {
+            const response = await square_api.get('/face/detection-record/'+detectionId)
+            return response.data.detection;
+        } catch (e) {
+            console.log("Error while getting detection record", e)
         }
     };
 
-    // const recognizeFaces = async (faces, date) => {
-    //     const formattedDate = toDisplayText(date);
-
-    //     updateScanState({ status: SCAN_STATUS.RECOGNIZING });
-
-    //     const payload = {
-    //         faces: faces,
-    //         datetime: formattedDate
-    //     };
-
-    //     const response = await square_api.post('/face/recognize-faces', JSON.stringify(payload), {
-    //         headers: { 'Content-Type': 'application/json' },
-    //     });
-
-    //     const jobId = response.data.job_id;
-
-    //     const res = {
-    //         recognizeTaskId: jobId,
-    //         date: date,
-    //     }
-    //     return res;
-    // };
-
-
-    // const checkRecognizeResults = async (recognizeTaskId, date) => {
-    //     if (!recognizeTaskId) return;
-    //     while (true) {
-    //         try {
-    //             const response = await square_api.post(`/face/task-result/${recognizeTaskId}`);
-
-    //             if (response.data.state === "SUCCESS") {
-    //                 const recognizeResults = response.data.result;
-
-    //                 // const formattedDate = toDisplayText(date);
-
-    //                 // const seenIds = new Set(verifiedFaces.map(face => face.identity || 'unknown'));
-    //                 // const unseenIds = recognizeResults.filter(face => !seenIds.has(face.identity));
-
-    //                 updateScanState({
-    //                     verifiedFaces: [...verifiedFaces, ...recognizeResults],
-    //                 });
-
-    //                 if (!recognizeResults.some(face => face.identity)) {
-    //                     throw new Error("No faces were recognized");
-    //                 }
-
-    //                 // handleToast(`${recognizeResults.filter(face => face.identity).length} face(s) were recognized`, 'info');
-
-    //                 break;
-    //             }
-    //             if (response.data.state === "FAILURE") {
-    //                 throw new Error("Recognition task failed...");
-    //             }
-    //         } catch (error) {
-    //             console.error(`Error checking recognize status ${recognizeTaskId}:`, error);
-    //             break;
-    //         }
-    //         await new Promise(resolve => setTimeout(resolve, TIMEOUT));
-    //     }
-    // };
+    const isScanningOn = () => updateScanState({isScanning: true});
+    const isScanningOff = () => updateScanState({isScanning: false});
 
 
     const value = useMemo(
@@ -232,15 +144,14 @@ export const RecognizeProvider = ({ children }) => {
             recognizeFaces,
             handleToast,
             isScanning,
-            status,
-            datetime,
-            detections,
             verifiedFaces,
             SCAN_STATUS,
-            checkRecognizeResults,
             getImageUrl,
             handleScan,
-            videoRef
+            videoRef,
+            getDetection,
+            isScanningOn,
+            isScanningOff
         }),
         [scanState]
     );
