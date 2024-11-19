@@ -200,7 +200,7 @@ const AuthPage = ({ type }) => {
                         />
                         <div
                             className='cursor-pointer auth-text-footer'
-                            onClick={() => { }}>Privacy Policy</div>
+                            onClick={() => { navigate('/privacy-policy') }}>Privacy Policy</div>
                     </div>
                 </div>
             </div>
