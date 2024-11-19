@@ -49,7 +49,7 @@ const LocationDetectionList = ({ detections }) => {
             </div>
             <div style={{ padding: '1rem' }}>
                 {isScanning && (<DetectingLoadingItem />)}
-                {detections.length === 0 && (
+                {(detections.length === 0 && !isScanning) && (
                     <div className="w-100">
                         <span className="fs-6 opacity-50">
                             Make sure that faces are visible to the camera.
