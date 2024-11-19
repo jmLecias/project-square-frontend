@@ -26,6 +26,7 @@ import NotFoundPage from './pages/NotFoundPage.js';
 
 import LandingPage from './pages/landing/LandingPage.js';
 import TermsPage from './pages/landing/TermsPage.js';
+import PrivacyPolicyPage from './pages/landing/PrivacyPolicyPage.js';
 
 import IdentityPage from './pages/identity/IdentityPage.js';
 
@@ -80,6 +81,12 @@ function App() {
                           path="/terms-of-use"
                           element={
                             <TermsPage />
+                          }
+                        />
+                        <Route
+                          path="/privacy-policy"
+                          element={
+                            <PrivacyPolicyPage />
                           }
                         />
                         <Route

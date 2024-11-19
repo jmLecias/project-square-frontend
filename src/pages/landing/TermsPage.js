@@ -382,7 +382,7 @@ const TermsPage = () => {
                     style={{ backgroundColor: 'var(--primary-color-dark)' }}
                     onClick={() => navigate("/auth/login")}
                 >
-                    Back to homepage
+                    Back 
                 </button>
             </div>
         </div>
