@@ -1,0 +1,64 @@
+@import './variables.css';
+
+.main-container.terms-page {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+
+.header {
+    margin-bottom: 20px;
+}
+
+.terms-content {
+    background: var(--background-semi-dark);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
+    max-height: 75vh;
+}
+
+.terms-content h1 {
+    font-size: 32px;
+    margin: 40px 0;
+    color: var(--primary-color-light);
+}
+
+.terms-content h2 {
+    font-size: 24px;
+    margin: 40px 0;
+    color: var(--primary-color-light);
+}
+
+.terms-content h3 {
+    font-size: 20px;
+    margin-bottom: 20px;
+    margin-top: 40px;
+}
+
+.terms-content p,
+.terms-content li {
+    font-size: 16px;
+    font-weight: 200;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.terms-content ul {
+    padding-left: 20px;
+    margin-top: 10px;
+}
+
+.last-updated {
+    font-size: 14px;
+    font-style: italic;
+    margin-bottom: 20px;
+}
+
+p.highlight {
+    color: var(--primary-color-light);
+    font-weight: 400;
+    font-size: 20px;
+    margin: 40px 10px;
+}
+

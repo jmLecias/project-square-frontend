@@ -1,8 +1,8 @@
 import React from 'react';
 
-import MainContainer from '../components/containers/MainContainer';
-import ContentContainer from '../components/containers/ContentContainer';
-import MainHeader from '../components/headers/MainHeader';
+import MainContainer from '../../components/containers/MainContainer';
+import ContentContainer from '../../components/containers/ContentContainer';
+import MainHeader from '../../components/headers/MainHeader';
 
 // const rtspurl = "rtsp://CAPSTONE:@CAPSTONE1@192.168.1.2:554/live/ch00_0"; // Appartment Network
 // const rtspurl = "rtsp://CAPSTONE:@CAPSTONE1@192.168.254.104:554/live/ch00_0"; // Home Network

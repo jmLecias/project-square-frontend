@@ -189,7 +189,7 @@ const AuthPage = ({ type }) => {
                     <div className='auth-footer-container'>
                         <div
                             className='cursor-pointer auth-text-footer'
-                            onClick={() => { }}>Terms of use</div>
+                            onClick={() => { navigate('/terms-of-use') }}>Terms of use</div>
                         <div
                             style={{
                                 height: '20px',

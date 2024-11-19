@@ -1,9 +1,12 @@
 import React from 'react';
 import { ToastContainer } from 'react-toastify';
+
 import { useNavigate } from 'react-router-dom';
+import { useSidebar } from '../../hooks/useSidebar';
 
 const LandingPage = () => {
     const navigate = useNavigate();
+    const { isNarrow } = useSidebar();
 
     const SquareLogo = () => {
         return (
@@ -30,7 +33,7 @@ const LandingPage = () => {
 
                         <button
                             title='Log in on an existing account'
-                            className='main-button me-3'
+                            className={`main-button me-3  ${isNarrow ? 'small' : ''}`}
                             style={{ backgroundColor: 'var(--primary-color-dark)' }}
                             onClick={() => navigate("/auth/login")}
                         >

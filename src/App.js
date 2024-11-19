@@ -9,6 +9,7 @@ import './css/main-container-styles.css'
 import './css/content-container-styles.css'
 import './css/not-found-page-styles.css'
 import './css/landing-page-styles.css'
+import './css/terms-page-styles.css'
 import './css/auth-page-styles.css'
 import './css/dashboard-page-styles.css'
 import './css/location-page-styles.css'
@@ -20,9 +21,11 @@ import './css/dropzone-styles.css'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 import AuthPage from './pages/auth/AuthPage';
-import DashboardPage from './pages/DashboardPage';
-import LandingPage from './pages/LandingPage';
+import DashboardPage from './pages/dashboard/DashboardPage.js';
 import NotFoundPage from './pages/NotFoundPage.js';
+
+import LandingPage from './pages/landing/LandingPage.js';
+import TermsPage from './pages/landing/TermsPage.js';
 
 import IdentityPage from './pages/identity/IdentityPage.js';
 
@@ -71,6 +74,12 @@ function App() {
                           path="/test-stream"
                           element={
                             <StreamTest />
+                          }
+                        />
+                        <Route
+                          path="/terms-of-use"
+                          element={
+                            <TermsPage />
                           }
                         />
                         <Route

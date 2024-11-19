@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { squareApiBaseUrl } from '../../api/square_api';
+import { io } from 'socket.io-client';
 
 import MainContainer from '../../components/containers/MainContainer';
 import MainBreadcrumbs from '../../components/tabs/MainBreadcrumbs';
@@ -40,6 +41,7 @@ const LocationPage = () => {
     const {
         isScanning,
         // handleScan,
+        handleToast,
         videoRef
     } = useRecognize();
     const {
@@ -79,8 +81,11 @@ const LocationPage = () => {
         };
     }, [id, reload]);
 
+
     useEffect(() => {
+        let observer = null;
         const feedsGrid = document.querySelector('.feeds-grid');
+
         if (feedsGrid) {
             const observer = new ResizeObserver(entries => {
                 requestAnimationFrame(() => {
@@ -97,29 +102,34 @@ const LocationPage = () => {
                 });
             });
             observer.observe(feedsGrid);
-            return () => observer.disconnect();
         }
-    }, []);
 
-    useEffect(() => {
-        if (location) {
-            const eventSource = new EventSource(squareApiBaseUrl + '/face/location-detections/' + location.id);
+        const socket = io('https://api.official-square.site', {
+            path: '/socket.io/',
+            transports: ['websockets', 'polling'],
+        });
 
-            eventSource.onmessage = (event) => {
-                const data = JSON.parse(event.data);
-                console.log(data);
-            };
+        socket.on('connect', () => {
+            console.log('Connected to Websocket Server');
+        });
 
-            eventSource.onerror = () => {
-                console.error("SSE Connection failed");
-                eventSource.close();
-            };
+        socket.on('detections_update', (update) => {
+            console.log("Detection: ", update);
+            handleToast(`Detection: ${update}`, 'info');
+        });
 
-            return () => {
-                eventSource.close()
+        socket.on('disconnect', () => {
+            console.log('Disconnected from WebSocket Server');
+        });
+
+        return () => {
+            socket.disconnect(); // Clean up on component unmount
+            console.log('Socket disconnected');
+            if (observer) {
+                observer.disconnect();
             }
-        }
-    }, [location]);
+        };
+    }, []);
 
     const handleBreadcrumbs = (group, location) => {
         clearBreadcrumbs();
@@ -166,7 +176,6 @@ const LocationPage = () => {
                         <div className={`feeds-grid ${GRIDS[grid].name}`} style={{ marginBottom: '1rem' }}>
                             <WebcamFeed
                                 videoRef={videoRef}
-                                onDetectChange={(detected) => handleDetectChange(detected)}
                             />
                             {/* <RtspFeed/> */}
                             {renderEmptySlots()}

@@ -9,13 +9,13 @@ const GroupItem = ({ group }) => {
         <div className='group-item fade-in' onClick={() => { navigate(`/groups/${group.id}`) }}>
             <div
                 className='opacity-75 text-truncate'
-                style={{ fontSize: '12px' }}
+                style={{ fontSize: '11px' }}
             >
                 Group
             </div>
 
             <div
-                className='fs-6 fw-bold text-truncate'
+                className='fw-bold text-truncate'
                 title={group.name}
             >
                 {group.name}

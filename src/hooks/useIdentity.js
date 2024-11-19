@@ -177,9 +177,6 @@ export const IdentityProvider = ({ children }) => {
         }
     };
 
-    useEffect(() => console.log(state), [state]);
-    // useEffect(() => console.log(isFlipped), [isFlipped]);
-
     const base64ToBlob = (base64Data, contentType = "image/jpeg") => {
         const byteCharacters = atob(base64Data);
         const byteNumbers = new Array(byteCharacters.length);

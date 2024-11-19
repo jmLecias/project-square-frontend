@@ -32,6 +32,9 @@ body {
 
 .custom-scrollbar-hidden::-webkit-scrollbar {
     width: 0px !important;
+}
+
+.custom-scrollbar.light::-webkit-scrollbar-thumb {
     background-color: var(--backgroud-semi-light) !important;
 }
 
