@@ -104,27 +104,27 @@ const LocationPage = () => {
             observer.observe(feedsGrid);
         }
 
-        const socket = io('https://api.official-square.site', {
-            path: '/socket.io/',
-            transports: ['websockets', 'polling'],
-        });
+        // const socket = io('https://api.official-square.site', {
+        //     path: '/socket.io/',
+        //     transports: ['websockets', 'polling'],
+        // });
 
-        socket.on('connect', () => {
-            console.log('Connected to Websocket Server');
-        });
+        // socket.on('connect', () => {
+        //     console.log('Connected to Websocket Server');
+        // });
 
-        socket.on('detections_update', (update) => {
-            console.log("Detection: ", update);
-            handleToast(`Detection: ${update}`, 'info');
-        });
+        // socket.on('detections_update', (update) => {
+        //     console.log("Detection: ", update);
+        //     handleToast(`Detection: ${update}`, 'info');
+        // });
 
-        socket.on('disconnect', () => {
-            console.log('Disconnected from WebSocket Server');
-        });
+        // socket.on('disconnect', () => {
+        //     console.log('Disconnected from WebSocket Server');
+        // });
 
         return () => {
-            socket.disconnect(); // Clean up on component unmount
-            console.log('Socket disconnected');
+            // socket.disconnect(); // Clean up on component unmount
+            // console.log('Socket disconnected');
             if (observer) {
                 observer.disconnect();
             }

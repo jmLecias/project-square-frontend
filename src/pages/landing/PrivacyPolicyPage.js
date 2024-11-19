@@ -27,7 +27,7 @@ const PrivacyPolicyPage = () => {
 
                 <div className="terms-content custom-scrollbar light">
                     <h1>Privacy Policy</h1>
-                    <p className="s1">Last updated: November 13, 2024</p>
+                    <p className="s1"><strong>Last updated: November 13, 2024</strong></p>
                     <p>
                         This Privacy Policy describes Our policies and procedures on the collection, use and disclosure of Your information when You use the Service and tells You about Your privacy rights and how the law protects You.
                     </p>
