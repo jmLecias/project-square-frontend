@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 
-import AttendanceList from "../../components/lists/AttendanceList";
 import RecognizingLoadingItem from "../../components/items/RecognizingLoadingItem";
 import RecognizedItem from "../../components/items/RecognizedItem";
 import UnknownItem from "../../components/items/UnknownItem";
@@ -50,6 +49,13 @@ const LocationDetectionList = ({ detections }) => {
             </div>
             <div style={{ padding: '1rem' }}>
                 {isScanning && (<DetectingLoadingItem />)}
+                {detections.length === 0 && (
+                    <div className="w-100">
+                        <span className="fs-6 opacity-50">
+                            Make sure that faces are visible to the camera.
+                        </span>
+                    </div>
+                )}
                 {renderDetections()}
             </div>
             <div className="list-container-footer-fade" />

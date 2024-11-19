@@ -84,9 +84,6 @@ const LocationPage = () => {
         };
     }, [id, reload]);
 
-    useEffect(() => {
-        console.log(detections);
-    }, [detections]);
 
     useEffect(() => {
         if (location) {
