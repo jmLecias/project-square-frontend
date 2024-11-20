@@ -1,12 +1,12 @@
-import React , {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { squareApiBaseUrl } from '../../api/square_api';
 
 import { FaArrowRight } from "react-icons/fa";
 
 import { useRecognize } from '../../hooks/useRecognize';
 
-const UnknownItem = ({id }) => {
-    const {getDetection, isScanningOff} = useRecognize();
+const UnknownItem = ({ id }) => {
+    const { getDetection, isScanningOff } = useRecognize();
 
     const [detection, setDetection] = useState(null);
 
@@ -27,7 +27,7 @@ const UnknownItem = ({id }) => {
                     <img
                         src={squareApiBaseUrl + "/face/detected-face/" + encodeURIComponent(detection.detected_path)}
                         alt={`input image`}
-                    /> 
+                    />
                 </div>
                 <FaArrowRight size={24} />
                 <div
@@ -40,12 +40,15 @@ const UnknownItem = ({id }) => {
                     />
                 </div>
             </div>
-            <div className='ms-3 d-flex flex-column justify-content-center'>
+            <div className='details ms-2 d-flex flex-column justify-content-center'>
                 <span
-                    className='fs-6 fw-bold text-truncate'
+                    className='item-name fw-bold text-truncate'
+                    style={{ fontSize: '1.1  rem' }}
                 >Unknown Face</span>
+
                 <span
-                    className='small opacity-75 text-truncate'
+                    className='item-date opacity-75 text-truncate'
+                    style={{ fontSize: '12px' }}
                 >{detection.datetime}</span>
             </div>
         </div>
