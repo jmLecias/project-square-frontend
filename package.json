@@ -40,6 +40,7 @@
     "react-toastify": "^10.0.4",
     "react-use-draggable-scroll": "^0.4.7",
     "react-webcam": "^7.2.0",
+    "rsuite": "^5.74.2",
     "secure-ls": "^1.2.6",
     "socket.io-client": "^4.8.1",
     "styled-components": "^6.1.8",

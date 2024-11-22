@@ -1,5 +1,7 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import 'rsuite/dist/rsuite.min.css';
+
 import './css/variables.css'
 import './css/header-styles.css'
 import './css/sidebar-styles.css'
@@ -18,6 +20,7 @@ import './css/group-page-styles.css'
 import './css/id-setup-page-styles.css'
 import './css/settings-page-styles.css'
 import './css/dropzone-styles.css'
+
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 import AuthPage from './pages/auth/AuthPage';

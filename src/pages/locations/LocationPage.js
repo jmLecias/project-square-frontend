@@ -41,14 +41,13 @@ const LocationPage = () => {
     const { setBreadcrumbs, clearBreadcrumbs } = useBreadcrumbs();
     const {
         // isScanning,
-        // handleScan,
-        handleToast,
-        videoRef
+        videoRef,
+        isScanningOff,
+        handleToast
     } = useRecognize();
     const {
         GRIDS,
         grid,
-        gridDims,
         updateState,
         renderEmptySlots
     } = useFeeds();
@@ -96,20 +95,23 @@ const LocationPage = () => {
                 const isRelevantLocation = data.location_id === location.id.toString();
                 if (!isRelevantLocation) return;
 
-                setDetections((prevDetections) => {
-                    const detectionId = parseInt(data.id); // Ensure ID is a number
-                    const detectionExists = prevDetections.some((d) => d.id === detectionId);
+                if (data.id) {
+                    setDetections((prevDetections) => {
+                        const detectionId = parseInt(data.id);
+                        const detectionExists = prevDetections.some((d) => d.id === detectionId);
 
-                    if (detectionExists) {
-                        // Update the existing detection with new data
-                        return prevDetections.map((d) =>
-                            d.id === detectionId ? { ...d, ...data } : d
-                        );
-                    }
+                        if (detectionExists) {
+                            return prevDetections.map((d) =>
+                                d.id === detectionId ? { ...d, ...data } : d
+                            );
+                        }
 
-                    // Add the new detection
-                    return [...prevDetections, { ...data, id: detectionId }];
-                });
+                        return [...prevDetections, { ...data, id: detectionId }];
+                    });
+                } else {
+                    isScanningOff(); // Stop scanning animation, when no faces detected
+                    handleToast('No faces were detected!', 'error')
+                }
             };
 
             eventSource.onerror = () => {

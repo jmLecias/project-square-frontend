@@ -82,6 +82,7 @@ const IdentityFace = () => {
                         <ul className='w-100'>
                             <li className='small mb-2'>Only one face in the image</li>
                             <li className='small mb-2'>Center your face</li>
+                            <li className='small mb-2'>Include different angles</li>
                             <li className='small mb-2'>Eyeglasses are fine, but no tinted or face-covering accessories</li>
                         </ul>
                     </div>
