@@ -76,16 +76,16 @@ const MainSidebar = () => {
                         onClick={() => handleClick(PAGES.GROUPS)}
                         icon={<FaUserGroup size={25} />}
                     ><Link to="/groups" style={{color: 'inherit'}}>Groups</Link></MenuItem>
-                    <MenuItem
+                    {/* <MenuItem
                         className={`${(activePage === PAGES.LOCATIONS) ? 'active' : ''}`}
                         onClick={() => handleClick(PAGES.LOCATIONS)}
                         icon={<FaMapLocation size={22} />}
-                    ><Link to="/locations" style={{color: 'inherit'}}>Locations</Link></MenuItem>
+                    ><Link to="/locations" style={{color: 'inherit'}}>Locations</Link></MenuItem> */}
                     <MenuItem
-                        className={`${(activePage === PAGES.ACTIVITY) ? 'active' : ''}`}
-                        onClick={() => handleClick(PAGES.ACTIVITY)}
+                        className={`${(activePage === PAGES.RECORDS) ? 'active' : ''}`}
+                        onClick={() => handleClick(PAGES.RECORDS)}
                         icon={<FaRectangleList size={25} />}
-                    ><Link to="/activity" style={{color: 'inherit'}}>Activity</Link></MenuItem>
+                    ><Link to="/records" style={{color: 'inherit'}}>Records</Link></MenuItem>
                     <MenuItem
                         className={`${(activePage === PAGES.SETTINGS) ? 'active' : ''}`}
                         onClick={() => handleClick(PAGES.SETTINGS)}

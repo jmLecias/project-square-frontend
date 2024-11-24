@@ -6,7 +6,7 @@ const PAGES = {
     DASHBOARD: 'dashboard',
     GROUPS: 'groups',
     LOCATIONS: 'locations',
-    ACTIVITY: 'activity',
+    RECORDS: 'records',
     SETTINGS: 'settings',
 }
 

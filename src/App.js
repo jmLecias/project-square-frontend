@@ -17,6 +17,7 @@ import './css/dashboard-page-styles.css'
 import './css/location-page-styles.css'
 import './css/groups-page-styles.css'
 import './css/group-page-styles.css'
+import './css/records-page-styles.css'
 import './css/id-setup-page-styles.css'
 import './css/settings-page-styles.css'
 import './css/dropzone-styles.css'
@@ -35,6 +36,8 @@ import IdentityPage from './pages/identity/IdentityPage.js';
 
 import GroupsPage from './pages/groups/GroupsPage';
 import GroupPage from './pages/groups/GroupPage.js';
+
+import RecordsPage from './pages/records/RecordsPage.js';
 
 import SettingsPage from './pages/settings/SettingsPage.js';
 
@@ -137,6 +140,14 @@ function App() {
                                     <Routes>
                                       <Route path=":id" element={<LocationPage />} />
                                       <Route path="*" element={<NotFoundPage content="header" />} />
+                                    </Routes>
+                                  }
+                                />
+                                <Route
+                                  path="records/*"
+                                  element={
+                                    <Routes>
+                                      <Route path="*" element={<RecordsPage />} />
                                     </Routes>
                                   }
                                 />

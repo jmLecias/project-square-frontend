@@ -9,14 +9,14 @@
     --text-color: #ffffff;
     --text-color-dim: #e5e5e5;
     --text-color-dark: #858585;
-    
+
     --gray: #979797;
     --light-gray: #dddddd;
 
     --background-dark: #131522;
     --background-semi-dark: #242736;
     --background-dark-light: #5c5858;
-    
+
     --background-light: #f7fcff;
     --background-semi-light: #e0f2fb;
 
@@ -31,6 +31,16 @@
 
     --max-width: 1600px;
 
+    --rs-primary-50: #f2fcff;
+    --rs-primary-100: #bee1ed;
+    --rs-primary-200: #8fc6db;
+    --rs-primary-300: #66adcc;
+    --rs-primary-400: #4194ba;
+    --rs-primary-500: #227ba8;
+    --rs-primary-600: #1873a3;
+    --rs-primary-700: #0f6799;
+    --rs-primary-800: #07588a;
+    --rs-primary-900: #004675;
 }
 
 * {
@@ -39,9 +49,10 @@
 
 /* SIDEBAR CSS OVERWRITE DO NOT TOUCH */
 
-.pro-sidebar > .pro-sidebar-inner {
+.pro-sidebar>.pro-sidebar-inner {
     background: var(--background-dark) !important;
 }
+
 .pro-sidebar-header {
     border-bottom: none !important;
 }
@@ -66,7 +77,28 @@
         border-radius: 15px;
         color: var(--background-light) !important;
     }
-    .pro-inner-item a  {
+
+    .pro-inner-item a {
         color: var(--background-light) !important;
     }
+}
+.rs-table {
+    color: #b6c7d9;
+}
+
+.rs-table-row-header .rs-table-cell {
+    background-color: var(--background-semi-dark);
+}
+
+.rs-table-cell {
+    background-color: var(--background-semi-dark);
+}
+
+.rs-table-row:hover {
+    background-color: var(--primary-color-light) !important;
+    color: var(--background-dark);
+}
+
+.rs-nav-item {
+    color: var(--background-light);
 }
