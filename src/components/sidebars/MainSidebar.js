@@ -6,7 +6,6 @@ import { MdDashboardCustomize } from "react-icons/md";
 import { FaUserGroup } from "react-icons/fa6";
 import { FaRectangleList } from "react-icons/fa6";
 import { IoSettingsSharp } from "react-icons/io5";
-import { FaMapLocation } from "react-icons/fa6";
 import { FiLogOut } from "react-icons/fi";
 import { IoClose } from "react-icons/io5";
 

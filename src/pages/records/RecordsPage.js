@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 
 import MainContainer from '../../components/containers/MainContainer';
 import ContentContainer from '../../components/containers/ContentContainer';
-import MainBreadcrumbs from '../../components/tabs/MainBreadcrumbs';
+import MainHeader from '../../components/headers/MainHeader';
 
 import RecordsIndex from './RecordsIndex';
 
@@ -21,7 +21,7 @@ const RecordsPage = ({ content }) => {
         <>
             <MainContainer>
                 <ContentContainer
-                    header={<MainBreadcrumbs />}
+                    header={<MainHeader text={"Records"}/>}
                 >
                     <RecordsIndex/>
                 </ContentContainer>

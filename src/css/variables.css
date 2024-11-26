@@ -41,6 +41,7 @@
     --rs-primary-700: #0f6799;
     --rs-primary-800: #07588a;
     --rs-primary-900: #004675;
+
 }
 
 * {
@@ -101,4 +102,12 @@
 
 .rs-nav-item {
     color: var(--background-light);
+}
+
+.rs-pagination-btn {
+    color: var(--background-light);
+}
+
+.rs-table-loader-wrapper {
+    background-color: rgba(36, 39, 54, 0.777); /* Light gray overlay */
 }

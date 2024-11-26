@@ -56,6 +56,7 @@ import { LocationProvider } from './hooks/useLocation';
 import { BreadcrumbsProvider } from './hooks/useBreadcrumbs.js';
 import { FeedsProvider } from './hooks/useFeeds.js';
 import { IdentityProvider } from './hooks/useIdentity.js';
+import { RecordsProvider } from './hooks/useRecords.js';
 
 function App() {
   return (
@@ -68,104 +69,106 @@ function App() {
                 <BreadcrumbsProvider>
                   <FeedsProvider>
                     <IdentityProvider>
-                      <Routes>
-                        <Route
-                          index
-                          element={
-                            <PublicRoute>
-                              <LandingPage />
-                            </PublicRoute>
-                          }
-                        />
-                        <Route
-                          path="/test-stream"
-                          element={
-                            <StreamTest />
-                          }
-                        />
-                        <Route
-                          path="/terms-of-use"
-                          element={
-                            <TermsPage />
-                          }
-                        />
-                        <Route
-                          path="/privacy-policy"
-                          element={
-                            <PrivacyPolicyPage />
-                          }
-                        />
-                        <Route
-                          path="auth/*"
-                          element={
-                            <PublicRoute>
-                              <Routes>
-                                <Route path="login" element={<AuthPage type="login" />} />
-                                <Route
-                                  path="register/*"
-                                  element={
-                                    <Routes>
-                                      <Route path="/" element={<AuthPage type="register" />} />
-                                      <Route path="identity/:id" element={<IdentityPage/>} />
-                                      <Route path="*" element={<NotFoundPage content="noHeader" />} />
-                                    </Routes>
-                                  }
-                                />
-                                <Route path="*" element={<NotFoundPage content="noHeader" />} />
-                              </Routes>
-                            </PublicRoute>
-                          }
-                        />
-                        <Route
-                          path="/*"
-                          element={
-                            <AuthenticatedRoute>
-                              <Routes>
-                                <Route path="dashboard" element={<DashboardPage />} />
-                                <Route
-                                  path="groups/*"
-                                  element={
-                                    <Routes>
-                                      <Route path="/" element={<GroupsPage />} />
-                                      <Route path=":id" element={<GroupPage content="index" />} />
-                                      <Route path=":id/members" element={<GroupPage content="members" />} />
-                                      <Route path=":id/settings" element={<GroupPage content="settings" />} />
-                                      <Route path="*" element={<NotFoundPage content="header" />} />
-                                    </Routes>
-                                  }
-                                />
-                                <Route
-                                  path="locations/*"
-                                  element={
-                                    <Routes>
-                                      <Route path=":id" element={<LocationPage />} />
-                                      <Route path="*" element={<NotFoundPage content="header" />} />
-                                    </Routes>
-                                  }
-                                />
-                                <Route
-                                  path="records/*"
-                                  element={
-                                    <Routes>
-                                      <Route path="*" element={<RecordsPage />} />
-                                    </Routes>
-                                  }
-                                />
-                                <Route
-                                  path="settings/*"
-                                  element={
-                                    <Routes>
-                                      <Route path="/" element={<SettingsPage />} />
-                                      <Route path="*" element={<NotFoundPage content="header" />} />
-                                    </Routes>
-                                  }
-                                />
-                                <Route path="*" element={<NotFoundPage content="header" />} />
-                              </Routes>
-                            </AuthenticatedRoute>
-                          }
-                        />
-                      </Routes>
+                      <RecordsProvider>
+                        <Routes>
+                          <Route
+                            index
+                            element={
+                              <PublicRoute>
+                                <LandingPage />
+                              </PublicRoute>
+                            }
+                          />
+                          <Route
+                            path="/test-stream"
+                            element={
+                              <StreamTest />
+                            }
+                          />
+                          <Route
+                            path="/terms-of-use"
+                            element={
+                              <TermsPage />
+                            }
+                          />
+                          <Route
+                            path="/privacy-policy"
+                            element={
+                              <PrivacyPolicyPage />
+                            }
+                          />
+                          <Route
+                            path="auth/*"
+                            element={
+                              <PublicRoute>
+                                <Routes>
+                                  <Route path="login" element={<AuthPage type="login" />} />
+                                  <Route
+                                    path="register/*"
+                                    element={
+                                      <Routes>
+                                        <Route path="/" element={<AuthPage type="register" />} />
+                                        <Route path="identity/:id" element={<IdentityPage />} />
+                                        <Route path="*" element={<NotFoundPage content="noHeader" />} />
+                                      </Routes>
+                                    }
+                                  />
+                                  <Route path="*" element={<NotFoundPage content="noHeader" />} />
+                                </Routes>
+                              </PublicRoute>
+                            }
+                          />
+                          <Route
+                            path="/*"
+                            element={
+                              <AuthenticatedRoute>
+                                <Routes>
+                                  <Route path="dashboard" element={<DashboardPage />} />
+                                  <Route
+                                    path="groups/*"
+                                    element={
+                                      <Routes>
+                                        <Route path="/" element={<GroupsPage />} />
+                                        <Route path=":id" element={<GroupPage content="index" />} />
+                                        <Route path=":id/members" element={<GroupPage content="members" />} />
+                                        <Route path=":id/settings" element={<GroupPage content="settings" />} />
+                                        <Route path="*" element={<NotFoundPage content="header" />} />
+                                      </Routes>
+                                    }
+                                  />
+                                  <Route
+                                    path="locations/*"
+                                    element={
+                                      <Routes>
+                                        <Route path=":id" element={<LocationPage />} />
+                                        <Route path="*" element={<NotFoundPage content="header" />} />
+                                      </Routes>
+                                    }
+                                  />
+                                  <Route
+                                    path="records/*"
+                                    element={
+                                      <Routes>
+                                        <Route path="*" element={<RecordsPage />} />
+                                      </Routes>
+                                    }
+                                  />
+                                  <Route
+                                    path="settings/*"
+                                    element={
+                                      <Routes>
+                                        <Route path="/" element={<SettingsPage />} />
+                                        <Route path="*" element={<NotFoundPage content="header" />} />
+                                      </Routes>
+                                    }
+                                  />
+                                  <Route path="*" element={<NotFoundPage content="header" />} />
+                                </Routes>
+                              </AuthenticatedRoute>
+                            }
+                          />
+                        </Routes>
+                      </RecordsProvider>
                     </IdentityProvider>
                   </FeedsProvider>
                 </BreadcrumbsProvider>

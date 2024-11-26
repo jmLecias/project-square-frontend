@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ToastContainer } from 'react-toastify';
 import MainSidebar from '../sidebars/MainSidebar';
 
@@ -11,6 +11,8 @@ import { useGroup } from '../../hooks/useGroup';
 import { useSidebar } from '../../hooks/useSidebar';
 
 const MainContainer = ({ children }) => {
+    const [width, setWidth] = useState(window.innerWidth);
+
     const { setIsNarrow } = useSidebar();
     const {
         showCreateGroup,
@@ -41,28 +43,21 @@ const MainContainer = ({ children }) => {
                 })
         }
 
-        const main = document.querySelector('.main-container');
+        const handleResize = () => {
+            setWidth(window.innerWidth);
+            if (window.innerWidth < 800) {
+                setIsNarrow(true);
+            } else {
+                setIsNarrow(false);
+            }
+        };
 
-        if (main) {
-            const observer = new ResizeObserver(entries => {
-                requestAnimationFrame(() => {
-                    for (let entry of entries) {
-                        const width = entry.contentRect.width;
-                        setIsNarrow(false);
-                        main.classList.remove('medium', 'narrow');
+        window.addEventListener('resize', handleResize);
 
-                        if (width < 800) {
-                            main.classList.add('narrow');
-                            setIsNarrow(true);
-                        }
-                    }
-                });
-            });
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
 
-            observer.observe(main);
-
-            return () => observer.disconnect();
-        }
     }, [identity]);
 
     return (

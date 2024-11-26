@@ -1,59 +1,97 @@
-import React from 'react';
-import { Table } from 'rsuite';
+import React, { useState, useEffect } from 'react';
+import { Table, Pagination } from 'rsuite';
+
+import { useRecords } from '../../hooks/useRecords';
+import { useAuth } from '../../hooks/useAuth';
 
 const { Column, HeaderCell, Cell } = Table;
 
-// Mock data
-const data = Array.from({ length: 20 }, (_, index) => ({
-    detection: `Detection ${index + 1}`,
-    datetime: new Date().toISOString(),
-    location: `Location ${index + 1}`,
-    user: `User ${index + 1}`,
-    confidence: `${Math.random().toFixed(2) * 100}%`,
-    status: index % 2 === 0 ? 'Active' : 'Inactive',
-}));
+const RecordsDetectionsList = ({ }) => {
+    const { getUserRecords } = useRecords();
+    const { user } = useAuth();
 
-const RecordsDetectionsList = () => {
+    const [data, setData] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [pageSize, setPageSize] = useState(5);
+    const [totalRecords, setTotalRecords] = useState(0);
+    const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        setLoading(true);
+        getUserRecords(user.id, currentPage, pageSize)
+            .then((result) => {
+                setData(result.detections);
+                setTotalRecords(result.pagination.total_records);
+            })
+            .catch((error) => {
+                console.error('Error fetching data:', error);
+            })
+            .finally(() => {
+                setLoading(false);
+            });
+    }, [currentPage, pageSize]);
+
+
     return (
-        <div className="records-detections-list">
-            <Table height={500} data={data} rowHeight={35}>
-
-                {/* Detection column */}
-                <Column key="detection" width={100}>
+        <div className="records-detections-list custom-scrollbar-hidden">
+            <Table
+                height={450}
+                data={data}
+                rowHeight={40}
+                style={{ minWidth: '800px' }}
+                loading={loading}
+            >
+                <Column key="detection" flexGrow={0.5}>
                     <HeaderCell>Detection</HeaderCell>
                     <Cell dataKey="detection" />
                 </Column>
 
-                {/* Datetime column */}
-                <Column key="datetime" flexGrow={1}>
+                <Column key="datetime" flexGrow={1.40}>
                     <HeaderCell>Datetime</HeaderCell>
                     <Cell dataKey="datetime" />
                 </Column>
 
-                {/* Location column */}
-                <Column key="location" flexGrow={1}>
+                <Column key="location" flexGrow={0.75}>
                     <HeaderCell>Location</HeaderCell>
                     <Cell dataKey="location" />
                 </Column>
 
-                {/* User column */}
                 <Column key="user" flexGrow={1}>
                     <HeaderCell>User</HeaderCell>
                     <Cell dataKey="user" />
                 </Column>
 
-                {/* Confidence column */}
-                <Column key="confidence" width={100}>
+                <Column key="confidence" flexGrow={0.25}>
                     <HeaderCell>Confidence</HeaderCell>
                     <Cell dataKey="confidence" />
                 </Column>
 
-                {/* Status column */}
-                <Column key="status" width={100}>
+                <Column key="status" flexGrow={0.6}>
                     <HeaderCell>Status</HeaderCell>
                     <Cell dataKey="status" />
                 </Column>
             </Table>
+
+
+            <Pagination
+                total={totalRecords}
+                limit={pageSize}
+                prev={true}
+                next={true}
+                first={true}
+                last={true}
+                maxButtons={5}
+                activePage={currentPage}
+                onChangePage={setCurrentPage}
+                onChangeLimit={(newLimit) => {
+                    setPageSize(newLimit);
+                    setCurrentPage(1);
+                }}
+                className="mt-2"
+                style={{ minWidth: '500px' }}
+                layout={['total', '-', 'limit', '|', 'pager']}
+                limitOptions={[5, 10, 20]}
+            />
         </div>
     );
 };

@@ -105,3 +105,14 @@
     font-size: 15px;
     margin-left: 10px;
 }
+
+.main-header-text {
+    margin-left: 10px;
+    font-size: large;
+}
+
+@media (max-width: 800px) {
+    .main-header-text {
+        display: none;
+    }
+}

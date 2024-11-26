@@ -4,6 +4,7 @@
     width: 100%;
     display: grid;
     grid-template-columns: 60% 40%;
+    margin-bottom: 1rem;
     grid-template-rows: 100%;
     grid-template-areas:
         "left right";
@@ -36,6 +37,7 @@
     background-color: var(--background-semi-dark);
     border-radius: 10px;
     padding: 1rem;
+    overflow-x: auto;
 }
 
 .records-daily-list {
@@ -47,7 +49,7 @@
 }
 
 .records-selection-panel {
-    width: 100%;
+    width: calc(100% - 1rem);
     background-color: var(--background-semi-dark);
     border-radius: 10px;
     margin-bottom: 1rem;
