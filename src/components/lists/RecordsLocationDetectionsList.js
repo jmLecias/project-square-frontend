@@ -6,13 +6,11 @@ import RecordsActionBar from '../bars/RecordsActionBar';
 import { squareApiBaseUrl } from '../../api/square_api';
 
 import { useRecords } from '../../hooks/useRecords';
-import { useAuth } from '../../hooks/useAuth';
 
 const { Column, HeaderCell, Cell } = Table;
 
-const RecordsUserDetectionsList = () => {
-    const { getUserRecords } = useRecords();
-    const { user } = useAuth();
+const RecordsLocationDetectionsList = ({location, user}) => {
+    const { getLocationRecords, getLocationUserRecords } = useRecords();
 
     const [data, setData] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
@@ -22,7 +20,8 @@ const RecordsUserDetectionsList = () => {
 
     useEffect(() => {
         setLoading(true);
-        getUserRecords(user.id, currentPage, pageSize)
+        if (user) {
+            getLocationUserRecords(location.id, user.id, currentPage, pageSize)
             .then((result) => {
                 setData(result.detections);
                 setTotalRecords(result.pagination.total_records);
@@ -33,7 +32,20 @@ const RecordsUserDetectionsList = () => {
             .finally(() => {
                 setLoading(false);
             });
-    }, [currentPage, pageSize]);
+        } else {
+            getLocationRecords(location.id, currentPage, pageSize)
+                .then((result) => {
+                    setData(result.detections);
+                    setTotalRecords(result.pagination.total_records);
+                })
+                .catch((error) => {
+                    console.error('Error fetching data:', error);
+                })
+                .finally(() => {
+                    setLoading(false);
+                });
+        }
+    }, [currentPage, pageSize, user]);
 
     const ImageCell = ({ rowData, dataKey, ...props }) => {
         return (
@@ -63,7 +75,7 @@ const RecordsUserDetectionsList = () => {
 
     return (
         <>
-            <RecordsActionBar title={"Your records"} />
+            <RecordsActionBar title={`${user? 'Records of '+user.name : 'Location records'}`} />
 
             <div className="records-detections-list custom-scrollbar-hidden">
                 <Table
@@ -130,4 +142,4 @@ const RecordsUserDetectionsList = () => {
     );
 };
 
-export default RecordsUserDetectionsList;
+export default RecordsLocationDetectionsList;

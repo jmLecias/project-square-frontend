@@ -58,7 +58,6 @@
     justify-content: center;
     border-radius: var(--btn-border-radius);
     overflow: hidden;
-    margin-right: 10px;
 }
 
 .header-user-div img {

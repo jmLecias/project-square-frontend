@@ -21,9 +21,53 @@ export const RecordsProvider = ({ children }) => {
         }
     };
 
+    const getLocationRecordsInfo = async (location_id) => {
+        const response = await square_api.get('/locations/location-records-info/'+location_id);
+
+        if (response.status === 200) {
+            return response.data;
+        } else {
+            return false;
+        }
+    };
+
+    const getLocationRecords = async (location_id, page, per_page) => {
+        const payload = {
+            location_id: location_id,
+            page: page,
+            per_page: per_page
+        }
+        const response = await square_api.post('/records/location-records', payload);
+
+        if (response.status === 200) {
+            return response.data;
+        } else {
+            return false;
+        }
+    };
+
+    const getLocationUserRecords = async (location_id, user_id, page, per_page) => {
+        const payload = {
+            location_id: location_id,
+            user_id: user_id,
+            page: page,
+            per_page: per_page
+        }
+        const response = await square_api.post('/records/location-user-records', payload);
+
+        if (response.status === 200) {
+            return response.data;
+        } else {
+            return false;
+        }
+    };
+
     const value = useMemo(
         () => ({
-            getUserRecords
+            getUserRecords,
+            getLocationRecords,
+            getLocationRecordsInfo,
+            getLocationUserRecords
         }),
         []
     );

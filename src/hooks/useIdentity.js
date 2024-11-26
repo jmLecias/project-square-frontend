@@ -4,6 +4,8 @@ import StorageService from "../services/StorageService";
 
 import square_api from "../api/square_api";
 
+import { useAuth } from "./useAuth";
+
 const IdentityContext = createContext();
 
 const TIMEOUT = 500;
@@ -19,12 +21,29 @@ export const IdentityProvider = ({ children }) => {
     const ss = new StorageService();
     const webcamRef = useRef(null);
 
+    const { user } = useAuth();
+
     const [useCamera, setUseCamera] = useState(false);
     const [useRear, setUseRear] = useState(false);
     const [isFlipped, setIsFlipped] = useState(false);
 
     const [currentIndex, setCurrentIndex] = useState(0);
     const [currentStep, setCurrentStep] = useState(0);
+
+    const [userImage, setUserImage] = useState(null);
+
+    useEffect(() => {
+        if (user) {
+            getUserImage(user.id)
+                .then((url) => {
+                    console.log(url);
+                    setUserImage(url);
+                })
+                .catch((e) => {
+                    console.log("Error while getting user image: ", e)
+                });
+        }
+    }, [user]);
 
     const [state, setState] = useState({
         identity: null,
@@ -87,12 +106,18 @@ export const IdentityProvider = ({ children }) => {
         const response = await square_api.get(`/identity/get/${userID}`);
 
         if (response.status === 200) {
-            updateState({identity: response.data.user_info});
+            updateState({ identity: response.data.user_info });
             return response.data.user_info
         } else {
             ss.removeItem('user');
             return null
         }
+    };
+
+    const getUserImage = async (id) => {
+        const response = await square_api.get(`/identity/get-user-image/${id}`);
+
+        return response.data.identity.url
     };
 
     const getIdentityImage = async (unique_key) => {
@@ -202,7 +227,7 @@ export const IdentityProvider = ({ children }) => {
 
         updateState({ faces: newFaces, facePreviews: newFacePreviews });
 
-        if(currentIndex !== faces.length - 1) {
+        if (currentIndex !== faces.length - 1) {
             setCurrentIndex(currentIndex + 1);
         } else {
             setCurrentIndex(0);
@@ -267,9 +292,11 @@ export const IdentityProvider = ({ children }) => {
             isFlipped,
             toggleFlipped,
             useRear,
-            toggleRear
+            toggleRear,
+            getUserImage,
+            userImage
         }),
-        [state, useCamera, currentIndex, currentStep, isFlipped, useRear]
+        [state, useCamera, currentIndex, currentStep, isFlipped, useRear, user, userImage]
     );
     return <IdentityContext.Provider value={value}>{children}</IdentityContext.Provider>;
 };

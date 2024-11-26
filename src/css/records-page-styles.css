@@ -41,11 +41,12 @@
 }
 
 .records-daily-list {
-    width: 100%;
+    width: calc(100% - 1rem);
     background-color: var(--background-semi-dark);
     height: 420px;
     border-radius: 10px;
     padding: 1rem;
+    margin-bottom: 1rem;
 }
 
 .records-selection-panel {
@@ -76,6 +77,20 @@
     overflow: hidden;
 }
 
+.user-list-item {
+    background-color: var(--background-semi-dark);
+    padding: 0.5rem;
+    padding-left: 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.user-list-item:hover {
+    background-color: var(--background-light) !important;
+    color: var(--background-dark) !important;
+}
+
 
 @media (max-width: 800px) {
     .records-container {
@@ -89,5 +104,13 @@
     .selection-item { 
         font-size: 0.75rem;
         aspect-ratio: 6 / 2;
+    }
+
+    .records-selection-panel {
+        width: 100% 
+    }
+
+    .records-daily-list {
+        width: 100%;
     }
 }

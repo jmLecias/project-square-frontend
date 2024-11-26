@@ -20,12 +20,18 @@ const MainHeader = ({ text }) => {
     const { toggleCreateGroup, toggleJoinGroup } = useGroup();
     const { isScanning } = useRecognize();
     const { toggleCollapse } = useSidebar();
-    const { identity } = useIdentity();
+    const { identity, userImage } = useIdentity();
 
     const navigate = useNavigate();
 
     const renderToggle = props => (
-        <Avatar {...props} src="/images/user_default.jpg" />
+        <div className='header-user-div' {...props}>
+            <img
+                src={userImage}
+                className='fade-in'
+                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+            />
+        </div>
     );
 
 

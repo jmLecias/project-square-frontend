@@ -4,12 +4,14 @@ import { Accordion, Tabs } from 'rsuite';
 
 import { FaMapLocationDot } from "react-icons/fa6";
 
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 import { useGroup } from '../../hooks/useGroup';
-import { useLocation } from '../../hooks/useLocation';
 
 const RecordsSelectionPanel = () => {
     let isFetching = false;
+
+    const navigate = useNavigate();
 
     const { user } = useAuth();
     const {
@@ -19,9 +21,6 @@ const RecordsSelectionPanel = () => {
         getJoinedGroups,
         reload
     } = useGroup();
-    const {
-        getGroupLocations,
-    } = useLocation();
 
     useEffect(() => {
         if (
@@ -38,9 +37,10 @@ const RecordsSelectionPanel = () => {
         }
     }, [user, reload]);
 
-    const SelectionItem = ({ location }) => {
+    const SelectionItem = ({ location, link}) => {
+
         return (
-            <div className='selection-item'>
+            <div className='selection-item' onClick={() => navigate(link)}>
                 <FaMapLocationDot size={20}/>
                 <div
                     className='fw-bold ms-2 text-truncate'
@@ -65,6 +65,7 @@ const RecordsSelectionPanel = () => {
                             return (
                                 <SelectionItem
                                     location={location}
+                                    link={'/records/location/'+location.id}
                                     key={i}
                                 />
                             )
@@ -87,6 +88,7 @@ const RecordsSelectionPanel = () => {
                             return (
                                 <SelectionItem
                                     location={location}
+                                    link={'/records/location/'+location.id+'/user/'+user.id}
                                     key={i}
                                 />
                             )
