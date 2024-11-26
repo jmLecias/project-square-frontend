@@ -39,7 +39,7 @@ const LocationDetectionList = ({ detections }) => {
     return (
         <div className='list-container custom-scrollbar-hidden' style={{ height: `${gridDims.height}px` }}>
             <div className="list-container-header">
-                <div className='fw-bold unselectable mb-2'>Detections</div>
+                <div className='fw-bold unselectable mb-2'>Detections Today</div>
                 <div className="detection-types-flex">
                     <DetectionTypes type="All" />
                     <DetectionTypes type="Inbound" />

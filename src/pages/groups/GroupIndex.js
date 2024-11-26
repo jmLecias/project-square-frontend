@@ -72,7 +72,7 @@ const GroupIndex = ({ locations, owner, group }) => {
             <div className='group-header-area'>
                 <GroupHeader group={group} owner={owner} />
             </div>
-            {owner.id === user.id && (
+            {/* {owner.id === user.id && (
                 <div className='group-analytics-area'>
                     <Section
                         title={"Analytics"}
@@ -92,15 +92,17 @@ const GroupIndex = ({ locations, owner, group }) => {
                         }
                     />
                 </div>
-            )}
+            )} */}
             <div className='group-locations-area' >
                 <Section
                     title={"Locations"}
                     icon={<ImLocation className='me-2' size={24} />}
                     actions={
                         <>
-                            <FaList size={25} className='me-4 cursor-pointer' />
-                            <BsFillGrid3X3GapFill size={25} className='cursor-pointer' />
+                            <button
+                                className={`main-button ${isNarrow ? 'small' : ''} `}
+                                onClick={toggleCreateLocation}
+                            >Add location</button>
                         </>
                     }
                     content={

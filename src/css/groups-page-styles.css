@@ -16,7 +16,7 @@
 
 .group-item {
     width: var(--grid-item-width);
-    aspect-ratio: 6 / 4;
+    aspect-ratio: 6 / 3;
     padding: 10px 15px;
     cursor: pointer;
     background-color: var(--primary-color);

@@ -37,7 +37,8 @@ import IdentityPage from './pages/identity/IdentityPage.js';
 import GroupsPage from './pages/groups/GroupsPage';
 import GroupPage from './pages/groups/GroupPage.js';
 
-import RecordsPage from './pages/records/RecordsPage.js';
+import RecordsUserPage from './pages/records/RecordsUserPage.js';
+import RecordsLocationPage from './pages/records/RecordsLocationPage.js';
 
 import SettingsPage from './pages/settings/SettingsPage.js';
 
@@ -149,7 +150,8 @@ function App() {
                                     path="records/*"
                                     element={
                                       <Routes>
-                                        <Route path="*" element={<RecordsPage />} />
+                                        <Route path="*" element={<RecordsUserPage />} />
+                                        <Route path="location/:id" element={<RecordsLocationPage />} />
                                       </Routes>
                                     }
                                   />
