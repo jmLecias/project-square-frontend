@@ -13,13 +13,12 @@ const PAGES = {
 export const SidebarProvider = ({ children }) => {
     const [collapse, setCollapse] = useState(true);
     const [activePage, setActivePage] = useState('');
-    const [isNarrow, setIsNarrow] = useState(false);
 
     const toggleCollapse = () => setCollapse(!collapse);
 
     const handleClick = (page) => {
         setActivePage(page)
-        if (isNarrow) setCollapse(true);
+        setCollapse(true);
     };
 
     const value = useMemo(
@@ -29,10 +28,8 @@ export const SidebarProvider = ({ children }) => {
             activePage,
             handleClick,
             PAGES,
-            isNarrow,
-            setIsNarrow
         }),
-        [collapse, activePage, isNarrow]
+        [collapse, activePage]
     );
     return <SidebarContext.Provider value={value}>{children}</SidebarContext.Provider>;
 };

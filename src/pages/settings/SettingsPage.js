@@ -14,7 +14,7 @@ import { useAuth } from '../../hooks/useAuth';
 const SettingsPage = () => {
     const navigate = useNavigate();
 
-    const { IDENTITY_PAGES, identity, userImage } = useIdentity();
+    const { IDENTITY_PAGES, identity } = useIdentity();
     const { user } = useAuth();
 
     return (
@@ -30,7 +30,7 @@ const SettingsPage = () => {
                         <div className='d-flex mb-3'>
                             <div className='user-default-profile-div'>
                                 <img
-                                    src={userImage}
+                                    src={user.image}
                                     className='fade-in'
                                     style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                                 />

@@ -13,7 +13,6 @@ import SectionHeader from '../../components/headers/SectionHeader';
 
 import { useGroup } from '../../hooks/useGroup';
 import { useAuth } from '../../hooks/useAuth';
-import { useSidebar } from '../../hooks/useSidebar';
 
 const GroupsPage = () => {
     const { user } = useAuth();
@@ -28,7 +27,6 @@ const GroupsPage = () => {
         toggleJoinGroup,
         reload
     } = useGroup();
-    const { isNarrow } = useSidebar();
 
 
     useEffect(() => {
@@ -72,25 +70,23 @@ const GroupsPage = () => {
     return (
         <MainContainer>
             <ContentContainer
-                header={<MainHeader text={"Groups"}/>}
+                header={<MainHeader text={"Groups"} />}
             >
                 <div className='groups-joined-area'>
                     <div className='groups-section'>
                         <SectionHeader
-                            icon={<IoIosArrowDown className='me-2'size={(isNarrow)? 23 : 33} />}
+                            icon={<IoIosArrowDown className='me-2' size={25} />}
                             title={"Joined Groups"}
                             actions={
                                 <>
-                                    {!isNarrow && (
-                                        <button
-                                            className='main-button'
-                                            onClick={toggleJoinGroup}
-                                            style={{ padding: '10px 18px', borderRadius: '12px' }}
-                                        >
-                                            Join group
-                                            <FaUserGroup className='ms-2' size={20} />
-                                        </button>
-                                    )}
+                                    <button
+                                        className='main-button group-action'
+                                        onClick={toggleJoinGroup}
+                                        style={{ padding: '10px 18px', borderRadius: '12px' }}
+                                    >
+                                        Join group
+                                        <FaUserGroup className='ms-2' size={20} />
+                                    </button>
                                 </>
                             }
                         />
@@ -109,20 +105,18 @@ const GroupsPage = () => {
                 <div className='groups-created-area'>
                     <div className='groups-section'>
                         <SectionHeader
-                            icon={<IoIosArrowDown className='me-2' size={(isNarrow)? 23 : 33} />}
+                            icon={<IoIosArrowDown className='me-2' size={25} />}
                             title={"Created Groups"}
                             actions={
                                 <>
-                                    {!isNarrow && (
-                                        <button
-                                            className='main-button'
-                                            onClick={toggleCreateGroup}
-                                            style={{ padding: '10px 18px', borderRadius: '12px' }}
-                                        >
-                                            Create group
-                                            <FaUserPlus className='ms-2' size={20} />
-                                        </button>
-                                    )}
+                                    <button
+                                        className='main-button group-action'
+                                        onClick={toggleCreateGroup}
+                                        style={{ padding: '10px 18px', borderRadius: '12px' }}
+                                    >
+                                        Create group
+                                        <FaUserPlus className='ms-2' size={20} />
+                                    </button>
                                 </>
                             }
                         />

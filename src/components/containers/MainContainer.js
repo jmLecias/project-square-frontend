@@ -8,12 +8,10 @@ import JoinGroupModal from '../modals/JoinGroupModal';
 import { useAuth } from '../../hooks/useAuth';
 import { useIdentity } from '../../hooks/useIdentity';
 import { useGroup } from '../../hooks/useGroup';
-import { useSidebar } from '../../hooks/useSidebar';
 
 const MainContainer = ({ children }) => {
     const [width, setWidth] = useState(window.innerWidth);
 
-    const { setIsNarrow } = useSidebar();
     const {
         showCreateGroup,
         showJoinGroup,
@@ -42,21 +40,6 @@ const MainContainer = ({ children }) => {
                     console.log(err);
                 })
         }
-
-        const handleResize = () => {
-            setWidth(window.innerWidth);
-            if (window.innerWidth < 800) {
-                setIsNarrow(true);
-            } else {
-                setIsNarrow(false);
-            }
-        };
-
-        window.addEventListener('resize', handleResize);
-
-        return () => {
-            window.removeEventListener('resize', handleResize);
-        };
 
     }, [identity]);
 

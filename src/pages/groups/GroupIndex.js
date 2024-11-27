@@ -5,19 +5,14 @@ import SectionHeader from '../../components/headers/SectionHeader';
 import LocationItem from '../../components/items/LocationItem';
 import AnalyticsItem from '../../components/items/AnalyticsItem';
 
-import { BsFillGrid3X3GapFill } from "react-icons/bs";
-import { FaList } from "react-icons/fa";
-import { IoAnalyticsSharp } from "react-icons/io5";
 import { ImLocation } from "react-icons/im";
 
 import { useLocation } from '../../hooks/useLocation';
 import { useAuth } from '../../hooks/useAuth';
-import { useSidebar } from '../../hooks/useSidebar';
 
 const GroupIndex = ({ locations, owner, group }) => {
 
     const { user } = useAuth();
-    const { isNarrow } = useSidebar();
 
     const {
         toggleCreateLocation,
@@ -72,37 +67,18 @@ const GroupIndex = ({ locations, owner, group }) => {
             <div className='group-header-area'>
                 <GroupHeader group={group} owner={owner} />
             </div>
-            {/* {owner.id === user.id && (
-                <div className='group-analytics-area'>
-                    <Section
-                        title={"Analytics"}
-                        icon={<IoAnalyticsSharp className='me-2' size={24} />}
-                        actions={
-                            <>
-                                <button
-                                    className={`main-button ${isNarrow ? 'small' : ''} `}
-                                    onClick={toggleCreateLocation}
-                                >Add location</button>
-                            </>
-                        }
-                        content={
-                            <div className='group-grid-display'>
-                                {renderAnalytics()}
-                            </div>
-                        }
-                    />
-                </div>
-            )} */}
             <div className='group-locations-area' >
                 <Section
                     title={"Locations"}
                     icon={<ImLocation className='me-2' size={24} />}
                     actions={
                         <>
-                            <button
-                                className={`main-button ${isNarrow ? 'small' : ''} `}
-                                onClick={toggleCreateLocation}
-                            >Add location</button>
+                            {owner.id === user.id && (
+                                <button
+                                    className={`main-button `}
+                                    onClick={toggleCreateLocation}
+                                >Add location</button>
+                            )}
                         </>
                     }
                     content={

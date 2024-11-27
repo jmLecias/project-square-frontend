@@ -9,7 +9,7 @@ import { useSidebar } from '../../hooks/useSidebar';
 
 const MainBreadcrumbs = () => {
     const { onBreadcrumbClick, breadcrumbs } = useBreadcrumbs();
-    const { toggleCollapse, isNarrow } = useSidebar();
+    const { toggleCollapse } = useSidebar();
 
     return (
         <div className='breadcrumbs-container custom-scrollbar-hidden'>

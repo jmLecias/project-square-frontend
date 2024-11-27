@@ -8,8 +8,6 @@ import { useIdentity } from '../../hooks/useIdentity';
 const IdentityUpload = ({userId}) => {
     let isUploading = false;
 
-    const [isFinished, setIsFinished] = useState(false);
-
     const {
         CAN_PROCEED_VERIFY,
         uploadIdentity,
@@ -17,6 +15,8 @@ const IdentityUpload = ({userId}) => {
         saveFaceEmbeddings,
         checkSaveFaceEmbeddings,
         setCurrentStep,
+        uploadFinished,
+        setUploadFinished
     } = useIdentity();
 
     useEffect(() => {
@@ -28,9 +28,13 @@ const IdentityUpload = ({userId}) => {
                 handleIdentityUpload()
                     .then(() => {
                         isUploading = false;
-                        setIsFinished(true);
+                        setUploadFinished(true);
                     });
             }
+        }
+
+        return () => {
+            setUploadFinished(false);
         }
     }, []);
 
@@ -42,6 +46,8 @@ const IdentityUpload = ({userId}) => {
             const saveEmbeddingsTaskId = await saveFaceEmbeddings(uploadedImage.face_image_path, uploadedImage.unique_key);
             await checkSaveFaceEmbeddings(saveEmbeddingsTaskId);
         }
+
+
     }
 
     return (
@@ -52,17 +58,17 @@ const IdentityUpload = ({userId}) => {
 
                 <div className='upload-status-container'>
                     <div className='upload-svg'>
-                        {!isFinished && (<img src='/svg/upload-animate.svg' className='animate-wave '/>)}
-                        {isFinished && (<img src='/svg/done-animate.svg' />)}
+                        {!uploadFinished && (<img src='/svg/upload-animate.svg' className='animate-wave '/>)}
+                        {uploadFinished && (<img src='/svg/done-animate.svg' />)}
                     </div>
                     <div className='upload-svg'>
-                        {!isFinished && (
+                        {!uploadFinished && (
                             <div className='fs-3 animate-wave' style={{ fontWeight: '400' }}>
                                 <FaRegIdBadge size={130} color='var(--primary-color)'/>
                                 <div className='mt-3'>Remembering your identity...</div>
                             </div>
                         )}
-                        {isFinished && (
+                        {uploadFinished && (
                             <>
                                 <div className='fs-2 mb-5' style={{ fontWeight: '400' }}>
                                     <IoCloudDoneOutline size={100} color='var(--primary-color)'/>
@@ -70,7 +76,7 @@ const IdentityUpload = ({userId}) => {
                                 </div>
                                 <button
                                     className='main-button rounded'
-                                    disabled={!isFinished}
+                                    disabled={!uploadFinished}
                                     onClick={() => { window.location.replace('/dashboard')}}
                                     style={{
                                         fontSize: '25px',

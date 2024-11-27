@@ -1,10 +1,8 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useSidebar } from '../../hooks/useSidebar';
 
 const TermsPage = () => {
     const navigate = useNavigate();
-    const { isNarrow } = useSidebar();
 
     const SquareLogo = () => {
         return (
@@ -378,7 +376,7 @@ const TermsPage = () => {
 
                 <button
                     title="Homepage"
-                    className={`main-button mt-3 ${isNarrow ? 'small' : ''}`}
+                    className={`main-button mt-3`}
                     style={{ backgroundColor: 'var(--primary-color-dark)' }}
                     onClick={() => navigate("/auth/login")}
                 >

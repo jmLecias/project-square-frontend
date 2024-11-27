@@ -6,11 +6,13 @@ import RecordsActionBar from '../bars/RecordsActionBar';
 import { squareApiBaseUrl } from '../../api/square_api';
 
 import { useRecords } from '../../hooks/useRecords';
+import { useAuth } from '../../hooks/useAuth';
 
 const { Column, HeaderCell, Cell } = Table;
 
-const RecordsLocationDetectionsList = ({location, user}) => {
+const RecordsLocationDetectionsList = ({ location, currentUser }) => {
     const { getLocationRecords, getLocationUserRecords } = useRecords();
+    const { user } = useAuth();
 
     const [data, setData] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
@@ -20,20 +22,35 @@ const RecordsLocationDetectionsList = ({location, user}) => {
 
     useEffect(() => {
         setLoading(true);
-        if (user) {
-            getLocationUserRecords(location.id, user.id, currentPage, pageSize)
-            .then((result) => {
-                setData(result.detections);
-                setTotalRecords(result.pagination.total_records);
-            })
-            .catch((error) => {
-                console.error('Error fetching data:', error);
-            })
-            .finally(() => {
-                setLoading(false);
-            });
+        if(location.owner_id === user.id) {
+            if (currentUser) {
+                getLocationUserRecords(location.id, currentUser.id, currentPage, pageSize)
+                    .then((result) => {
+                        setData(result.detections);
+                        setTotalRecords(result.pagination.total_records);
+                    })
+                    .catch((error) => {
+                        console.error('Error fetching data:', error);
+                    })
+                    .finally(() => {
+                        setLoading(false);
+                    });
+            } else {
+                getLocationRecords(location.id, currentPage, pageSize)
+                    .then((result) => {
+                        setData(result.detections);
+                        setTotalRecords(result.pagination.total_records);
+                    })
+                    .catch((error) => {
+                        console.error('Error fetching data:', error);
+                    })
+                    .finally(() => {
+                        setLoading(false);
+                    });
+            }
         } else {
-            getLocationRecords(location.id, currentPage, pageSize)
+            // WHen use is not the owner of the Location
+            getLocationUserRecords(location.id, user.id, currentPage, pageSize)
                 .then((result) => {
                     setData(result.detections);
                     setTotalRecords(result.pagination.total_records);
@@ -45,7 +62,7 @@ const RecordsLocationDetectionsList = ({location, user}) => {
                     setLoading(false);
                 });
         }
-    }, [currentPage, pageSize, user]);
+    }, [currentPage, pageSize, currentUser]);
 
     const ImageCell = ({ rowData, dataKey, ...props }) => {
         return (
@@ -66,7 +83,7 @@ const RecordsLocationDetectionsList = ({location, user}) => {
                 >
                     <img
                         src={squareApiBaseUrl + "/face/detected-face/" + encodeURIComponent(rowData.detection)}
-                        style={{ objectFit: 'cover', width: '100%', height: '100%'}}
+                        style={{ objectFit: 'cover', width: '100%', height: '100%' }}
                     />
                 </div>
             </Cell>
@@ -75,7 +92,7 @@ const RecordsLocationDetectionsList = ({location, user}) => {
 
     return (
         <>
-            <RecordsActionBar title={`${user? 'Records of '+user.name : 'Location records'}`} />
+            <RecordsActionBar title={`${currentUser ? 'Records of ' + currentUser.name : 'Location records'}`} />
 
             <div className="records-detections-list custom-scrollbar-hidden">
                 <Table

@@ -11,13 +11,15 @@ import { useIdentity } from '../../hooks/useIdentity';
 
 const IdentityPage = () => {
     const { id } = useParams();
-    const { currentStep } = useIdentity();
+    const { currentStep, uploadFinished } = useIdentity();
 
     useEffect(() => {
         // Ask confirmation from user when reloading page
         const handleBeforeUnload = (event) => {
-            event.preventDefault();
-            event.returnValue = "";
+            if (!uploadFinished) {
+                event.preventDefault();
+                event.returnValue = "";
+            }
         };
 
         window.addEventListener("beforeunload", handleBeforeUnload);
@@ -25,7 +27,7 @@ const IdentityPage = () => {
         return () => {
             window.removeEventListener("beforeunload", handleBeforeUnload);
         };
-    }, []);
+    }, [uploadFinished]);
 
     return (
         <div className='identity-setup-container'>

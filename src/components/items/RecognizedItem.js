@@ -3,31 +3,19 @@ import { squareApiBaseUrl } from '../../api/square_api';
 
 import { FaArrowRight } from "react-icons/fa";
 
-import DetectingLoadingItem from './DetectingLoadingItem';
-
-import { useIdentity } from '../../hooks/useIdentity';
 import { useRecognize } from '../../hooks/useRecognize';
 
 const RecognizedItem = ({ id }) => {
-    const { getIdentityImage } = useIdentity();
     const { getDetection, isScanningOff} = useRecognize();
 
-    const [img, setImg] = useState(null);
     const [detection, setDetection] = useState(null);
 
     useEffect(() => {
         getDetection(id).then((res) => {
             setDetection(res);
-
-            getIdentityImage(res.identity).then((identity) => {
-                setImg(identity.url);
-            });
-
             isScanningOff(); // Turn off isScanning
         });
     }, [id]);
-
-
 
     return detection && (
         <div className='queue-item box-shadow mb-2 fade-in'>
@@ -47,7 +35,7 @@ const RecognizedItem = ({ id }) => {
                     style={{ width: '60px', borderRadius: '5px' }}
                 >
                     <img
-                        src={img}
+                        src={detection.image}
                         alt={`database image`}
                     />
                 </div>

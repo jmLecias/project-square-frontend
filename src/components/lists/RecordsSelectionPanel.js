@@ -88,7 +88,7 @@ const RecordsSelectionPanel = () => {
                             return (
                                 <SelectionItem
                                     location={location}
-                                    link={'/records/location/'+location.id+'/user/'+user.id}
+                                    link={'/records/location/'+location.id}
                                     key={i}
                                 />
                             )

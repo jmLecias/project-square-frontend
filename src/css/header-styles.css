@@ -57,6 +57,7 @@
     align-items: center;
     justify-content: center;
     border-radius: var(--btn-border-radius);
+    background-color: var(--background-semi-dark);
     overflow: hidden;
 }
 

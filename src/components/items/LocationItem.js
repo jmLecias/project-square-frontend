@@ -8,7 +8,7 @@ const LocationItem = ({ location, isOwner }) => {
         if (isOwner) {
             navigate('/locations/' + location.id);
         } else {
-            navigate('/records/locations' + 1);
+            navigate('/records/location/' + location.id);
         }
     }
     return (

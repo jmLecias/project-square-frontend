@@ -20,14 +20,14 @@ const MainHeader = ({ text }) => {
     const { toggleCreateGroup, toggleJoinGroup } = useGroup();
     const { isScanning } = useRecognize();
     const { toggleCollapse } = useSidebar();
-    const { identity, userImage } = useIdentity();
+    const { identity } = useIdentity();
 
     const navigate = useNavigate();
 
     const renderToggle = props => (
         <div className='header-user-div' {...props}>
             <img
-                src={userImage}
+                src={user.image}
                 className='fade-in'
                 style={{ width: '100%', height: '100%', objectFit: 'cover' }}
             />

@@ -40,26 +40,26 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
-    const loginGoogle = async () => {
-        window.open('http://localhost:5000/auth/login/google');
+    // const loginGoogle = async () => {
+    //     window.open('http://localhost:5000/auth/login/google');
         
-        // const response = await square_api.post('/auth/login/google', {
-        //     withCredentials: true,
-        //     headers: {
-        //         'Access-Control-Allow-Origin': '*'
-        //     }
-        // });
+    //     // const response = await square_api.post('/auth/login/google', {
+    //     //     withCredentials: true,
+    //     //     headers: {
+    //     //         'Access-Control-Allow-Origin': '*'
+    //     //     }
+    //     // });
 
-        // if (response.status === 200) {
-        //     const user = response.data.user;
+    //     // if (response.status === 200) {
+    //     //     const user = response.data.user;
 
-        //     ss.storeItem('user', JSON.stringify(user));
+    //     //     ss.storeItem('user', JSON.stringify(user));
 
-        //     return true;
-        // } else {
-        //     return false;
-        // }
-    };
+    //     //     return true;
+    //     // } else {
+    //     //     return false;
+    //     // }
+    // };
 
 
 
@@ -95,7 +95,7 @@ export const AuthProvider = ({ children }) => {
             login,
             register,
             logout,
-            loginGoogle,
+            // loginGoogle,
             me,
         }),
         [user]

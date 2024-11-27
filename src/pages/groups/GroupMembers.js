@@ -2,24 +2,7 @@ import React from 'react';
 
 import MemberItem from '../../components/items/MemberItem';
 
-// import { useGroup } from '../../hooks/useGroup';
-// import { useLocation } from '../../hooks/useLocation';
-
 const GroupMembers = ({ members, owner }) => {
-
-    // const {
-    //     handleToast,
-    //     handleChange,
-    //     newInputName,
-    //     updateGroup,
-    //     showDeleteGroup,
-    //     toggleDeleteGroup,
-    //     updateState
-    // } = useGroup();
-
-    // const {
-    //     triggerReloadLocation,
-    // } = useLocation();
 
     const renderMembers = () => {
         return (

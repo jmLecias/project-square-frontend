@@ -25,7 +25,6 @@ const MainSidebar = () => {
         activePage,
         handleClick,
         PAGES,
-        isNarrow,
     } = useSidebar();
 
     useEffect(() => {
@@ -44,12 +43,12 @@ const MainSidebar = () => {
         )
     };
 
-    const isHidden = (isNarrow && collapse) ? 'hidden' : (isNarrow) ? 'visible' : '';
+    const isHidden = (collapse) ? 'hidden' : 'visible';
 
     return (
         <ProSidebar
             collapsed={collapse}
-            className={`sidebar-area unselectable ${isHidden}`}
+            className={`sidebar-area ${isHidden} unselectable`}
         >
             <SidebarHeader onClick={toggleCollapse}>
                 <Menu style={{ margin: '27px 0' }}>
@@ -58,9 +57,7 @@ const MainSidebar = () => {
                     >
                         <span className='logo-text'>SQUARE</span>
                     </MenuItem>
-                    {isNarrow && (
-                        <IoClose size={30} style={{ position: 'absolute', top: '10px', right: '10px' }} />
-                    )}
+                    <IoClose size={30} className='sidebar-x-icon' />
                 </Menu>
             </SidebarHeader>
             <SidebarContent>
@@ -69,12 +66,12 @@ const MainSidebar = () => {
                         className={`${(activePage === PAGES.DASHBOARD) ? 'active' : ''}`}
                         onClick={() => handleClick(PAGES.DASHBOARD)}
                         icon={<MdDashboardCustomize size={25} />}
-                    ><Link to="/dashboard" style={{color: 'inherit'}}>Dashboard</Link></MenuItem>
+                    ><Link to="/dashboard" style={{ color: 'inherit' }}>Dashboard</Link></MenuItem>
                     <MenuItem
                         className={`${(activePage === PAGES.GROUPS) ? 'active' : ''}`}
                         onClick={() => handleClick(PAGES.GROUPS)}
                         icon={<FaUserGroup size={25} />}
-                    ><Link to="/groups" style={{color: 'inherit'}}>Groups</Link></MenuItem>
+                    ><Link to="/groups" style={{ color: 'inherit' }}>Groups</Link></MenuItem>
                     {/* <MenuItem
                         className={`${(activePage === PAGES.LOCATIONS) ? 'active' : ''}`}
                         onClick={() => handleClick(PAGES.LOCATIONS)}
@@ -84,12 +81,12 @@ const MainSidebar = () => {
                         className={`${(activePage === PAGES.RECORDS) ? 'active' : ''}`}
                         onClick={() => handleClick(PAGES.RECORDS)}
                         icon={<FaRectangleList size={25} />}
-                    ><Link to="/records" style={{color: 'inherit'}}>Records</Link></MenuItem>
+                    ><Link to="/records" style={{ color: 'inherit' }}>Records</Link></MenuItem>
                     <MenuItem
                         className={`${(activePage === PAGES.SETTINGS) ? 'active' : ''}`}
                         onClick={() => handleClick(PAGES.SETTINGS)}
                         icon={<IoSettingsSharp size={25} />}
-                    ><Link to="/settings" style={{color: 'inherit'}}>Settings</Link></MenuItem>
+                    ><Link to="/settings" style={{ color: 'inherit' }}>Settings</Link></MenuItem>
                 </Menu>
             </SidebarContent>
             {!collapse && (

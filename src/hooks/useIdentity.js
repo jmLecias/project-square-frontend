@@ -4,8 +4,6 @@ import StorageService from "../services/StorageService";
 
 import square_api from "../api/square_api";
 
-import { useAuth } from "./useAuth";
-
 const IdentityContext = createContext();
 
 const TIMEOUT = 500;
@@ -21,7 +19,7 @@ export const IdentityProvider = ({ children }) => {
     const ss = new StorageService();
     const webcamRef = useRef(null);
 
-    const { user } = useAuth();
+    const [uploadFinished, setUploadFinished] = useState(false);
 
     const [useCamera, setUseCamera] = useState(false);
     const [useRear, setUseRear] = useState(false);
@@ -29,21 +27,6 @@ export const IdentityProvider = ({ children }) => {
 
     const [currentIndex, setCurrentIndex] = useState(0);
     const [currentStep, setCurrentStep] = useState(0);
-
-    const [userImage, setUserImage] = useState(null);
-
-    useEffect(() => {
-        if (user) {
-            getUserImage(user.id)
-                .then((url) => {
-                    console.log(url);
-                    setUserImage(url);
-                })
-                .catch((e) => {
-                    console.log("Error while getting user image: ", e)
-                });
-        }
-    }, [user]);
 
     const [state, setState] = useState({
         identity: null,
@@ -112,12 +95,6 @@ export const IdentityProvider = ({ children }) => {
             ss.removeItem('user');
             return null
         }
-    };
-
-    const getUserImage = async (id) => {
-        const response = await square_api.get(`/identity/get-user-image/${id}`);
-
-        return response.data.identity.url
     };
 
     const getIdentityImage = async (unique_key) => {
@@ -293,10 +270,10 @@ export const IdentityProvider = ({ children }) => {
             toggleFlipped,
             useRear,
             toggleRear,
-            getUserImage,
-            userImage
+            uploadFinished,
+            setUploadFinished,
         }),
-        [state, useCamera, currentIndex, currentStep, isFlipped, useRear, user, userImage]
+        [state, useCamera, currentIndex, currentStep, isFlipped, useRear, uploadFinished]
     );
     return <IdentityContext.Provider value={value}>{children}</IdentityContext.Provider>;
 };
