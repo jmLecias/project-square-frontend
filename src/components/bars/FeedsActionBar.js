@@ -1,4 +1,5 @@
 import React from 'react';
+import { Spinner } from 'react-bootstrap';
 
 import { TbCaptureFilled } from "react-icons/tb";
 import { FaRegPlayCircle } from "react-icons/fa";
@@ -13,7 +14,7 @@ const FeedsActionBar = ({ location, group, cameras }) => {
         onGridChangeClick,
         ICON_SIZE,
         streamCameras,
-        handleToast
+        handleToast,
     } = useFeeds();
     const {
         handleScan,
@@ -34,6 +35,7 @@ const FeedsActionBar = ({ location, group, cameras }) => {
                         })
                 }}
             >
+
                 <FaRegPlayCircle size={ICON_SIZE + 2} />
             </div>
             {/* <div

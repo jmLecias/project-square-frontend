@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Modal from 'react-bootstrap/Modal';
 import Spinner from 'react-bootstrap/Spinner';
 
@@ -21,42 +21,71 @@ const CAMERA_TYPES = [
     }
 ]
 
-const CameraModal = ({ show, onClose, camera }) => {
+const CameraModal = ({ show, onClose, camera, location }) => {
 
     const {
         BUTTON_TEXT,
+        handleToast,
         updateState,
         handleChange,
         inputName,
         rtspUrl,
-        cameraType,
-        createGroup,
+        addCamera,
+        setEditCamera,
+        updateCamera
     } = useFeeds();
     const {
         triggerReloadLocation
     } = useLocation();
 
-    const [buttonText, setButtonText] = useState(BUTTON_TEXT.ADD);
+    const [buttonText, setButtonText] = useState((camera)? BUTTON_TEXT.UPDATE : BUTTON_TEXT.ADD);
+
+    useEffect(() => {
+        if(camera) {
+            updateState({
+                inputName: camera.name,
+                rtspUrl: camera.rtsp_url
+            })
+        }
+    }, [camera])
 
     const handleClose = () => {
         onClose();
-        updateState({ inputName: null });
+        updateState({ inputName: null, rtspUrl: null });
+        setEditCamera(null);
     }
 
     const handleSubmit = async () => {
-        try {
-            setButtonText(BUTTON_TEXT.ADDING);
+        if (camera) {
+            try {
+                setButtonText(BUTTON_TEXT.UPDATING);
 
-            const group = await createGroup(inputName.trim(), 1);
-            handleToast(`Group "${group.name}" created successfully`, 'success');
-        } catch (error) {
-            console.error(error);
-            handleToast(error.message, 'error');
-        } finally {
-            triggerReloadLocation(); // Reloads the location page
-            setButtonText(BUTTON_TEXT.ADD);
-            updateState({ inputName: null, });
-            handleClose();
+                const response = await updateCamera(inputName.trim(), rtspUrl.trim(), camera.id);
+                handleToast(response.message, 'success');
+            } catch (error) {
+                console.error(error);
+                handleToast(error.message, 'error');
+            } finally {
+                triggerReloadLocation(); // Reloads the location page
+                setButtonText(BUTTON_TEXT.ADD);
+                updateState({ inputName: null, rtspUrl: null});
+                handleClose();
+            }
+        } else {
+            try {
+                setButtonText(BUTTON_TEXT.ADDING);
+
+                const response = await addCamera(inputName.trim(), rtspUrl.trim(), location.id);
+                handleToast(response.message, 'success');
+            } catch (error) {
+                console.error(error);
+                handleToast(error.message, 'error');
+            } finally {
+                triggerReloadLocation(); // Reloads the location page
+                setButtonText(BUTTON_TEXT.ADD);
+                updateState({ inputName: null, rtspUrl: null});
+                handleClose();
+            }
         }
     }
 
@@ -97,24 +126,9 @@ const CameraModal = ({ show, onClose, camera }) => {
                     className="form-control mb-4"
                 />
 
-                {/* Select for camera type */}
-                <div className="small mb-2">Camera type</div>
-                <select
-                    name="cameraType" // must be same with state in useGroup
-                    value={cameraType}
-                    onChange={handleChange}
-                    required
-                    className="form-control mb-4"
-                >
-                    <option value="" disabled>Select Camera Type</option>
-                    {CAMERA_TYPES.map((type) => (
-                        <option key={type.id} value={type.id}>{type.type_name}</option>
-                    ))}
-                </select>
-
                 <button
                     className='group-forms-btn'
-                    disabled={buttonText === BUTTON_TEXT.ADDING}
+                    disabled={buttonText === BUTTON_TEXT.ADDING || buttonText === BUTTON_TEXT.UPDATING}
                     onClick={() => { handleSubmit() }}
                 >
                     {buttonText === BUTTON_TEXT.ADDING && <Spinner size='sm' variant="light" />}

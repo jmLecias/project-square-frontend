@@ -2,10 +2,24 @@ import React, { useRef, useCallback } from 'react';
 import { Popover, Whisper, Button, Dropdown } from 'rsuite';
 
 import { useFeeds } from '../../hooks/useFeeds';
+import { useLocation } from '../../hooks/useLocation';
 
 const CameraItem = ({ camera }) => {
     const ref = useRef();
-    const { capturedCameras, handleCameraClick, currentCamera, feeds, setFeeds } = useFeeds();
+    const {
+        capturedCameras,
+        handleCameraClick,
+        currentCamera,
+        feeds,
+        setFeeds,
+        handleToast,
+        deleteCamera,
+        toggleCameraModal,
+        setEditCamera
+    } = useFeeds();
+    const {
+        triggerReloadLocation
+    } = useLocation();
 
     const handleSelectMenu = useCallback(
         (eventKey, event) => {
@@ -14,11 +28,29 @@ const CameraItem = ({ camera }) => {
                 newFeeds[eventKey - 1] = currentCamera;
                 setFeeds(newFeeds);
             }
-            if (eventKey === 10) {
+            if (eventKey === 10) { // Disabling camera stream on feed
                 const newFeeds = [...feeds];
                 const index = feeds.findIndex(feed => feed === currentCamera);
                 newFeeds[index] = null;
                 setFeeds(newFeeds);
+            }
+
+            if (eventKey === 11) {  // Editing camera details
+                setEditCamera(camera);
+                toggleCameraModal();
+            }
+
+            if (eventKey === 12) { // Deleting camera details
+                deleteCamera(camera.id)
+                    .then((res) => {
+                        handleToast(res.message, 'info')
+                    })
+                    .catch((e) => {
+                        console.log("Error while deleting camera: ", e);
+                    })
+                    .finally(() => {
+                        triggerReloadLocation(); // Reloads the location page
+                    })
             }
 
             ref.current.close();
@@ -27,14 +59,14 @@ const CameraItem = ({ camera }) => {
     );
 
     const isDisabled = !capturedCameras.includes(camera.id);
+    const isUnavailable = capturedCameras.length > 0 && !capturedCameras.includes(camera.id);
     const isViewing = feeds.includes(camera.id);
 
     const MenuPopover = React.forwardRef(({ camera, isDisabled, isViewing, onSelect, ...rest }, ref) => (
         <Popover ref={ref} {...rest} full>
             <Dropdown.Menu onSelect={onSelect} style={{ width: '150px' }}>
                 <Dropdown.Item>
-                    <div className='fw-bold text-truncate'>{camera.name}</div>
-                    <div className='small mt-1'>{camera.type}</div>
+                    <div className='fw-bold text-truncate' title={camera.rtsp_url}>{camera.name}</div>
                 </Dropdown.Item>
                 <Dropdown.Separator />
                 {(!isDisabled && !isViewing) && (
@@ -50,6 +82,9 @@ const CameraItem = ({ camera }) => {
                         <Dropdown.Item eventKey={9} disabled={feeds[8] !== null}>View on slot 9</Dropdown.Item>
                     </>
                 )}
+                {(isUnavailable && (
+                    <Dropdown.Item>Unavailable</Dropdown.Item>
+                ))}
                 {(isViewing && (
                     <Dropdown.Item eventKey={10}>Disable</Dropdown.Item>
                 ))}

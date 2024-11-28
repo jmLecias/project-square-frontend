@@ -142,7 +142,7 @@ const DashboardPage = () => {
                 <div className='value'>{value}</div>
                 <div className='d-flex flex-column align-items-start'>
                     {icon}
-                    <div className='small mt-2'>{title}</div>
+                    <div className='small mt-2 text-truncate'>{title}</div>
                 </div>
             </div>
         )

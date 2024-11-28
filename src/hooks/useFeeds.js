@@ -7,6 +7,7 @@ import { BsGrid3X3GapFill } from "react-icons/bs";
 import { toast } from 'react-toastify';
 
 import { square_stream_api } from "../api/square_api";
+import square_api from "../api/square_api";
 
 const FeedsContext = createContext();
 
@@ -28,6 +29,8 @@ const GRIDS = [
 const BUTTON_TEXT = {
     ADD: 'Add',
     ADDING: 'Adding...',
+    UPDATE: 'Update',
+    UPDATING: 'Updating...',
 };
 
 export const FeedsProvider = ({ children }) => {
@@ -37,7 +40,6 @@ export const FeedsProvider = ({ children }) => {
         grid: 0,
         inputName: '',
         rtspUrl: '',
-        cameraType: null,
     });
 
     const [feeds, setFeeds] = useState([
@@ -55,10 +57,11 @@ export const FeedsProvider = ({ children }) => {
     const [showCameraModal, setShowCameraModal] = useState(false);
     const [capturedCameras, setCapturedCameras] = useState([]);
     const [currentCamera, setCurrentCamera] = useState(null);
+    const [editCamera, setEditCamera] = useState(null);
 
 
     const { grid, gridDims } = state;
-    const { inputName, rtspUrl, cameraType } = state;
+    const { inputName, rtspUrl } = state;
 
     const updateState = (newState) => {
         setState(prevState => ({ ...prevState, ...newState }));
@@ -125,6 +128,51 @@ export const FeedsProvider = ({ children }) => {
         }
     };
 
+    const addCamera = async (camera_name, rtsp_url, location_id) => {
+        const payload = {
+            camera_name: camera_name,
+            rtsp_url: rtsp_url,
+            location_id: location_id,
+        }
+        const response = await square_api.post('/cameras/create', payload);
+
+        if (response.status === 201) { // 201 = CREATED
+            return response.data;
+        } else {
+            return false;
+        }
+    };
+
+    const updateCamera = async (camera_name, rtsp_url, camera_id) => {
+        const payload = {
+            camera_id: camera_id,
+            camera_name: camera_name,
+            rtsp_url: rtsp_url
+        }
+        const response = await square_api.post('/cameras/update', payload);
+
+        if (response.status === 200) { // 200 = OK
+            return response.data;
+        } else {
+            return false;
+        }
+    };
+
+
+    const deleteCamera = async (camera_id) => {
+        const payload = {
+            camera_id: camera_id
+        }
+        const response = await square_api.post('/cameras/delete', payload);
+
+        if (response.status === 200) { // 200 = OK
+            return response.data;
+        } else {
+            return false;
+        }
+    };
+
+
     const toggleCameraModal = () => setShowCameraModal(!showCameraModal);
     const handleCameraClick = (index) => setCurrentCamera(index);
 
@@ -139,7 +187,6 @@ export const FeedsProvider = ({ children }) => {
             grid,
             inputName,
             rtspUrl,
-            cameraType,
             updateState,
             handleToast,
             handleChange,
@@ -155,9 +202,14 @@ export const FeedsProvider = ({ children }) => {
             capturedCameras,
             setCapturedCameras,
             currentCamera,
-            handleCameraClick
+            handleCameraClick,
+            addCamera,
+            updateCamera,
+            deleteCamera,
+            editCamera,
+            setEditCamera,
         }),
-        [state, feeds, showCameraModal, capturedCameras, currentCamera]
+        [state, feeds, showCameraModal, capturedCameras, currentCamera, editCamera]
     );
     return <FeedsContext.Provider value={value}>{children}</FeedsContext.Provider>;
 };

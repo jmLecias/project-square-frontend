@@ -51,7 +51,8 @@ const LocationPage = () => {
         updateState,
         feeds,
         toggleCameraModal,
-        showCameraModal
+        showCameraModal,
+        editCamera
     } = useFeeds();
     const {
         reload,
@@ -196,7 +197,8 @@ const LocationPage = () => {
             <CameraModal 
                 show={showCameraModal}
                 onClose={toggleCameraModal}
-                camera={null}
+                camera={editCamera}
+                location={location}
             />
 
             <ContentContainer
