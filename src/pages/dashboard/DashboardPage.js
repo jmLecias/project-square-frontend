@@ -139,11 +139,11 @@ const DashboardPage = () => {
     const BarItem = ({ icon, title, value }) => {
         return (
             <div className='dashboard-bar-item'>
-                <div className='d-flex align-items-center'>
+                <div className='value'>{value}</div>
+                <div className='d-flex flex-column align-items-start'>
                     {icon}
-                    <div className='small ms-3'>{title}</div>
+                    <div className='small mt-2'>{title}</div>
                 </div>
-                <div className='value d-flex justify-content-end'>{value}</div>
             </div>
         )
     };
@@ -166,14 +166,13 @@ const DashboardPage = () => {
             <>
                 {recentDetections.map((detection, index) => {
                     return (
-                        <List.Item
+                        <div
                             className='dashboard-detection-item'
                             key={index}
-                            onClick={() => { }}
                         >
                             <div
                                 className='square-item-cover my-auto'
-                                style={{ width: '60px', borderRadius: '5px', marginLeft: '1rem'}}
+                                style={{ width: '60px', borderRadius: '5px', marginLeft: '1.5rem' }}
                             >
                                 <img
                                     src={squareApiBaseUrl + "/face/detected-face/" + encodeURIComponent(detection.path)}
@@ -191,11 +190,11 @@ const DashboardPage = () => {
                                 >{detection.datetime}</span>
                             </div>
 
-                        </List.Item>
+                        </div>
 
                     )
                 })}
-                
+
             </>
         );
     };
@@ -235,7 +234,7 @@ const DashboardPage = () => {
                     </div>
                     <div className='dashboard-content-topright-area'>
                         <div className='dashboard-section-highlight custom-scrollbar'>
-                            <div className='fs-6 fw-bold mb-3'>Your recent detections</div>
+                            <div className='fs-6 p-3' style={{fontWeight: '500'}}>Your recent detections</div>
                             {renderRecentDetections()}
                         </div>
                     </div>
