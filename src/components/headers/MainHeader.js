@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Dropdown, Avatar, IconButton } from 'rsuite';
+import { Dropdown, IconButton } from 'rsuite';
 // import Dropdown from '../dropdowns/Dropdown';
 
 import { IoMdAdd } from "react-icons/io";

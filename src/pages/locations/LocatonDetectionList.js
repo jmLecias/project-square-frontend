@@ -40,12 +40,12 @@ const LocationDetectionList = ({ detections }) => {
         <div className='list-container custom-scrollbar-hidden' style={{ height: `${gridDims.height}px` }}>
             <div className="list-container-header">
                 <div className='fw-bold unselectable mb-2'>Detections Today</div>
-                <div className="detection-types-flex">
+                {/* <div className="detection-types-flex">
                     <DetectionTypes type="All" />
                     <DetectionTypes type="Inbound" />
                     <DetectionTypes type="Outbound" />
                     <DetectionTypes type="Unknown" />
-                </div>
+                </div> */}
             </div>
             <div style={{ padding: '1rem' }}>
                 {isScanning && (<DetectingLoadingItem />)}

@@ -6,7 +6,7 @@ import { FaArrowRight } from "react-icons/fa";
 import { useRecognize } from '../../hooks/useRecognize';
 
 const RecognizedItem = ({ id }) => {
-    const { getDetection, isScanningOff} = useRecognize();
+    const { getDetection, isScanningOff } = useRecognize();
 
     const [detection, setDetection] = useState(null);
 
@@ -41,7 +41,6 @@ const RecognizedItem = ({ id }) => {
                 </div>
             </div>
             <div className='details ms-2 d-flex flex-column justify-content-center'>
-
                 <span
                     className='item-name fw-bold text-truncate'
                     style={{ fontSize: '1.1  rem' }}

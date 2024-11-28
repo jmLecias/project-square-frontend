@@ -59,6 +59,18 @@ import { FeedsProvider } from './hooks/useFeeds.js';
 import { IdentityProvider } from './hooks/useIdentity.js';
 import { RecordsProvider } from './hooks/useRecords.js';
 
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+} from "chart.js";
+
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
+
 function App() {
   return (
     <Router>

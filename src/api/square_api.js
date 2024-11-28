@@ -9,7 +9,13 @@ import axios from 'axios';
 // const flaskURL = `http://${((serverIp !== '') ? serverIp : 'localhost')}`;
 
 const flaskURL = `https://api.official-square.site`;
+
 const squareApiBaseUrl = flaskURL;
+const streamerBaseUrl = 'http://127.0.0.1:5000';
+
+const square_stream_api = axios.create({
+    baseURL: streamerBaseUrl,
+});
 
 const square_api = axios.create({
     baseURL: squareApiBaseUrl,
@@ -31,4 +37,4 @@ square_api.interceptors.response.use(
 );
 
 export default square_api;
-export { squareApiBaseUrl };
+export { squareApiBaseUrl, square_stream_api };

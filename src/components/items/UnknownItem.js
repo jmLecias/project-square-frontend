@@ -41,6 +41,15 @@ const UnknownItem = ({ id }) => {
                 </div>
             </div>
             <div className='details ms-2 d-flex flex-column justify-content-center'>
+
+                {/* {detection.type && (
+                    <span
+                        className='item-name fw-bold text-truncate'
+                        style={{ fontSize: '0.8  rem' }}
+                        title={detection.type}
+                    >{detection.type}</span>
+                )} */}
+
                 <span
                     className='item-name fw-bold text-truncate'
                     style={{ fontSize: '1.1  rem' }}

@@ -1,17 +1,19 @@
 import React from 'react';
 
 import { TbCaptureFilled } from "react-icons/tb";
-import { FaRegCirclePause } from "react-icons/fa6";
+import { FaRegPlayCircle } from "react-icons/fa";
 
 import { useFeeds } from '../../hooks/useFeeds';
 import { useRecognize } from '../../hooks/useRecognize';
 
-const FeedsActionBar = ({location, group}) => {
+const FeedsActionBar = ({ location, group, cameras }) => {
     const {
         grid,
         GRIDS,
         onGridChangeClick,
-        ICON_SIZE
+        ICON_SIZE,
+        streamCameras,
+        handleToast
     } = useFeeds();
     const {
         handleScan,
@@ -21,20 +23,28 @@ const FeedsActionBar = ({location, group}) => {
         <div className='action-bar-container'>
             <div
                 className='action-icons'
-                title='Pause'
-                onClick={() => {}}
+                title='Initialize Cameras'
+                onClick={() => {
+                    streamCameras(cameras)
+                        .then((res) => {
+                            handleToast(res.message, 'info');
+                        })
+                        .catch((e) => {
+                            handleToast("Error while initializing cameras. \n Make sure to run the streamer app locally!", 'error');
+                        })
+                }}
             >
-                <FaRegCirclePause size={ICON_SIZE + 2} />
+                <FaRegPlayCircle size={ICON_SIZE + 2} />
             </div>
-            <div
+            {/* <div
                 className='action-icons'
                 title='Detect'
                 onClick={() => {
-                    handleScan(location.id, group.id);
+                    // handleScan(location.id, group.id);
                 }}
             >
                 <TbCaptureFilled size={ICON_SIZE + 2} />
-            </div>
+            </div> */}
             <div
                 className='action-icons'
                 title='Grid Layout'

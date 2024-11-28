@@ -6,12 +6,16 @@ import MainContainer from '../../components/containers/MainContainer';
 import MainBreadcrumbs from '../../components/tabs/MainBreadcrumbs';
 import ContentContainer from '../../components/containers/ContentContainer';
 
-import WebcamFeed from '../../components/feeds/WebcamFeed';
-import RtspFeed from '../../components/feeds/RtspFeed';
+import { AiOutlineVideoCameraAdd } from "react-icons/ai";
+
+import CameraFeed from '../../components/feeds/CameraFeed';
 
 import FeedsActionBar from '../../components/bars/FeedsActionBar';
 import CameraItem from '../../components/items/CameraItem';
 import LocationDetectionList from './LocatonDetectionList';
+import SectionHeader from './../../components/headers/SectionHeader';
+
+import CameraModal from '../../components/modals/CameraModal';
 
 import { useParams } from 'react-router-dom';
 import { useRecognize } from '../../hooks/useRecognize';
@@ -23,10 +27,6 @@ import { useLocation } from '../../hooks/useLocation';
 const CAMERAS = [
     { name: "Camera 1", ip: "192.168.254.106" },
     { name: "Camera 2", ip: "192.168.254.107" },
-    { name: "Camera 3", ip: "192.168.254.108" },
-    { name: "Camera 1", ip: "192.168.254.106" },
-    { name: "Camera 2", ip: "192.168.254.107" },
-    { name: "Camera 3", ip: "192.168.254.108" },
 ];
 
 const LocationPage = () => {
@@ -35,13 +35,13 @@ const LocationPage = () => {
 
     const [group, setGroup] = useState(null);
     const [location, setLocation] = useState(null);
-    // const [cameras, setCameras] = useState(CAMERAS);
+    const [cameras, setCameras] = useState([]);
     const [detections, setDetections] = useState([]);
 
     const { setBreadcrumbs, clearBreadcrumbs } = useBreadcrumbs();
     const {
         // isScanning,
-        videoRef,
+        // videoRef,
         isScanningOff,
         handleToast
     } = useRecognize();
@@ -49,13 +49,14 @@ const LocationPage = () => {
         GRIDS,
         grid,
         updateState,
-        renderEmptySlots
+        feeds,
+        toggleCameraModal,
+        showCameraModal
     } = useFeeds();
     const {
         reload,
-        getLocationCameras
+        getLocationCameras,
     } = useLocation();
-
 
 
     useEffect(() => {
@@ -65,7 +66,7 @@ const LocationPage = () => {
             getLocationCameras(id).then((res) => {
                 setGroup(res.group);
                 setLocation(res.location);
-                // setCameras(res.cameras);
+                setCameras(res.cameras);
                 setDetections(res.detections);
                 handleBreadcrumbs(res.group, res.location);
                 isFetching = false;
@@ -78,7 +79,7 @@ const LocationPage = () => {
         return () => {
             setGroup(null);
             setLocation(null);
-            // setCameras([]);
+            setCameras([]);
             setDetections([]);
         };
     }, [id, reload]);
@@ -163,21 +164,9 @@ const LocationPage = () => {
         ]);
     };
 
-
-    // const handleDetectChange = (detected) => {
-    //     // Only starts scan when detections changes and greater than 0
-    //     // Only starts when a previous scan ends
-    //     // To prevent loop call to BACKEND
-    //     if (
-    //         detected > 0 && !isScanning
-    //     ) {
-    //         // handleScan(); // Start detection and recognition
-    //     }
-    // };
-
     const renderCameras = () => {
         return (
-            CAMERAS.map((camera, index) => {
+            cameras.map((camera, index) => {
                 return (
                     <CameraItem
                         key={index}
@@ -188,27 +177,60 @@ const LocationPage = () => {
         );
     };
 
+    const renderFeeds = () => {
+        return (
+            feeds.map((feed, index) => {
+                return (
+                    <CameraFeed
+                        key={index}
+                        index={index}
+                        feed={feed}
+                    />
+                )
+            })
+        );
+    };
+
     return (
         <MainContainer>
+            <CameraModal 
+                show={showCameraModal}
+                onClose={toggleCameraModal}
+                camera={null}
+            />
+
             <ContentContainer
                 header={<MainBreadcrumbs />}
             >
                 <div className='location-container'>
                     <div className='location-live-area custom-scrollbar-hidden' >
                         <div className={`feeds-grid ${GRIDS[grid].name}`} style={{ marginBottom: '1rem' }}>
-                            <WebcamFeed
-                                videoRef={videoRef}
-                            />
-                            {/* <RtspFeed/> */}
-                            {renderEmptySlots()}
+                            {renderFeeds()}
                         </div>
-                        <FeedsActionBar location={location} group={group} />
+                        <FeedsActionBar location={location} group={group} cameras={cameras}/>
                     </div>
 
                     <div className='location-cameras-area'>
-                        <div className='fw-bold unselectable mb-3'>Cameras</div>
+                        <SectionHeader
+                            title={"Cameras"}
+                            actions={
+                                <>
+                                    <button
+                                        className='main-button'
+                                        onClick={toggleCameraModal}
+                                        style={{ padding: '8px 15px'}}
+                                    >
+                                        <AiOutlineVideoCameraAdd className='me-2' size={20} />
+                                        Add Camera
+                                    </button>
+                                </>
+                            }
+                        />
                         <div className='cameras-grid-display'>
                             {renderCameras()}
+                            {cameras.length === 0 && (
+                                <div>No cameras added yet</div>
+                            )}
                         </div>
                     </div>
 
