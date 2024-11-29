@@ -46,8 +46,8 @@ const LandingPage = () => {
                                     <br /><span style={{ color: 'var(--primary-color)' }}>Remembering</span> Entities
                                 </div>
                                 <div className='landing-text' style={{ fontWeight: '100' }}>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                                </div>
+                                    Seamlessly protect and manage access with cutting-edge face detection and recognition technology.
+                                    Your security starts here—register today!                                </div>
                                 <div className='d-flex flex-column w-50 align-items-center '>
                                     <button
                                         title='Register an account'

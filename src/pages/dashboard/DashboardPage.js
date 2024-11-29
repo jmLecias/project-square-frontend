@@ -149,17 +149,110 @@ const DashboardPage = () => {
     };
 
     const recentDetections = [
-        { path: "path", location: "location name", datetime: "Thu, 28 Nov 2024 15:40:58 GMT" },
-        { path: "path", location: "location name", datetime: "Thu, 28 Nov 2024 15:40:58 GMT" },
-        { path: "path", location: "location name", datetime: "Thu, 28 Nov 2024 15:40:58 GMT" },
-        { path: "path", location: "location name", datetime: "Thu, 28 Nov 2024 15:40:58 GMT" },
-        { path: "path", location: "location name", datetime: "Thu, 28 Nov 2024 15:40:58 GMT" },
-        { path: "path", location: "location name", datetime: "Thu, 28 Nov 2024 15:40:58 GMT" },
-        { path: "path", location: "location name", datetime: "Thu, 28 Nov 2024 15:40:58 GMT" },
-        { path: "path", location: "location name", datetime: "Thu, 28 Nov 2024 15:40:58 GMT" },
-        { path: "path", location: "location name", datetime: "Thu, 28 Nov 2024 15:40:58 GMT" },
-        { path: "path", location: "location name", datetime: "Thu, 28 Nov 2024 15:40:58 GMT" },
-    ]
+        {
+            "id": 1082,
+            "datetime": "2024-11-29 02:59:26",
+            "type_id": null,
+            "location": "John Mark's Location",
+            "user_id": 50,
+            "confidence": 89.5,
+            "origin_path": "faces/captures/2024-11-28T185925.5398860000_location_21.png",
+            "detected_path": "faces/detections/face_1(2024-11-28T185925.5398860000_location_21.png)-1732820368.jpg",
+            "status_id": 2,
+            "identity_key": "ffaa7972-0ccd-44e4-84d5-e80e2771fd31"
+        },
+        {
+            "id": 1086,
+            "datetime": "2024-11-29 03:11:11",
+            "type_id": null,
+            "location_id": 21,
+            "location": "John Mark's Location",
+            "user_id": 50,
+            "confidence": 88.25,
+            "origin_path": "faces/captures/2024-11-28T191110.8810560000_location_21.png",
+            "detected_path": "faces/detections/face_1(2024-11-28T191110.8810560000_location_21.png)-1732821073.jpg",
+            "status_id": 2,
+            "identity_key": "ffaa7972-0ccd-44e4-84d5-e80e2771fd31"
+        },
+        {
+            "id": 1087,
+            "datetime": "2024-11-29 03:11:16",
+            "type_id": null,
+            "location_id": 21,
+            "location": "John Mark's Location",
+            "user_id": 50,
+            "confidence": 88.44,
+            "origin_path": "faces/captures/2024-11-28T191115.9020620000_location_21.png",
+            "detected_path": "faces/detections/face_1(2024-11-28T191115.9020620000_location_21.png)-1732821078.jpg",
+            "status_id": 2,
+            "identity_key": "ffaa7972-0ccd-44e4-84d5-e80e2771fd31"
+        },
+        {
+            "id": 1092,
+            "datetime": "2024-11-29 03:17:55",
+            "type_id": null,
+            "location_id": 21,
+            "location": "John Mark's Location",
+            "user_id": 50,
+            "confidence": 89.32,
+            "origin_path": "faces/captures/2024-11-28T191755.3584550000_location_21.png",
+            "detected_path": "faces/detections/face_1(2024-11-28T191755.3584550000_location_21.png)-1732821478.jpg",
+            "status_id": 2,
+            "identity_key": "ffaa7972-0ccd-44e4-84d5-e80e2771fd31"
+        },
+        {
+            "id": 1102,
+            "datetime": "2024-11-29 03:18:53",
+            "type_id": null,
+            "location_id": 21,
+            "location": "John Mark's Location",
+            "user_id": 50,
+            "confidence": 76.94,
+            "origin_path": "faces/captures/2024-11-28T191853.3134620000_location_21.png",
+            "detected_path": "faces/detections/face_1(2024-11-28T191853.3134620000_location_21.png)-1732821535.jpg",
+            "status_id": 2,
+            "identity_key": "ffaa7972-0ccd-44e4-84d5-e80e2771fd31"
+        },
+        {
+            "id": 1103,
+            "datetime": "2024-11-29 03:18:58",
+            "type_id": null,
+            "location_id": 21,
+            "location": "John Mark's Location",
+            "user_id": 50,
+            "confidence": 87.63,
+            "origin_path": "faces/captures/2024-11-28T191858.3374540000_location_21.png",
+            "detected_path": "faces/detections/face_1(2024-11-28T191858.3374540000_location_21.png)-1732821541.jpg",
+            "status_id": 2,
+            "identity_key": "ffaa7972-0ccd-44e4-84d5-e80e2771fd31"
+        },
+        {
+            "id": 1104,
+            "datetime": "2024-11-29 03:19:03",
+            "type_id": null,
+            "location_id": 21,
+            "location": "John Mark's Location",
+            "user_id": 50,
+            "confidence": 87.45,
+            "origin_path": "faces/captures/2024-11-28T191903.3584570000_location_21.png",
+            "detected_path": "faces/detections/face_1(2024-11-28T191903.3584570000_location_21.png)-1732821546.jpg",
+            "status_id": 2,
+            "identity_key": "ffaa7972-0ccd-44e4-84d5-e80e2771fd31"
+        },
+        {
+            "id": 1105,
+            "datetime": "2024-11-29 03:19:08",
+            "type_id": null,
+            "location_id": 21,
+            "location": "John Mark's Location",
+            "user_id": 50,
+            "confidence": 88.84,
+            "origin_path": "faces/captures/2024-11-28T191908.4734600000_location_21.png",
+            "detected_path": "faces/detections/face_1(2024-11-28T191908.4734600000_location_21.png)-1732821551.jpg",
+            "status_id": 2,
+            "identity_key": "ffaa7972-0ccd-44e4-84d5-e80e2771fd31"
+        }
+    ];
 
     const renderRecentDetections = () => {
         return (
@@ -175,7 +268,7 @@ const DashboardPage = () => {
                                 style={{ width: '60px', borderRadius: '5px', marginLeft: '1.5rem' }}
                             >
                                 <img
-                                    src={squareApiBaseUrl + "/face/detected-face/" + encodeURIComponent(detection.path)}
+                                    src={squareApiBaseUrl + "/face/detected-face/" + encodeURIComponent(detection.detected_path)}
                                 />
                             </div>
                             <div className='ms-4 d-flex flex-column justify-content-center'>
@@ -234,7 +327,7 @@ const DashboardPage = () => {
                     </div>
                     <div className='dashboard-content-topright-area'>
                         <div className='dashboard-section-highlight custom-scrollbar'>
-                            <div className='fs-6 p-3' style={{fontWeight: '500'}}>Your recent detections</div>
+                            <div className='fs-6 p-3' style={{ fontWeight: '500' }}>Your recent detections</div>
                             {renderRecentDetections()}
                         </div>
                     </div>
