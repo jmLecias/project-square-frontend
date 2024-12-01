@@ -74,6 +74,11 @@
     margin-right: 2rem;
 }
 
+.modal-90w {
+    width: 50vw !important;
+    max-width: 90vw;
+}
+
 
 .dashboard-detection-item {
     display: flex;
@@ -110,4 +115,9 @@
         margin-right: 10px;
     }
 
+    .modal-90w {
+        width: 95vw !important;
+        max-width: 95vw;
+        margin: 0 auto;
+    }    
 }

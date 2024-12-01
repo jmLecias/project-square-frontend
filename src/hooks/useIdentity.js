@@ -47,13 +47,11 @@ export const IdentityProvider = ({ children }) => {
 
     const CAN_PROCEED_FACE = (
         firstName !== '' &&
-        middleName !== '' &&
         lastName !== ''
     );
 
     const CAN_PROCEED_VERIFY = (
         firstName !== '' &&
-        middleName !== '' &&
         lastName !== '' &&
         faces[0] !== null
     );

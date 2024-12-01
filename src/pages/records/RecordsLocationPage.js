@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Loader } from 'rsuite';
 import { useParams } from 'react-router-dom';
 
 import MainContainer from '../../components/containers/MainContainer';
@@ -56,36 +57,36 @@ const RecordsLocationPage = () => {
     };
 
     return (
-        <>
-            {(location && users) && (
-                <MainContainer>
-                    <ContentContainer
-                        header={<MainBreadcrumbs />}
-                    >
-                        <div className='records-container'>
-                            <div className='records-left-area'>
-                                <RecordsLocationDetectionsList
-                                    location={location}
-                                    currentUser={currentUser}
-                                />
-                            </div>
-                            <div className='records-right-area'>
-                                {/* {currentUser || location.owner_id !== user.id && (
+        <MainContainer>
+            {(location && users) ? (
+                <ContentContainer
+                    header={<MainBreadcrumbs />}
+                >
+                    <div className='records-container'>
+                        <div className='records-left-area'>
+                            <RecordsLocationDetectionsList
+                                location={location}
+                                currentUser={currentUser}
+                            />
+                        </div>
+                        <div className='records-right-area'>
+                            {/* {(currentUser || location.owner_id !== user.id) && (
                                     <RecordsDailyList />
                                 )} */}
-                                {location.owner_id === user.id && (
-                                    <RecordsLocationUsersList
-                                        users={users}
-                                        onUserChange={(user) => setCurrentUser(user)}
-                                        currentUser={currentUser}
-                                    />
-                                )}
-                            </div>
+                            {location.owner_id === user.id && (
+                                <RecordsLocationUsersList
+                                    users={users}
+                                    onUserChange={(user) => setCurrentUser(user)}
+                                    currentUser={currentUser}
+                                />
+                            )}
                         </div>
-                    </ContentContainer>
-                </MainContainer>
+                    </div>
+                </ContentContainer>
+            ) : (
+                <Loader center speed='slow' size='lg' />
             )}
-        </>
+        </MainContainer>
     );
 }
 

@@ -4,9 +4,11 @@ import Spinner from 'react-bootstrap/Spinner';
 
 import { useGroup } from "../../hooks/useGroup";
 import { useAuth } from "../../hooks/useAuth";
+import { useDashboard } from "../../hooks/useDashboard";
 
 const JoinGroupModal = ({ show, onClose }) => {
     const { user } = useAuth();
+    const { triggerReloadDashboard } = useDashboard();
 
     const {
         BUTTON_TEXT,
@@ -35,6 +37,7 @@ const JoinGroupModal = ({ show, onClose }) => {
             handleToast(error.response.data.error, 'error');
         } finally {
             triggerReloadGroups(); // Reloads the Groups page
+            triggerReloadDashboard(); // Reloads Dashboard page
             setButtonText(BUTTON_TEXT.JOIN);
             updateState({ inputCode: null,}); 
             handleClose();

@@ -7,12 +7,14 @@ import { squareApiBaseUrl } from '../../api/square_api';
 
 import { useRecords } from '../../hooks/useRecords';
 import { useAuth } from '../../hooks/useAuth';
+import { useDashboard } from '../../hooks/useDashboard';
 
 const { Column, HeaderCell, Cell } = Table;
 
 const RecordsUserDetectionsList = () => {
     const { getUserRecords } = useRecords();
     const { user } = useAuth();
+    const { handleDetectionClick } = useDashboard();
 
     const [data, setData] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
@@ -49,8 +51,9 @@ const RecordsUserDetectionsList = () => {
                         overflow: 'hidden',
                         display: 'inline-block',
                         border: '1px solid white',
-                        cursor: 'pointer',
+                        cursor: 'zoom-in',
                     }}
+                    onClick={() => handleDetectionClick(rowData.origin)}
                 >
                     <img
                         src={squareApiBaseUrl + "/face/detected-face/" + encodeURIComponent(rowData.detection)}

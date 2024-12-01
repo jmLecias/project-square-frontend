@@ -4,10 +4,12 @@ import MainSidebar from '../sidebars/MainSidebar';
 
 import CreateGroupModal from '../modals/CreateGroupModal';
 import JoinGroupModal from '../modals/JoinGroupModal';
+import OriginImageModal from '../modals/OriginImageModal';
 
 import { useAuth } from '../../hooks/useAuth';
 import { useIdentity } from '../../hooks/useIdentity';
 import { useGroup } from '../../hooks/useGroup';
+import { useDashboard } from '../../hooks/useDashboard';
 
 const MainContainer = ({ children }) => {
     const [width, setWidth] = useState(window.innerWidth);
@@ -20,6 +22,7 @@ const MainContainer = ({ children }) => {
     } = useGroup();
     const { user, logout } = useAuth();
     const { getIdentity, identity } = useIdentity();
+    const { originImg, setOriginImg } = useDashboard();
 
     let isFetching = false;
 
@@ -45,6 +48,11 @@ const MainContainer = ({ children }) => {
 
     return (
         <div className="main-container">
+            <OriginImageModal 
+                show={originImg}
+                onClose={() => setOriginImg(null)}
+            />
+            
             <CreateGroupModal
                 show={showCreateGroup}
                 onClose={toggleCreateGroup}
