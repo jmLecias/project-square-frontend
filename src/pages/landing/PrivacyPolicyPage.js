@@ -256,10 +256,10 @@ const PrivacyPolicyPage = () => {
                     <h1 className="heading">Contact Us</h1>
                     <p className="paragraph">If you have any questions about this Privacy Policy, You can contact us:</p>
                     <ul>
-                        <li><p className="list-item">By email: support@example.com</p></li>
-                        <li><p className="list-item">By visiting this page on our website: example.com/contact</p></li>
-                        <li><p className="list-item">By phone number: (123) 456-7890</p></li>
-                        <li><p className="list-item">By mail: 123 Privacy St., City, Country</p></li>
+                        <li><p className="list-item">Security Using AI Remembering Entities</p></li>
+                        <li><p className="list-item">Paterno St, Tacloban City, Leyte 6500, Philippines</p></li>
+                        <li><p className="list-item">Phone: +639064787600</p></li>
+                        <li><p className="list-item">2100892@lnu.edu.ph</p></li>
                     </ul>
 
                 </div>

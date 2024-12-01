@@ -32,8 +32,7 @@ const JoinGroupModal = ({ show, onClose }) => {
             const group = await joinGroup(inputCode.trim(), user.id);
             handleToast(`Joined "${group.name}" group successfully`, 'success');
         } catch (error) {
-            console.error(error);
-            handleToast(error.message, 'error');
+            handleToast(error.response.data.error, 'error');
         } finally {
             triggerReloadGroups(); // Reloads the Groups page
             setButtonText(BUTTON_TEXT.JOIN);

@@ -70,9 +70,9 @@ const RecordsLocationPage = () => {
                                 />
                             </div>
                             <div className='records-right-area'>
-                                {currentUser || location.owner_id !== user.id && (
+                                {/* {currentUser || location.owner_id !== user.id && (
                                     <RecordsDailyList />
-                                )}
+                                )} */}
                                 {location.owner_id === user.id && (
                                     <RecordsLocationUsersList
                                         users={users}

@@ -33,8 +33,7 @@ const CreateGroupModal = ({ show, onClose }) => {
             const group = await createGroup(inputName.trim(), user.id);
             handleToast(`Group "${group.name}" created successfully`, 'success');
         } catch (error) {
-            console.error(error);
-            handleToast(error.message, 'error');
+            handleToast(error.response.data.error, 'error');
         } finally {
             triggerReloadGroups(); // Reloads the Groups page
             setButtonText(BUTTON_TEXT.CREATE);
