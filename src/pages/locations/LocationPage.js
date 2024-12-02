@@ -7,6 +7,8 @@ import MainBreadcrumbs from '../../components/tabs/MainBreadcrumbs';
 import ContentContainer from '../../components/containers/ContentContainer';
 
 import { AiOutlineVideoCameraAdd } from "react-icons/ai";
+import { IoSettingsSharp } from "react-icons/io5";
+import { FaChevronRight } from "react-icons/fa";
 
 import CameraFeed from '../../components/feeds/CameraFeed';
 
@@ -16,6 +18,7 @@ import LocationDetectionList from './LocatonDetectionList';
 import SectionHeader from './../../components/headers/SectionHeader';
 
 import CameraModal from '../../components/modals/CameraModal';
+import LocationModal from '../../components/modals/LocationModal';
 
 import { useParams } from 'react-router-dom';
 import { useRecognize } from '../../hooks/useRecognize';
@@ -60,7 +63,11 @@ const LocationPage = () => {
     const {
         reload,
         getLocationCameras,
-        getLocationDetections
+        getLocationDetections,
+        toggleCreateLocation,
+        showCreateLocation,
+        editLocation,
+        setEditLocation,
     } = useLocation();
 
     const fetchDetections = async (pageNumber) => {
@@ -96,7 +103,7 @@ const LocationPage = () => {
                 setDetections(res.detections);
                 handleBreadcrumbs(res.group, res.location);
                 isFetching = false;
-                
+
                 // Initial face detections
                 // fetchDetections(1);
             }).catch((e) => {
@@ -193,6 +200,11 @@ const LocationPage = () => {
         ]);
     };
 
+    const handleEditLocationClick = () => {
+        setEditLocation(location);
+        toggleCreateLocation();
+    }
+
     const renderCameras = () => {
         return (
             cameras.map((camera, index) => {
@@ -222,7 +234,14 @@ const LocationPage = () => {
 
     return (
         <MainContainer>
-            <CameraModal 
+            <LocationModal
+                show={showCreateLocation}
+                onClose={toggleCreateLocation}
+                group={group}
+                location={editLocation}
+            />
+
+            <CameraModal
                 show={showCameraModal}
                 onClose={toggleCameraModal}
                 camera={editCamera}
@@ -237,7 +256,7 @@ const LocationPage = () => {
                         <div className={`feeds-grid ${GRIDS[grid].name}`} style={{ marginBottom: '1rem' }}>
                             {renderFeeds()}
                         </div>
-                        <FeedsActionBar location={location} group={group} cameras={cameras}/>
+                        <FeedsActionBar location={location} group={group} cameras={cameras} />
                     </div>
 
                     <div className='location-cameras-area'>
@@ -248,7 +267,7 @@ const LocationPage = () => {
                                     <button
                                         className='main-button'
                                         onClick={toggleCameraModal}
-                                        style={{ padding: '8px 15px'}}
+                                        style={{ padding: '8px 15px' }}
                                     >
                                         <AiOutlineVideoCameraAdd className='me-2' size={20} />
                                         Add Camera
@@ -265,10 +284,18 @@ const LocationPage = () => {
                     </div>
 
                     <div className='location-list-area custom-scrollbar-hidden'>
-                        <LocationDetectionList 
-                            detections={detections} 
+                        <LocationDetectionList
+                            detections={detections}
                             onScrollBottom={() => fetchMoreDetections()}
                         />
+                        <div 
+                            className='location-edit-container'
+                            onClick={handleEditLocationClick}
+                        >   
+                            <IoSettingsSharp size={25} className='me-2'/>
+                            Location Settings
+                            <FaChevronRight className="float-end opacity-50" size={20} />
+                        </div>
                     </div>
                 </div>
 

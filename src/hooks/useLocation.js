@@ -8,6 +8,8 @@ const LocationContext = createContext();
 const BUTTON_TEXT = {
     CREATE: 'Create',
     CREATING: 'Creating...',
+    UPDATE: 'Update',
+    UPDATING: 'Updating...',
 };
 
 const TOAST_CONFIG = {
@@ -29,6 +31,7 @@ export const LocationProvider = ({ children }) => {
         showCreateLocation: false,
     });
 
+    const [editLocation, setEditLocation] = useState(null);
 
     const { inputName, inputErrors } = state;
     const { showCreateLocation } = state;
@@ -93,6 +96,20 @@ export const LocationProvider = ({ children }) => {
         }
     };
 
+    const updateLocation = async (location_name, location_id) => {
+        const payload = {
+            location_id: location_id,
+            location_name: location_name,
+        }
+        const response = await square_api.post('/locations/update', payload);
+
+        if (response.status === 200) { // 200 = OK
+            return response.data;
+        } else {
+            return false;
+        }
+    };
+
     const deleteLocation = async (location_id, owner_password) => {
         const credentials = {
             location_id: location_id,
@@ -119,16 +136,19 @@ export const LocationProvider = ({ children }) => {
             inputErrors,
             BUTTON_TEXT,
             createLocation,
-            deleteLocation ,
+            updateLocation,
+            deleteLocation,
             getGroupLocations,
             showCreateLocation,
             toggleCreateLocation,
             reload,
             triggerReloadLocation,
             getLocationCameras,
-            getLocationDetections
+            getLocationDetections,
+            editLocation,
+            setEditLocation,
         }),
-        [state, reload]
+        [state, reload, editLocation]
     );
     return <LocationContext.Provider value={value}>{children}</LocationContext.Provider>;
 };

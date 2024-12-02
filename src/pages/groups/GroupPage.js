@@ -12,7 +12,7 @@ import GroupIndex from './GroupIndex';
 import GroupSettings from './GroupSettings';
 import GroupMembers from './GroupMembers';
 
-import CreateLocationModal from '../../components/modals/CreateLocationModal';
+import LocationModal from '../../components/modals/LocationModal';
 
 import { useLocation } from '../../hooks/useLocation'
 // import { useRecognize } from '../../hooks/useRecognize';
@@ -84,7 +84,7 @@ const GroupPage = ({ content }) => {
 
     return (
         <>
-            <CreateLocationModal
+            <LocationModal
                 show={showCreateLocation}
                 onClose={toggleCreateLocation}
                 group={group}

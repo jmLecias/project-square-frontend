@@ -1,13 +1,12 @@
 import React, { useEffect } from 'react';
 
-import { LuScanFace } from "react-icons/lu";
 import { IoClose } from "react-icons/io5";
 
 import ImageDropzone from '../../components/dropzones/ImageDropzone';
 
 import { useIdentity } from '../../hooks/useIdentity';
 
-const IdentityFace = () => {
+const IdentityFace = ({ faceImages }) => {
 
     const {
         toggleCamera,
@@ -29,7 +28,7 @@ const IdentityFace = () => {
     useEffect(() => {
         if (!CAN_PROCEED_FACE) {
             setCurrentStep(0);
-        }   
+        }
     }, []);
 
     const handleImageDrop = (images) => {
@@ -59,7 +58,7 @@ const IdentityFace = () => {
                 onClick={() => handleFaceImageclick(index)}
             >
                 <img src={facePreviews[index]} />
-                {hasSrc && ( <IoClose size={20} className='face-image-close-btn' onClick={() => deletePhoto(index)}/>)}
+                {hasSrc && (<IoClose size={20} className='face-image-close-btn' onClick={() => deletePhoto(index)} />)}
             </div>
         )
     };
@@ -67,10 +66,12 @@ const IdentityFace = () => {
 
     return (
         <>
-            <div className='step-header-area'>
-                <div className='fs-6'>Step 2 out of 4</div>
-                <div className='step-title' >Face Images</div>
-            </div>
+            {!faceImages && (
+                <div className='step-header-area'>
+                    <div className='fs-6'>Step 2 out of 4</div>
+                    <div className='step-title' >Face Images</div>
+                </div>
+            )}
             <div className='step-left-area'>
                 <div className='face-selection-grid'>
                     <div className='face-selection-default-area'>
@@ -97,21 +98,33 @@ const IdentityFace = () => {
                     </div>
                 </div>
 
-                <div className='d-flex align-items-center mt-5'>
+                {!faceImages && (
+                    <div className='d-flex align-items-center mt-5'>
+                        <button
+                            className='main-button me-4'
+                            onClick={onStepBackClick}
+                        >
+                            Back
+                        </button>
+                        <button
+                            className='main-button'
+                            disabled={!CAN_PROCEED_VERIFY}
+                            onClick={onStepNextClick}
+                        >
+                            Next
+                        </button>
+                    </div>
+                )}
+                {faceImages && (
                     <button
-                        className='main-button me-4'
-                        onClick={onStepBackClick}
+                        className='main-button mt-5'
+                        style={{width: 'fit-content'}}
+                        disabled={false}
+                        onClick={() => {}}
                     >
-                        Back
+                        Save Changes
                     </button>
-                    <button
-                        className='main-button'
-                        disabled={!CAN_PROCEED_VERIFY}
-                        onClick={onStepNextClick}
-                    >
-                        Next
-                    </button>
-                </div>
+                )}
             </div>
 
             <div className='step-right-area'>

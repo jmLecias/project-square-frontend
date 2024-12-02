@@ -6,21 +6,6 @@ import { useLocation } from "../../hooks/useLocation";
 import { useFeeds } from "../../hooks/useFeeds";
 
 
-const CAMERA_TYPES = [
-    {
-        id: null,
-        type_name: 'None',
-    },
-    {
-        id: 1,
-        type_name: 'Entrance',
-    },
-    {
-        id: 2,
-        type_name: 'Exit',
-    }
-]
-
 const CameraModal = ({ show, onClose, camera, location }) => {
 
     const {
@@ -35,7 +20,7 @@ const CameraModal = ({ show, onClose, camera, location }) => {
         updateCamera
     } = useFeeds();
     const {
-        triggerReloadLocation
+        triggerReloadLocation,
     } = useLocation();
 
     const [buttonText, setButtonText] = useState((camera)? BUTTON_TEXT.UPDATE : BUTTON_TEXT.ADD);
@@ -131,7 +116,7 @@ const CameraModal = ({ show, onClose, camera, location }) => {
                     disabled={buttonText === BUTTON_TEXT.ADDING || buttonText === BUTTON_TEXT.UPDATING}
                     onClick={() => { handleSubmit() }}
                 >
-                    {buttonText === BUTTON_TEXT.ADDING && <Spinner size='sm' variant="light" />}
+                    {(buttonText === BUTTON_TEXT.ADDING || buttonText === BUTTON_TEXT.UPDATING) && <Spinner size='sm' variant="light" />}
                     <span className='text-white ms-2'>{buttonText}</span>
                 </button>
             </Modal.Body>

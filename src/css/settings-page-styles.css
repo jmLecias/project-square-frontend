@@ -7,14 +7,31 @@
 }
 
 .settings-section {
-    padding: 1rem 2rem;
+    padding: 2rem;
     background-color: var(--background-semi-dark);
     border-radius: 10px;
+    margin-top: 30px;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 50% 50%;
+    grid-template-rows: auto;
+    grid-template-areas:
+        "left right";
+    gap: 1rem;
+}
+
+.settings-section-left-area {
+    grid-area: left;
+}
+
+.settings-section-right-area {
+    grid-area: right;
 }
 
 .user-default-profile-div {
     aspect-ratio: 1 / 1;
-    width: 125px;
+    width: 40%;
+    max-width: 300px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -26,4 +43,24 @@
 .user-default-profile-div img {
     width: 100%;
     object-fit: contain;
+}
+
+.user-info-container {
+    width: 100%;
+    display: flex;
+    align-items: start;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+@media (max-width: 800px) { 
+    .settings-section {
+        padding: 1rem;
+        grid-template-columns: 100%;
+        grid-template-rows: auto auto;
+        grid-template-areas:
+            "left"
+            "right";
+        margin-bottom: 1rem;
+    }    
 }

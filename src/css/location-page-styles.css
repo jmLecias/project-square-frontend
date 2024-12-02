@@ -161,6 +161,17 @@
     gap: 5px;
 }
 
+.location-edit-container {
+    width: 100%;
+    padding: 1rem;
+    cursor: pointer;
+    background-color: var(--background-semi-dark);
+    color: var(--background-light);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-top: 1rem;
+}
+
 
 @media (max-width: 800px) {
     .location-container {

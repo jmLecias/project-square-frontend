@@ -13,13 +13,14 @@ import { useAuth } from "../../hooks/useAuth";
 import { useGroup } from '../../hooks/useGroup';
 import { useSidebar } from '../../hooks/useSidebar';
 import { useRecognize } from '../../hooks/useRecognize';
-import { useIdentity } from '../../hooks/useIdentity';
+import { useSettings } from '../../hooks/useSettings';
 
 const MainHeader = ({ text }) => {
     const { user, logout } = useAuth();
     const { toggleCreateGroup, toggleJoinGroup } = useGroup();
     const { isScanning } = useRecognize();
     const { toggleCollapse } = useSidebar();
+    const { getUserFullname } = useSettings();
 
     const navigate = useNavigate();
 
@@ -60,7 +61,7 @@ const MainHeader = ({ text }) => {
                 <Dropdown renderToggle={renderToggle} placement="bottomEnd" className='ms-2'>
                     <Dropdown.Item panel style={{ padding: 10, color: 'var(--background-dark)' }}>
                         <p className='small'>Signed in as</p>
-                        <strong>{user.name}</strong>
+                        <strong>{getUserFullname()}</strong>
                         <p> {user.email}</p>
                     </Dropdown.Item>
                     <Dropdown.Separator />
