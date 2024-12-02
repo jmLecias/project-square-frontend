@@ -10,8 +10,8 @@ const BarGraph = ({data}) => {
             {
                 label: "Detections",
                 data: data.data,
-                backgroundColor: "rgba(33, 123, 168, 0.5)",
-                borderColor: "rgba(56, 149, 195, 1)",
+                backgroundColor: "rgba(56, 149, 195)",
+                borderColor: "rgba(56, 149, 195)",
                 borderWidth: 1,
             },
         ],

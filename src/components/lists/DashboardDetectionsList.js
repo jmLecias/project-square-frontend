@@ -32,6 +32,11 @@ const DashboardDetectionsList = ({ detections }) => {
                             </div>
                             <div className='ms-4 d-flex flex-column justify-content-center'>
                                 <span
+                                    className='text-truncate'
+                                    style={{ fontSize: '12px' }}
+                                >{detection.group}</span>
+
+                                <span
                                     className='fw-bold text-truncate'
                                     style={{ fontSize: '1.1rem' }}
                                 >{detection.location}</span>

@@ -1,26 +1,21 @@
 import React from 'react';
 import { Line } from "react-chartjs-2";
 
-const LineGraph = () => {
+const LineGraph = ({ data }) => {
 
     // Data for Line Chart
     const lineData = {
-        labels: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+        labels: data[0].days,
         datasets: [
-            {
-                label: "Recognized",
-                data: [10, 15, 8, 12, 7],
-                borderColor: "rgba(33, 123, 168, 1)",
-                backgroundColor: "rgba(75, 192, 192, 0.2)",
-                tension: 0.4,
-            },
-            {
-                label: "Unknown",
-                data: [7, 10, 5, 9, 3],
-                borderColor: "rgba(201, 60, 86, 1)",
-                backgroundColor: "rgba(201, 60, 86, 0.2)",
-                tension: 0.4,
-            },
+            ...data.map((line) => {
+                return (
+                    {
+                        label: line.location,
+                        data: line.data,
+                        tension: 0.4,
+                    }
+                )
+            })
         ],
     };
 
@@ -34,7 +29,7 @@ const LineGraph = () => {
             },
             title: {
                 display: true,
-                text: "Weekly Data Overview",
+                text: "Last 7 days Created Location Detections Overview",
             },
         },
         scales: {
@@ -45,7 +40,7 @@ const LineGraph = () => {
     };
 
     return (
-        < Line data = { lineData } options = { options } />
+        < Line data={lineData} options={options} />
     )
 }
 

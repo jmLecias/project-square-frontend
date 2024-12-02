@@ -14,12 +14,15 @@ import BarGraph from '../../components/graphs/BarGraph';
 import LineGraph from '../../components/graphs/LineGraph';
 import DoughnutGraph from '../../components/graphs/DoughnutGraph';
 
+import { useNavigate } from 'react-router-dom';
 import { useDashboard } from '../../hooks/useDashboard';
 import { useAuth } from '../../hooks/useAuth';
 
 const DashboardPage = () => {
     const { getDashboardData, reload } = useDashboard();
     const { user } = useAuth();
+
+    const navigate = useNavigate();
 
     let isFetching = false;
 
@@ -48,13 +51,19 @@ const DashboardPage = () => {
 
 
 
-    const BarItem = ({ icon, title, value }) => {
+    const BarItem = ({ icon, title, value, onClick }) => {
         return (
-            <div className='dashboard-bar-item'>
+            <div 
+                className='dashboard-bar-item cursor-pointer' 
+                onClick={onClick}
+                title={title}
+            >
                 <div className='value'>{value}</div>
-                <div className='d-flex flex-column align-items-start'>
+                <div 
+                    className='d-flex flex-column align-items-start'
+                >
                     {icon}
-                    <div className='small mt-2 text-truncate'>{title}</div>
+                    <div className='title small mt-2 text-truncate'>{title}</div>
                 </div>
             </div>
         )
@@ -69,50 +78,53 @@ const DashboardPage = () => {
                 >
                     <div className='dashboard-content-area'>
                         <div className='dashboard-content-action-area'>
-                            <div className='dashboard-section'>
+                            <div className='dashboard-section' style={{padding: '0'}}>
                                 <div className='dashboard-bar'>
                                     <BarItem
                                         icon={<FaUserCheck size={20} />}
                                         title={"Detection's today"}
                                         value={dashboardData.detections_count}
+                                        onClick={() => navigate('/records')}
                                     />
                                     <BarItem
                                         icon={<FaUserFriends size={20} />}
                                         title={"Joined groups"}
                                         value={dashboardData.joined_count}
+                                        onClick={() => navigate('/groups')}
                                     />
                                     <BarItem
                                         icon={<FaUsers size={25} />}
                                         title={"Created groups"}
                                         value={dashboardData.created_count}
+                                        onClick={() => navigate('/groups')}
                                     />
                                 </div>
                             </div>
                         </div>
                         <div className='dashboard-content-topleft-area'>
                             <div className='dashboard-section'>
-                                <BarGraph data={dashboardData.bar_data}/>
+                                <BarGraph data={dashboardData.bar_data} />
                             </div>
                         </div>
                         <div className='dashboard-content-topright-area'>
                             <div className='dashboard-section-highlight custom-scrollbar'>
-                                <DashboardDetectionsList detections={dashboardData.recent_detections}/>
+                                <DashboardDetectionsList detections={dashboardData.recent_detections} />
                             </div>
                         </div>
                         <div className='dashboard-content-bottomleft-area'>
                             <div className='dashboard-section'>
-                                <DoughnutGraph />
+                                <DoughnutGraph data={dashboardData.doughnut_data}/>
                             </div>
                         </div>
                         <div className='dashboard-content-bottomright-area'>
                             <div className='dashboard-section'>
-                                <LineGraph />
+                                <LineGraph data={dashboardData.line_data}/>
                             </div>
                         </div>
                     </div>
                 </ContentContainer>
             ) : (
-                <Loader center speed='slow' size='lg'/>
+                <Loader center speed='slow' size='lg' />
             )}
         </MainContainer>
     );

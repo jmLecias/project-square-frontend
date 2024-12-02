@@ -4,9 +4,11 @@ import { squareApiBaseUrl } from '../../api/square_api';
 import { FaArrowRight } from "react-icons/fa";
 
 import { useRecognize } from '../../hooks/useRecognize';
+import { useDashboard } from '../../hooks/useDashboard';
 
 const RecognizedItem = ({ id }) => {
     const { getDetection, isScanningOff } = useRecognize();
+    const { handleDetectionClick } = useDashboard();
 
     const [detection, setDetection] = useState(null);
 
@@ -22,11 +24,11 @@ const RecognizedItem = ({ id }) => {
             <div className='d-flex align-items-center' style={{ width: 'fit-content' }}>
                 <div
                     className='square-item-cover my-auto'
-                    style={{ width: '60px', borderRadius: '5px' }}
+                    style={{ width: '60px', borderRadius: '5px', cursor: 'zoom-in' }}
+                    onClick={() => handleDetectionClick(detection.origin_path)}
                 >
                     <img
                         src={squareApiBaseUrl + "/face/detected-face/" + encodeURIComponent(detection.detected_path)}
-                        alt={`input image`}
                     />
                 </div>
                 <FaArrowRight size={24} />

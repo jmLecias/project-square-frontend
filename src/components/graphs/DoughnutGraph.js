@@ -1,22 +1,14 @@
 import React from 'react';
 import { Doughnut } from "react-chartjs-2";
 
-const DoughnutGraph = () => {
+const DoughnutGraph = ({data}) => {
 
     // Data for Doughnut Chart
     const doughnutData = {
-        labels: ["Recognized", "Unknown"],
+        labels: data.locations,
         datasets: [
-            {   
-                data: [55, 15],
-                backgroundColor: [
-                    "rgba(33, 123, 168, 0.5)",
-                    "rgba(255, 99, 132, 0.5)",
-                ],
-                borderColor: [
-                    "rgba(75, 192, 192, 1)",
-                    "rgba(255, 99, 132, 1)",
-                ],
+            {
+                data: data.data,
                 borderWidth: 1,
             },
         ],
@@ -34,12 +26,17 @@ const DoughnutGraph = () => {
             tooltip: {
                 callbacks: {
                     label: (context) => {
-                        // Custom tooltip label
                         const label = context.label || "";
                         const value = context.raw || 0;
-                        return `${label}: ${value}%`; // Example: "Electronics: 25%"
+                        const total = context.dataset.data.reduce((acc, val) => acc + val, 0);
+                        const percentage = ((value / total) * 100).toFixed(2); 
+                        return `${label}: ${value} (${percentage}%)`;
                     },
                 },
+            },
+            title: {
+                display: true,
+                text: "Last 7 days Created Location Detections",
             },
         },
     };
