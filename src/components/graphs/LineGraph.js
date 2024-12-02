@@ -5,8 +5,8 @@ const LineGraph = ({ data }) => {
 
     // Data for Line Chart
     const lineData = {
-        labels: data[0].days,
-        datasets: [
+        labels: (data.length !== 0) ? data[0].days : [],
+        datasets: (data.length !== 0) ?  [
             ...data.map((line) => {
                 return (
                     {
@@ -16,7 +16,7 @@ const LineGraph = ({ data }) => {
                     }
                 )
             })
-        ],
+        ] : [],
     };
 
     const options = {

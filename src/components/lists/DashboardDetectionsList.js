@@ -8,13 +8,15 @@ import { useDashboard } from '../../hooks/useDashboard';
 const DashboardDetectionsList = ({ detections }) => {
     const navigate = useNavigate();
 
-    const {handleDetectionClick} = useDashboard();
+    const { handleDetectionClick } = useDashboard();
 
     const renderRecentDetections = () => {
         return (
             <>
                 <div className='fs-6 p-3' style={{ fontWeight: '500' }}>Your recent detections</div>
-
+                {detections.length === 0 && (
+                    <div className='small text-center p-3' style={{ fontWeight: '500' }}>No recent detections yet</div>
+                )}
                 {detections.map((detection) => {
                     return (
                         <div
@@ -52,13 +54,15 @@ const DashboardDetectionsList = ({ detections }) => {
                     )
                 })}
 
-                <div
-                    className='fs-6 p-3 text-center cursor-pointer opacity-75'
-                    style={{ fontWeight: '500', textDecoration: 'underline' }}
-                    onClick={() => navigate('/records')}
-                >
-                    View all your Detection Records
-                </div>
+                {detections.length !== 0 && (
+                    <div
+                        className='fs-6 p-3 text-center cursor-pointer opacity-75'
+                        style={{ fontWeight: '500', textDecoration: 'underline' }}
+                        onClick={() => navigate('/records')}
+                    >
+                        View all your Detection Records
+                    </div>
+                )}
             </>
         );
     };

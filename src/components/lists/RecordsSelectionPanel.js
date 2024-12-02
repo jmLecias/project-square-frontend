@@ -37,11 +37,11 @@ const RecordsSelectionPanel = () => {
         }
     }, [user, reload]);
 
-    const SelectionItem = ({ location, link}) => {
+    const SelectionItem = ({ location, link }) => {
 
         return (
             <div className='selection-item' onClick={() => navigate(link)}>
-                <FaMapLocationDot size={20}/>
+                <FaMapLocationDot size={20} />
                 <div
                     className='fw-bold ms-2 text-truncate'
                     title={location.name}
@@ -65,7 +65,7 @@ const RecordsSelectionPanel = () => {
                             return (
                                 <SelectionItem
                                     location={location}
-                                    link={'/records/location/'+location.id}
+                                    link={'/records/location/' + location.id}
                                     key={i}
                                 />
                             )
@@ -88,7 +88,7 @@ const RecordsSelectionPanel = () => {
                             return (
                                 <SelectionItem
                                     location={location}
-                                    link={'/records/location/'+location.id}
+                                    link={'/records/location/' + location.id}
                                     key={i}
                                 />
                             )
@@ -103,14 +103,20 @@ const RecordsSelectionPanel = () => {
 
     return (
         <div className="records-selection-panel">
-            <Tabs defaultActiveKey="1" appearance="subtle" style={{padding: '1rem'}}> 
+            <Tabs defaultActiveKey="1" appearance="subtle" style={{ padding: '1rem' }}>
                 <Tabs.Tab eventKey="1" title="Created Groups">
                     <Accordion defaultActiveKey={1}>
+                        {createdGroups.length === 0 && (
+                            <div className='small text-center p-3' style={{ fontWeight: '500' }}>No created groups yet</div>
+                        )}
                         {renderCreatedGroups()}
                     </Accordion>
                 </Tabs.Tab>
                 <Tabs.Tab eventKey="2" title="Joined Groups">
                     <Accordion defaultActiveKey={1}>
+                        {joinedGroups.length === 0 && (
+                            <div className='small text-center p-3' style={{ fontWeight: '500' }}>No joined groups yet</div>
+                        )}
                         {renderJoinedGroups()}
                     </Accordion>
                 </Tabs.Tab>

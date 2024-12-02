@@ -91,7 +91,7 @@ const GroupsPage = () => {
                             }
                         />
                         {joinedGroups.length === 0 && (
-                            <div className=''>
+                            <div className='small text-center p-3'>
                                 No groups joined yet
                             </div>
                         )}
@@ -121,7 +121,7 @@ const GroupsPage = () => {
                             }
                         />
                         {createdGroups.length === 0 && (
-                            <div className=''>
+                            <div className='small text-center p-3'>
                                 No groups created yet
                             </div>
                         )}
