@@ -38,6 +38,9 @@ const LocationPage = () => {
     const [cameras, setCameras] = useState([]);
     const [detections, setDetections] = useState([]);
 
+    const [detectionsPage, setDetectionsPage] = useState(1);
+    const [isFetchingDetections, setIsFetchingDetections] = useState(false);
+
     const { setBreadcrumbs, clearBreadcrumbs } = useBreadcrumbs();
     const {
         // isScanning,
@@ -57,8 +60,30 @@ const LocationPage = () => {
     const {
         reload,
         getLocationCameras,
+        getLocationDetections
     } = useLocation();
 
+    const fetchDetections = async (pageNumber) => {
+        setIsFetchingDetections(true);
+
+        getLocationDetections(id, pageNumber).then((res) => {
+            if (pageNumber === 1) {
+                setDetections(res.detections);
+            } else {
+                setDetections((prev) => [...prev, ...res.detections]);
+            }
+            setDetectionsPage(pageNumber);
+        }).catch((e) => {
+            console.log("Error while getting location detection" + e);
+        }).finally(() => {
+            setIsFetchingDetections(false);
+        })
+    };
+
+    const fetchMoreDetections = async () => {
+        const nextPage = detectionsPage + 1;
+        await fetchDetections(nextPage);
+    };
 
     useEffect(() => {
         if (!isFetching) {
@@ -71,6 +96,9 @@ const LocationPage = () => {
                 setDetections(res.detections);
                 handleBreadcrumbs(res.group, res.location);
                 isFetching = false;
+                
+                // Initial face detections
+                // fetchDetections(1);
             }).catch((e) => {
                 console.log("Error while getting location cameras data: " + e);
                 isFetching = false;
@@ -237,7 +265,10 @@ const LocationPage = () => {
                     </div>
 
                     <div className='location-list-area custom-scrollbar-hidden'>
-                        <LocationDetectionList detections={detections} />
+                        <LocationDetectionList 
+                            detections={detections} 
+                            onScrollBottom={() => fetchMoreDetections()}
+                        />
                     </div>
                 </div>
 

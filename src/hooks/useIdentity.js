@@ -27,9 +27,8 @@ export const IdentityProvider = ({ children }) => {
 
     const [currentIndex, setCurrentIndex] = useState(0);
     const [currentStep, setCurrentStep] = useState(0);
-
+    
     const [state, setState] = useState({
-        identity: null,
         faces: [null, null, null, null, null],
         facePreviews: [null, null, null, null, null],
         firstName: '',
@@ -43,7 +42,7 @@ export const IdentityProvider = ({ children }) => {
     });
 
     const { firstName, middleName, lastName } = state;
-    const { faces, facePreviews, identity } = state;
+    const { faces, facePreviews } = state;
 
     const CAN_PROCEED_FACE = (
         firstName !== '' &&
@@ -81,24 +80,6 @@ export const IdentityProvider = ({ children }) => {
                 [field]: '',
             },
         }));
-    };
-
-    const getIdentity = async (userID) => {
-        const response = await square_api.get(`/identity/get/${userID}`);
-
-        if (response.status === 200) {
-            updateState({ identity: response.data.user_info });
-            return response.data.user_info
-        } else {
-            ss.removeItem('user');
-            return null
-        }
-    };
-
-    const getIdentityImage = async (unique_key) => {
-        const response = await square_api.get(`/identity/get-image/${unique_key}`);
-
-        return response.data.identity
     };
 
     const uploadIdentity = async (user_id) => {
@@ -235,7 +216,6 @@ export const IdentityProvider = ({ children }) => {
 
     const value = useMemo(
         () => ({
-            identity,
             updateState,
             handleChange,
             handleToast,
@@ -257,8 +237,6 @@ export const IdentityProvider = ({ children }) => {
             checkUploadIdentity,
             saveFaceEmbeddings,
             checkSaveFaceEmbeddings,
-            getIdentity,
-            getIdentityImage,
             currentStep,
             setCurrentStep,
             onStepBackClick,

@@ -1,4 +1,4 @@
-import { createContext, useContext, useMemo} from "react";
+import { createContext, useContext, useMemo } from "react";
 import StorageService from "../services/StorageService";
 import square_api from "../api/square_api";
 
@@ -13,14 +13,24 @@ export const AuthProvider = ({ children }) => {
         user = JSON.parse(user);
     }
 
+    const isSessionExpired = () => {
+        const now = new Date().getTime();
+        const timeoutOn = parseInt(ss.getItem('timeout_on'), 10);
+        return now >= timeoutOn;
+    };
+
 
     const login = async (credentials) => {
         const response = await square_api.post('/auth/login', credentials);
-
+        
         if (response.status === 200) {
             const user = response.data.user;
+            
+            const now = new Date();
+            const timeoutTimestamp = now.getTime() + user.session_timeout * 1000; 
 
             ss.storeItem('user', JSON.stringify(user));
+            ss.storeItem('timeout_on', timeoutTimestamp.toString()); 
 
             return user;
         } else {
@@ -73,6 +83,7 @@ export const AuthProvider = ({ children }) => {
             register,
             logout,
             me,
+            isSessionExpired
         }),
         [user]
     );

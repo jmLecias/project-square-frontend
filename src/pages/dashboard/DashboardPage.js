@@ -17,10 +17,12 @@ import DoughnutGraph from '../../components/graphs/DoughnutGraph';
 import { useNavigate } from 'react-router-dom';
 import { useDashboard } from '../../hooks/useDashboard';
 import { useAuth } from '../../hooks/useAuth';
+import { useSettings } from '../../hooks/useSettings';
 
 const DashboardPage = () => {
     const { getDashboardData, reload } = useDashboard();
     const { user } = useAuth();
+    const { userInfo } = useSettings();
 
     const navigate = useNavigate();
 
@@ -29,7 +31,8 @@ const DashboardPage = () => {
     const [dashboardData, setDashboardData] = useState(null);
 
     useEffect(() => {
-        if (!isFetching) {
+        console.log("user info: ", userInfo)
+        if (!isFetching && userInfo) {
             isFetching = true;
 
             getDashboardData(user.id)
@@ -47,7 +50,7 @@ const DashboardPage = () => {
         return () => {
             setDashboardData(null);
         };
-    }, [reload]);
+    }, [reload, userInfo]);
 
 
 

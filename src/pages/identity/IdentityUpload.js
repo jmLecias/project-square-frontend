@@ -46,8 +46,6 @@ const IdentityUpload = ({userId}) => {
             const saveEmbeddingsTaskId = await saveFaceEmbeddings(uploadedImage.face_image_path, uploadedImage.unique_key);
             await checkSaveFaceEmbeddings(saveEmbeddingsTaskId);
         }
-
-
     }
 
     return (

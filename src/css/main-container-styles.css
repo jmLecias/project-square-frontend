@@ -108,6 +108,22 @@ body {
     overflow: hidden;
 }
 
+.modal-button {
+    background-color: var(--primary-color);
+    font-size: 20px;
+    padding: 5px 40px;
+    color: var(--background-light);
+    border: none;
+    border-radius: 100px;
+    display: flex;
+    align-items: center;
+    text-wrap: nowrap;
+}
+
+.modal-button:hover {
+    background-color: var(--primary-color-light);
+}
+
 .main-button {
     background-color: var(--primary-color);
     font-size: 16px;

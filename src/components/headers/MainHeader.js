@@ -20,7 +20,6 @@ const MainHeader = ({ text }) => {
     const { toggleCreateGroup, toggleJoinGroup } = useGroup();
     const { isScanning } = useRecognize();
     const { toggleCollapse } = useSidebar();
-    const { identity } = useIdentity();
 
     const navigate = useNavigate();
 
@@ -61,7 +60,7 @@ const MainHeader = ({ text }) => {
                 <Dropdown renderToggle={renderToggle} placement="bottomEnd" className='ms-2'>
                     <Dropdown.Item panel style={{ padding: 10, color: 'var(--background-dark)' }}>
                         <p className='small'>Signed in as</p>
-                        <strong>{(identity) ? identity.fullname : ''}</strong>
+                        <strong>{user.name}</strong>
                         <p> {user.email}</p>
                     </Dropdown.Item>
                     <Dropdown.Separator />

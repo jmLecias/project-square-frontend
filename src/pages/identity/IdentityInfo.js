@@ -36,7 +36,7 @@ const IdentityInfo = () => {
                 <input
                     name='middleName'
                     type='text'
-                    placeholder='Middle name (leave blank if not applicable)'
+                    placeholder='Middle name (leave blank if none)'
                     value={middleName}
                     onChange={handleChange}
                     maxLength={50}

@@ -14,7 +14,7 @@ import { useAuth } from '../../hooks/useAuth';
 const SettingsPage = () => {
     const navigate = useNavigate();
 
-    const { IDENTITY_PAGES, identity } = useIdentity();
+    const { IDENTITY_PAGES} = useIdentity();
     const { user } = useAuth();
 
     return (
@@ -36,7 +36,7 @@ const SettingsPage = () => {
                                 />
                             </div>
                             <div className='ms-4'>
-                                <div className='fs-4' style={{ fontWeight: '600' }}>{(identity) ? identity.fullname : ''}</div>
+                                <div className='fs-4' style={{ fontWeight: '600' }}>{user.name}</div>
                                 <div className='fs-6 mb-3' style={{ fontWeight: '400' }}>{user.email}</div>
 
                                 <button

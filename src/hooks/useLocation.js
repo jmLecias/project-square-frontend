@@ -68,6 +68,17 @@ export const LocationProvider = ({ children }) => {
         return freshLocationCameras;
     };
 
+    const getLocationDetections = async (location_id, page) => {
+        const payload = {
+            location_id: location_id,
+            page: page,
+        }
+        const response = await square_api.post(`/locations/location-detections`, payload);
+        const freshLocationDetections = response.data;
+
+        return freshLocationDetections;
+    };
+
     const createLocation = async (location_name, group_id) => {
         const credentials = {
             location_name: location_name,
@@ -114,7 +125,8 @@ export const LocationProvider = ({ children }) => {
             toggleCreateLocation,
             reload,
             triggerReloadLocation,
-            getLocationCameras
+            getLocationCameras,
+            getLocationDetections
         }),
         [state, reload]
     );

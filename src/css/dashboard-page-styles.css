@@ -97,7 +97,7 @@
 @media (max-width: 930px) {
     .dashboard-content-area {
         grid-template-columns: 100%;
-        grid-template-rows: 90px 200px 350px 300px 350px;
+        grid-template-rows: 90px 400px 350px 300px 350px;
         grid-template-areas:
             "action"
             "topright"

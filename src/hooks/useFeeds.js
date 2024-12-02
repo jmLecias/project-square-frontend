@@ -176,10 +176,10 @@ export const FeedsProvider = ({ children }) => {
     const toggleCameraModal = () => setShowCameraModal(!showCameraModal);
     const handleCameraClick = (index) => setCurrentCamera(index);
 
-    useEffect(() => {
-        console.log(state);
-        console.log(feeds);
-    }, [state, feeds]);
+    // useEffect(() => {
+    //     console.log(state);
+    //     console.log(feeds);
+    // }, [state, feeds]);
 
     const value = useMemo(
         () => ({
