@@ -114,7 +114,7 @@ const SettingsPage = () => {
                                         <span className='ms-1'>Update Face Images</span>
                                     </button>
                                 </div>
-                                <div className='face-grid-display' style={{width: '60%'}}>
+                                <div className='settings-face-grid-display'>
                                     {(userInfo) && (
                                         <>
                                             {userInfo.images.map((image) => {

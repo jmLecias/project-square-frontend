@@ -53,6 +53,13 @@
     gap: 1rem;
 }
 
+.settings-face-grid-display {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 17%);
+    gap: 10px;
+}
+
 @media (max-width: 800px) { 
     .settings-section {
         padding: 1rem;
