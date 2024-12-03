@@ -104,6 +104,25 @@ export const IdentityProvider = ({ children }) => {
         return jobId;
     };
 
+    const updateFaces = async (user_id) => {
+        const identityData = new FormData();
+        identityData.append('user_id', user_id);
+
+        faces.map((face, index) => {
+            if (face !== null) {
+                const fileName = lastName + "_" + index + ".jpg";
+                identityData.append('faceImages', face, fileName);
+            }
+        });
+
+        const response = await square_api.post('/identity/update-faces', identityData, {
+            headers: { 'Content-Type': 'multipart/form-data' },
+        });
+
+        const jobId = response.data.job_id;
+        return jobId;
+    };
+
     const checkUploadIdentity = async (uploadTaskId) => {
         while (true) {
             try {
@@ -209,6 +228,10 @@ export const IdentityProvider = ({ children }) => {
         if (currentStep < 3) setCurrentStep(currentStep + 1);
     };
 
+    useEffect(() => {
+        console.log(state);
+    }, [state]);
+
     const handleFaceImageclick = (index) => setCurrentIndex(index);
     const toggleCamera = () => setUseCamera(!useCamera);
     const toggleFlipped = () => setIsFlipped(!isFlipped);
@@ -233,6 +256,7 @@ export const IdentityProvider = ({ children }) => {
             IDENTITY_PAGES,
             CAN_PROCEED_FACE,
             CAN_PROCEED_VERIFY,
+            updateFaces,
             uploadIdentity,
             checkUploadIdentity,
             saveFaceEmbeddings,

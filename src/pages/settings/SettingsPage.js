@@ -40,7 +40,7 @@ const SettingsPage = () => {
                 firstname: userInfo.firstname,
                 middlename: userInfo.middlename,
                 lastname: userInfo.lastname
-            })
+            });
         }
     }, [userInfo]);
 
@@ -83,7 +83,6 @@ const SettingsPage = () => {
             <EditFaceImagesModal
                 show={showEditFaces}
                 onClose={toggleEditFaces}
-                faceImages={[{id: 1}]}
             />
             <ContentContainer
                 header={<MainBreadcrumbs />}
@@ -97,7 +96,7 @@ const SettingsPage = () => {
                             <div className='user-info-container'>
                                 <div className='user-default-profile-div'>
                                     <img
-                                        src={user.image}
+                                        src={userInfo.images[0].url}
                                         className='fade-in'
                                         style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                                     />
@@ -114,6 +113,23 @@ const SettingsPage = () => {
                                         <MdEdit size={16} />
                                         <span className='ms-1'>Update Face Images</span>
                                     </button>
+                                </div>
+                                <div className='face-grid-display' style={{width: '60%'}}>
+                                    {(userInfo) && (
+                                        <>
+                                            {userInfo.images.map((image) => {
+                                                return (
+                                                    <div className='user-default-profile-div w-100'>
+                                                        <img
+                                                            src={image.url}
+                                                            className='fade-in'
+                                                            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                                                        />
+                                                    </div>
+                                                )
+                                            })}
+                                        </>
+                                    )}
                                 </div>
                             </div>
                         </div>

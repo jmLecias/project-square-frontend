@@ -3,12 +3,19 @@ import Modal from 'react-bootstrap/Modal';
 import Spinner from 'react-bootstrap/Spinner';
 
 import IdentityFace from "../../pages/identity/IdentityFace";
+import { useIdentity } from "../../hooks/useIdentity";
 
-const EditFaceImagesModal = ({ show, onClose, faceImages }) => {
+const EditFaceImagesModal = ({ show, onClose }) => {
+
+    const { updateState } = useIdentity();
 
     const handleClose = () => {
         onClose();
-    };
+        updateState({
+            facePreviews: [null, null, null, null, null],
+            faces: [null, null, null, null, null],
+        })
+    }
 
     return (
         <Modal
@@ -28,12 +35,15 @@ const EditFaceImagesModal = ({ show, onClose, faceImages }) => {
                 </Modal.Title>
             </Modal.Header>
 
-            <Modal.Body 
+            <Modal.Body
                 className="threel-scrollbar text-white"
-                style={{padding: 0}}
+                style={{ padding: 0 }}
             >
                 <div className="step-main-container mx-auto">
-                    <IdentityFace faceImages={faceImages}/>
+                    <IdentityFace
+                        isUpdating={true}
+                        onClose={handleClose}
+                    />
                 </div>
             </Modal.Body>
         </Modal>

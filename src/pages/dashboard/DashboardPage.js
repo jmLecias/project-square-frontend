@@ -31,7 +31,6 @@ const DashboardPage = () => {
     const [dashboardData, setDashboardData] = useState(null);
 
     useEffect(() => {
-        console.log("user info: ", userInfo)
         if (!isFetching && userInfo) {
             isFetching = true;
 

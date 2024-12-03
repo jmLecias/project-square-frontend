@@ -54,6 +54,7 @@ export const AuthProvider = ({ children }) => {
         const response = await square_api.post('/auth/logout');
 
         ss.removeItem('user');
+        ss.removeItem('timeout_on');
 
         if (response.status === 200) {
             return true;
