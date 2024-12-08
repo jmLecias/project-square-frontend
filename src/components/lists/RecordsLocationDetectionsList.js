@@ -95,7 +95,11 @@ const RecordsLocationDetectionsList = ({ location, currentUser }) => {
 
     return (
         <>
-            <RecordsActionBar title={`${currentUser ? 'Records of ' + currentUser.name : 'Location records'}`} />
+            <RecordsActionBar 
+                title={`${currentUser ? 'Records of ' + currentUser.name : 'Location records'}`} 
+                isOwner={location.owner_id === user.id}
+                location={location}
+            />
 
             <div className="records-detections-list custom-scrollbar-hidden">
                 <Table

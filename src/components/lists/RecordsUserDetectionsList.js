@@ -66,7 +66,11 @@ const RecordsUserDetectionsList = () => {
 
     return (
         <>
-            <RecordsActionBar title={"Your records"} />
+            <RecordsActionBar 
+                title={"Your records"} 
+                isOwner={false}
+                location={null}
+            />
 
             <div className="records-detections-list custom-scrollbar-hidden">
                 <Table

@@ -56,7 +56,7 @@ const RecordsSelectionPanel = () => {
     const renderCreatedGroups = () => {
         return createdGroups.map((group, index) => {
             return (
-                <Accordion.Panel header={group.name} eventKey={index + 1}>
+                <Accordion.Panel key={index} header={group.name} eventKey={index + 1}>
                     <div className='records-groups-grid-display'>
                         {group.locations.length === 0 && (
                             <div>No locations</div>
@@ -79,7 +79,7 @@ const RecordsSelectionPanel = () => {
     const renderJoinedGroups = () => {
         return joinedGroups.map((group, index) => {
             return (
-                <Accordion.Panel header={group.name} eventKey={index + 1}>
+                <Accordion.Panel key={index} header={group.name} eventKey={index + 1}>
                     <div className='records-groups-grid-display'>
                         {group.locations.length === 0 && (
                             <div>No locations</div>

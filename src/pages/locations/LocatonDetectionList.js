@@ -4,6 +4,7 @@ import { Loader } from 'rsuite';
 import RecognizingLoadingItem from "../../components/items/RecognizingLoadingItem";
 import RecognizedItem from "../../components/items/RecognizedItem";
 import UnknownItem from "../../components/items/UnknownItem";
+import NonMemberItem from "../../components/items/NonMemberItem";
 import DetectingLoadingItem from "../../components/items/DetectingLoadingItem";
 
 import { useFeeds } from "../../hooks/useFeeds";
@@ -38,6 +39,9 @@ const LocationDetectionList = ({ detections, onScrollBottom }) => {
             }
             if (detection.status === "Unknown") {
                 return <UnknownItem key={detection.id} id={detection.id} />;
+            }
+            if (detection.status === "Non-member") {
+                return <NonMemberItem key={detection.id} id={detection.id} />;
             }
             return null;
         });

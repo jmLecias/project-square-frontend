@@ -27,7 +27,7 @@ const MainHeader = ({ text }) => {
     const renderToggle = props => (
         <div className='header-user-div' {...props}>
             <img
-                src={userInfo.images[0].url}
+                src={(userInfo)? userInfo.images[0].url : null}
                 className='fade-in'
                 style={{ width: '100%', height: '100%', objectFit: 'cover' }}
             />
