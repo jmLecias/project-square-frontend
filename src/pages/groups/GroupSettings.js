@@ -1,4 +1,5 @@
-import React, { useState} from 'react';
+import React, { useState, useEffect } from 'react';
+import { TimeRangePicker } from 'rsuite';
 import { copyToClipboard } from '../../services/CopyService';
 
 import SectionHeader from '../../components/headers/SectionHeader';
@@ -11,6 +12,7 @@ const GroupSettings = ({ group }) => {
 
     const [isRunning, setIsRunning] = useState(false);
     const [isCopied, setIsCopied] = useState(false);
+    const [timeRange, setTimeRange] = useState(null);
 
     const {
         handleToast,
@@ -26,12 +28,35 @@ const GroupSettings = ({ group }) => {
         triggerReloadLocation,
     } = useLocation();
 
+    useEffect(() => {
+        if (group.start_time && group.end_time && group.name) {
+            const [startHours, startMinutes] = group.start_time.split(':').map(Number);
+            const [endHours, endMinutes] = group.end_time.split(':').map(Number);
+
+            const today = new Date();
+            const startDate = new Date(today.getFullYear(), today.getMonth(), today.getDate(), startHours, startMinutes);
+            const endDate = new Date(today.getFullYear(), today.getMonth(), today.getDate(), endHours, endMinutes);
+
+            setTimeRange([startDate, endDate]);
+            updateState({ newInputName: group.name });
+        }
+    }, [group]);
+
     const handleRename = () => {
         if (isRunning || newInputName === null) return;
         setIsRunning(true);
-        updateGroup(group.id, newInputName)
+
+        const [startDate, endDate] = timeRange;
+
+        const formatTime = (date) =>
+            date.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: false });
+
+        const startTime = (startDate) ? formatTime(startDate) : null;
+        const endTime = (endDate) ? formatTime(endDate) : null;
+
+        updateGroup(group.id, newInputName, startTime, endTime)
             .then(() => {
-                handleToast("Group renamed successfully!", 'success');
+                handleToast("Group updated successfully!", 'success');
                 updateState({ newInputName: null });
             })
             .catch((e) => {
@@ -67,26 +92,33 @@ const GroupSettings = ({ group }) => {
                         title={"Group Settings"}
                     />
                     <div className='fs-6 mb-2' style={{ fontWeight: '600' }}>Group name</div>
-                    <div className='w-100 d-flex align-items-center'>
-                        <input
-                            name='newInputName'
-                            type='text'
-                            placeholder={group.name}
-                            value={newInputName}
-                            onChange={handleChange}
-                            className="form-control w-50"
-                            style={{ maxWidth: '300px' }}
-                        />
-                        <button
-                            className='main-button ms-2'
-                            disabled={isRunning}
-                            onClick={handleRename}
-                        >
-                            {(isRunning) ? "Renaming..." : "Rename"}
-                        </button>
-                    </div>
+                    <input
+                        name='newInputName'
+                        type='text'
+                        placeholder={group.name}
+                        value={newInputName}
+                        onChange={handleChange}
+                        className="form-control w-50 me-2"
+                        style={{ maxWidth: '300px' }}
+                    />
+                    <div className='fs-6 mb-2 mt-4' style={{ fontWeight: '600' }}>Schedule</div>
+                    <TimeRangePicker
+                        appearance="subtle"
+                        placement="bottomStart"
+                        format="hh:mm aa"
+                        showMeridiem
+                        value={timeRange}
+                        onChange={setTimeRange}
+                    />
+                    <button
+                        className='main-button mt-4'
+                        disabled={isRunning}
+                        onClick={handleRename}
+                    >
+                        {(isRunning) ? "Updating..." : "Update"}
+                    </button>
 
-                    <div className='fs-6 mb-1 mt-4' style={{ fontWeight: '600' }}>Share group</div>
+                    <div className='fs-6 mb-1 mt-5' style={{ fontWeight: '600' }}>Share group</div>
                     <div className='small mb-2'>Use the code below to let other users join this group.</div>
                     <div className='w-100 mb-5 d-flex align-items-center'>
                         <input

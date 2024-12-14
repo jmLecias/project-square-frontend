@@ -111,3 +111,11 @@
 .rs-table-loader-wrapper {
     background-color: rgba(36, 39, 54, 0.777); /* Light gray overlay */
 }
+
+.accordion-button {
+    padding: 0 1rem;
+}
+
+.rs-picker-popup {
+    z-index: 1056;
+}

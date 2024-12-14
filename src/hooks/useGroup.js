@@ -78,10 +78,12 @@ export const GroupProvider = ({ children }) => {
         updateState({ joinedGroups: freshJoinedGroups });
     };
 
-    const createGroup = async (group_name, user_id) => {
+    const createGroup = async (group_name, user_id, startTime, endTime) => {
         const credentials = {
             group_name: group_name,
-            user_id: user_id
+            user_id: user_id,
+            start_time: startTime,
+            end_time: endTime
         }
         const response = await square_api.post('/groups/create', credentials);
 
@@ -106,10 +108,13 @@ export const GroupProvider = ({ children }) => {
         }
     };
 
-    const updateGroup = async (group_id, new_group_name) => {
+    const updateGroup = async (group_id, new_group_name, startTime, endTime) => {
         const credentials = {
             group_id: group_id,
-            new_group_name: new_group_name
+            new_group_name: new_group_name,
+            start_time: startTime,
+            end_time: endTime
+
         }
         const response = await square_api.post('/groups/update', credentials);
 

@@ -73,7 +73,7 @@ const JoinGroupModal = ({ show, onClose }) => {
                 />
                 <button
                     className='group-forms-btn'
-                    disabled={buttonText === BUTTON_TEXT.JOINING}
+                    disabled={buttonText === BUTTON_TEXT.JOINING || !inputCode}
                     onClick={() => { handleSubmit() }}
                 >
                     {buttonText === BUTTON_TEXT.JOINING && <Spinner size='sm' variant="light" />}
