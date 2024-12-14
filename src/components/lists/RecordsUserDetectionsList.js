@@ -12,7 +12,7 @@ import { useDashboard } from '../../hooks/useDashboard';
 const { Column, HeaderCell, Cell } = Table;
 
 const RecordsUserDetectionsList = () => {
-    const { getUserRecords } = useRecords();
+    const { getUserRecords, currentDate } = useRecords();
     const { user } = useAuth();
     const { handleDetectionClick } = useDashboard();
 
@@ -35,7 +35,7 @@ const RecordsUserDetectionsList = () => {
             .finally(() => {
                 setLoading(false);
             });
-    }, [currentPage, pageSize]);
+    }, [currentPage, pageSize, currentDate]);
 
     const ImageCell = ({ rowData, dataKey, ...props }) => {
         return (

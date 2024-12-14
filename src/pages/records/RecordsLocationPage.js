@@ -18,7 +18,7 @@ const RecordsLocationPage = () => {
     const { id } = useParams();
     const { user } = useAuth();
     const { clearBreadcrumbs, setBreadcrumbs } = useBreadcrumbs();
-    const { getLocationRecordsInfo } = useRecords();
+    const { getLocationRecordsInfo, setCurrentDate } = useRecords();
 
     let isFetching = false;
 
@@ -45,6 +45,7 @@ const RecordsLocationPage = () => {
         return () => {
             setLocation(null);
             setUsers([]);
+            setCurrentDate(null);
         };
     }, [id]);
 
@@ -78,6 +79,7 @@ const RecordsLocationPage = () => {
                                     users={users}
                                     onUserChange={(user) => setCurrentUser(user)}
                                     currentUser={currentUser}
+                                    location={location}
                                 />
                             )}
                         </div>
