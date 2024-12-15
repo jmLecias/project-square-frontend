@@ -1,7 +1,7 @@
 import { createContext, useContext, useMemo, useState } from "react";
 
 import square_api from "../api/square_api";
-import { toFilename } from "../services/DateFormatService";
+import { toFilenameDate } from "../services/DateFormatService";
 import { useGroup } from "./useGroup";
 
 const RecordsContext = createContext();
@@ -72,7 +72,11 @@ export const RecordsProvider = ({ children }) => {
 
     const exportAttendanceExcel = async (location) => {
         try {
-            const response = await square_api.get('/records/download-attendance/' + location.id, {
+            const payload = {
+                location_id: location.id,
+                date: currentDate,
+            }
+            const response = await square_api.post('/records/download-attendance', payload, {
                 responseType: 'blob', // Handle binary data
             });
 
@@ -82,7 +86,7 @@ export const RecordsProvider = ({ children }) => {
                 const url = window.URL.createObjectURL(blob);
                 const link = document.createElement('a');
                 link.href = url;
-                link.download = `Attendance-${location.name}-${toFilename(now)}`;
+                link.download = `Attendance-${location.name}-${toFilenameDate((currentDate) ? currentDate : now)}`;
                 document.body.appendChild(link);
                 link.click();
                 link.remove();

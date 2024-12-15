@@ -11,6 +11,7 @@ const RecordsLocationUsersList = ({ users, currentUser, onUserChange, location }
 
     const { 
         exportAttendanceExcel,
+        currentDate
     } = useRecords();
 
     const handleUserClick = (user) => {
@@ -44,6 +45,8 @@ const RecordsLocationUsersList = ({ users, currentUser, onUserChange, location }
                 <div className='fs-6 fw-bold'>Filter location users</div>
                 <button
                     className='main-button'
+                    disabled={!currentDate}
+                    title={(currentDate)? "Export attendance on selected date" : "Select a date first"}
                     onClick={() => {
                         exportAttendanceExcel(location)
                     }}
