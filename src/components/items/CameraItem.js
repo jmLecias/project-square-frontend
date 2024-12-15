@@ -1,4 +1,5 @@
-import React, { useRef, useCallback } from 'react';
+import React, { useRef, useCallback, useState, useEffect } from 'react';
+import { streamerBaseUrl } from '../../api/square_api';
 import { Popover, Whisper, Button, Dropdown } from 'rsuite';
 
 import { useFeeds } from '../../hooks/useFeeds';
@@ -20,6 +21,31 @@ const CameraItem = ({ camera }) => {
     const {
         triggerReloadLocation
     } = useLocation();
+
+    const [bandwidth, setBandwidth] = useState(null);
+
+    useEffect(() => {
+        if (camera) {
+            const eventSource = new EventSource(streamerBaseUrl + '/bandwidth_usage/' + camera.id);
+
+            eventSource.onmessage = (event) => {
+                const data = JSON.parse(event.data);
+
+                if (data >= 0) {
+                    setBandwidth(parseFloat(data));
+                }
+            };
+
+            eventSource.onerror = () => {
+                console.error("SSE Connection failed");
+                eventSource.close();
+            };
+
+            return () => {
+                eventSource.close()
+            };
+        }
+    }, [camera]);
 
     const handleSelectMenu = useCallback(
         (eventKey, event) => {
@@ -58,7 +84,7 @@ const CameraItem = ({ camera }) => {
         [currentCamera, feeds, ref]
     );
 
-    const isDisabled = !capturedCameras.includes(camera.id);
+    const isDisabled = (capturedCameras) ? !capturedCameras.includes(camera.id) : null;
     const isUnavailable = capturedCameras.length > 0 && !capturedCameras.includes(camera.id);
     const isViewing = feeds.includes(camera.id);
 
@@ -123,10 +149,23 @@ const CameraItem = ({ camera }) => {
                             className='fw-bold text-truncate'
                         >{camera.name}</div>
 
-                        <div
-                            className='opacity-75 text-truncate'
-                            style={{ fontSize: '12px' }}
-                        >{camera.type}</div>
+                        {(bandwidth >= 0 && !isDisabled) && (
+                            <div
+                                className='opacity-75 text-truncate'
+                                style={{ fontSize: '12px' }}
+                            >
+                                {/* bandwidth in Bits per second Divide by 1,000,000 for Megabits per second */}
+                                {(bandwidth / 1000000).toFixed(2)} Mbps
+                            </div>
+                        )}
+                        {isDisabled && (
+                            <div
+                                className='opacity-75 text-truncate'
+                                style={{ fontSize: '12px' }}
+                            >
+                                Not Initialized
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>

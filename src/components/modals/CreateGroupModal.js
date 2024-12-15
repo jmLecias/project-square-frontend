@@ -55,10 +55,6 @@ const CreateGroupModal = ({ show, onClose }) => {
         }
     };
 
-    useEffect(() => {
-        console.log(timeRange);
-    }, [timeRange]);
-
     return (
         <Modal
             aria-labelledby="contained-modal-title-vcenter"

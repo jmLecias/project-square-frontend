@@ -37,4 +37,4 @@ square_api.interceptors.response.use(
 );
 
 export default square_api;
-export { squareApiBaseUrl, square_stream_api };
+export { squareApiBaseUrl, square_stream_api, streamerBaseUrl};

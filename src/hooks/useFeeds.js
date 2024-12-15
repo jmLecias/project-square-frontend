@@ -128,6 +128,20 @@ export const FeedsProvider = ({ children }) => {
         }
     };
 
+    const getBandwidthUsage = async () => {
+        try {
+            const response = await square_stream_api.get('/bandwidth_usage');
+
+            return response.data;
+        } catch (error) {
+            if (error.response) {
+                console.error('Error Response:', error.response.data);
+            } else {
+                console.error('Error:', error.message);
+            }
+        }
+    };
+
     const addCamera = async (camera_name, rtsp_url, location_id) => {
         const payload = {
             camera_name: camera_name,
@@ -208,6 +222,7 @@ export const FeedsProvider = ({ children }) => {
             deleteCamera,
             editCamera,
             setEditCamera,
+            getBandwidthUsage
         }),
         [state, feeds, showCameraModal, capturedCameras, currentCamera, editCamera]
     );

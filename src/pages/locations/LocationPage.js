@@ -40,6 +40,7 @@ const LocationPage = () => {
     const [location, setLocation] = useState(null);
     const [cameras, setCameras] = useState([]);
     const [detections, setDetections] = useState([]);
+    const [bandwidthUsage, setBandwidthUsage] = useState(null);
 
     const [detectionsPage, setDetectionsPage] = useState(1);
     const [isFetchingDetections, setIsFetchingDetections] = useState(false);
@@ -56,9 +57,11 @@ const LocationPage = () => {
         grid,
         updateState,
         feeds,
+        setFeeds,
         toggleCameraModal,
         showCameraModal,
-        editCamera
+        editCamera,
+        setCapturedCameras,
     } = useFeeds();
     const {
         reload,
@@ -117,9 +120,21 @@ const LocationPage = () => {
             setLocation(null);
             setCameras([]);
             setDetections([]);
+            setCapturedCameras([]);
+            setFeeds([
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+            ]);
+            setBandwidthUsage(null);
         };
     }, [id, reload]);
-
 
     useEffect(() => {
         if (location) {
@@ -212,6 +227,7 @@ const LocationPage = () => {
                     <CameraItem
                         key={index}
                         camera={camera}
+                        bandwidth={(bandwidthUsage)? bandwidthUsage[camera.id] : null}
                     />
                 )
             })
@@ -226,6 +242,7 @@ const LocationPage = () => {
                         key={index}
                         index={index}
                         feed={feed}
+                        bandwidth={(bandwidthUsage)? bandwidthUsage[feed] : null}
                     />
                 )
             })
@@ -288,11 +305,11 @@ const LocationPage = () => {
                             detections={detections}
                             onScrollBottom={() => fetchMoreDetections()}
                         />
-                        <div 
+                        <div
                             className='location-edit-container'
                             onClick={handleEditLocationClick}
-                        >   
-                            <IoSettingsSharp size={25} className='me-2'/>
+                        >
+                            <IoSettingsSharp size={25} className='me-2' />
                             Location Settings
                             <FaChevronRight className="float-end opacity-50" size={20} />
                         </div>
