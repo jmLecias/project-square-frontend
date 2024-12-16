@@ -103,7 +103,7 @@ const CreateGroupModal = ({ show, onClose }) => {
 
                 <button
                     className="group-forms-btn"
-                    disabled={buttonText === BUTTON_TEXT.CREATING || !inputName || !timeRange}
+                    disabled={buttonText === BUTTON_TEXT.CREATING || (!inputName && !timeRange)}
                     onClick={() => { handleSubmit() }}
                 >
                     {buttonText === BUTTON_TEXT.CREATING && <Spinner size="sm" variant="light" />}
