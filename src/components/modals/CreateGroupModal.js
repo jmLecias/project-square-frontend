@@ -23,7 +23,7 @@ const CreateGroupModal = ({ show, onClose }) => {
     } = useGroup();
 
     const [buttonText, setButtonText] = useState(BUTTON_TEXT.CREATE);
-    const [timeRange, setTimeRange] = useState(null);
+    const [timeRange, setTimeRange] = useState([null, null]);
 
     const handleClose = () => {
         onClose();
