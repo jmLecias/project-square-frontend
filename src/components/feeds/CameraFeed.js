@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { streamerBaseUrl } from '../../api/square_api';
 
+import RealtimeLineGraph from "../graphs/RealtimeLineGraph";
+
 import { useFeeds } from "../../hooks/useFeeds";
 
 const CameraFeed = ({ feed, index }) => {
@@ -11,6 +13,10 @@ const CameraFeed = ({ feed, index }) => {
     } = useFeeds();
 
     const [bandwidth, setBandwidth] = useState(null);
+    const [graphData, setGraphData] = useState({
+        timestamps: [],
+        data: []
+    });
 
     useEffect(() => {
         if (feed) {
@@ -22,6 +28,20 @@ const CameraFeed = ({ feed, index }) => {
                 if (data >= 0) {
                     setBandwidth(parseFloat(data));
                 }
+
+                const currentTime = new Date().toLocaleTimeString(); // Get current time as hh:mm:ss
+
+                setGraphData((prevData) => {
+                    const updatedTimestamps = [...prevData.timestamps, currentTime];
+                    const updatedData = [...prevData.data, (data / 1000000).toFixed(2)];
+
+                    // Keep only the last 10 data points (or any limit you want)
+                    const maxPoints = 60;
+                    return {
+                        timestamps: updatedTimestamps.slice(-maxPoints),
+                        data: updatedData.slice(-maxPoints),
+                    };
+                });
             };
 
             eventSource.onerror = () => {
@@ -53,11 +73,18 @@ const CameraFeed = ({ feed, index }) => {
             )}
             {feed && (
                 <div
-                    className="fs-5 fw-b"
-                    style={{ position: 'absolute', bottom: '12px', left: '10px' }}
+                    className="fs-5 fw-b feed-bandwidth"
                 >
                     {/* bandwidth in Bits per second Divide by 1,000,000 for Megabits per second */}
                     {(bandwidth / 1000000).toFixed(2)} Mbps
+                </div>
+            )}
+            {(graphData.data.length !== 0) && (
+                // CSS HERE
+                <div 
+                    className="fs-5 fw-b w-100 h-75 feed-chart"
+                >
+                    <RealtimeLineGraph data={graphData} />
                 </div>
             )}
         </div>

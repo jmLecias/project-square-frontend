@@ -12,6 +12,28 @@
     overflow: hidden;
 }
 
+.feed-bandwidth {
+    position: absolute;
+    bottom: 12px;
+    left: 10px;
+}
+
+.feed-chart {
+    display: none;
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    /* justify-content: end; */
+}
+.video-feed:hover {
+    .feed-chart {
+        display: block;
+    }
+    .feed-bandwidth {
+        top: 12px;
+    }
+}
+
 .video-feed img,
 .video-feed video,
 .video-feed canvas {

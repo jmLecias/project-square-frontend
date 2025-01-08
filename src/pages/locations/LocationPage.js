@@ -166,9 +166,9 @@ const LocationPage = () => {
                     isScanningOff(); // Stop scanning animation, when no faces detected
                     handleToast('No faces were detected!', 'error')
                 }
-                
-                if(data.confidence && data.confidence < CONF_THRESHOLD) {
-                    handleToast('Camera named '+`\'${data.camera_name}\'`+' recent recognition confidence was '+`\'${data.confidence}\'`+'. Please place in an optimal position.' , 'error')
+
+                if (data.confidence && data.confidence < CONF_THRESHOLD) {
+                    handleToast('Camera named ' + `\'${data.camera_name}\'` + ' recent recognition confidence was ' + `\'${data.confidence}\'` + '. Please place in an optimal position.', 'error')
                 }
             };
 
@@ -233,7 +233,7 @@ const LocationPage = () => {
                     <CameraItem
                         key={index}
                         camera={camera}
-                        bandwidth={(bandwidthUsage)? bandwidthUsage[camera.id] : null}
+                        bandwidth={(bandwidthUsage) ? bandwidthUsage[camera.id] : null}
                     />
                 )
             })
@@ -248,7 +248,7 @@ const LocationPage = () => {
                         key={index}
                         index={index}
                         feed={feed}
-                        bandwidth={(bandwidthUsage)? bandwidthUsage[feed] : null}
+                        bandwidth={(bandwidthUsage) ? bandwidthUsage[feed] : null}
                     />
                 )
             })
@@ -311,6 +311,7 @@ const LocationPage = () => {
                             detections={detections}
                             onScrollBottom={() => fetchMoreDetections()}
                         />
+
                         <div
                             className='location-edit-container'
                             onClick={handleEditLocationClick}
