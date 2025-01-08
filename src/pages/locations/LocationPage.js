@@ -32,6 +32,8 @@ const CAMERAS = [
     { name: "Camera 2", ip: "192.168.254.107" },
 ];
 
+const CONF_THRESHOLD = 70;
+
 const LocationPage = () => {
     const { id } = useParams();
     let isFetching = false;
@@ -163,6 +165,10 @@ const LocationPage = () => {
                 } else {
                     isScanningOff(); // Stop scanning animation, when no faces detected
                     handleToast('No faces were detected!', 'error')
+                }
+                
+                if(data.confidence && data.confidence < CONF_THRESHOLD) {
+                    handleToast('Camera named '+`\'${data.camera_name}\'`+' recent recognition confidence was '+`\'${data.confidence}\'`+'. Please place in an optimal position.' , 'error')
                 }
             };
 

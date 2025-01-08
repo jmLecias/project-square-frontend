@@ -53,7 +53,8 @@ const CameraFeed = ({ feed, index }) => {
             )}
             {feed && (
                 <div
-                    style={{ position: 'absolute', bottom: '10px', left: '10px' }}
+                    className="fs-5 fw-b"
+                    style={{ position: 'absolute', bottom: '12px', left: '10px' }}
                 >
                     {/* bandwidth in Bits per second Divide by 1,000,000 for Megabits per second */}
                     {(bandwidth / 1000000).toFixed(2)} Mbps
